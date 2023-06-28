@@ -7,9 +7,9 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard/Dashboard";
 // import Team from "./scenes/team";
 import Bar from "./scenes/bar";
-// import Form from "./scenes/form";
 import Line from "./scenes/line";
 import Pie from "./scenes/pie";
+import Login from "./scenes/login/Login";
 // import FAQ from "./scenes/faq";
 
 function App(): JSX.Element {
@@ -26,7 +26,7 @@ function App(): JSX.Element {
             <Routes>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/bar" element={<Bar />} />
-              {/* <Route path="/form" element={<Form />} /> */}
+              <Route path="/login" element={<Login />} />
               <Route path="/line" element={<Line />} />
               <Route path="/pie" element={<Pie />} />
               {/* <Route path="/faq" element={<FAQ />} /> */}

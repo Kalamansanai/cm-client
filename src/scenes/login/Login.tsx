@@ -1,54 +1,47 @@
-import React from "react";
-import {
-  Grid,
-  Avatar,
-  TextField,
-  Button,
-  Typography,
-  Link,
-  Box,
-  Container,
-  useTheme,
-  createTheme,
-  ThemeProvider,
-  Stack,
-} from "@mui/material";
+import React, { useState } from "react";
+import { Avatar, TextField, Button, Box, Container, useTheme, Stack, Alert } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import Header from "../../components/Header";
-import { ColorModeContext, tokens } from "../../theme";
+import { tokens } from "../../theme";
 import { Link as ReactLink } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [errorAlert, setErrorAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const initialValues = {
-    username: "",
+    email: "",
     password: "",
     remember: false,
   };
   const validationSchema = yup.object().shape({
-    username: yup.string().email("Please enter valid email").required("Required"),
+    email: yup.string().email("Please enter valid email").required("Required"),
     password: yup.string().required("Required"),
   });
 
-  const onSubmit = (
-    values: any,
-    props: { resetForm: () => void; setSubmitting: (arg0: boolean) => void }
-  ) => {
-    //SEND IT TO THE
-    setTimeout(() => {
-      props.resetForm();
-      props.setSubmitting(false);
-    }, 2000);
-  };
+  const onSubmit = async (values: { email: any; password: any }, { resetForm, setSubmitting }: any) => {
+    try {
+      const response = await axios.post("http://127.0.0.1:5000/login", {
+        email: values.email,
+        password: values.password,
+      });
 
-  function handleChange(arg0: string, arg1: number): void {
-    throw new Error("Function not implemented.");
-  }
+      if (response.data && response.data.result === "error") {
+        throw new Error(response.data.data);
+      }
+      resetForm();
+      setSubmitting(false);
+    } catch (error: any) {
+      setErrorMessage(error.message);
+      setErrorAlert(true);
+    }
+  };
 
   return (
     <Container
@@ -72,6 +65,11 @@ const Login = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Header title="Sign In" subtitle="Sign in an User Profile" align={"center"} />
+        {errorAlert && (
+          <Alert severity="error" onClose={() => setErrorAlert(false)}>
+            {errorMessage}
+          </Alert>
+        )}
         <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
           {({ values, handleChange, handleSubmit }) => (
             <Form onSubmit={handleSubmit}>
@@ -80,13 +78,13 @@ const Login = () => {
                 required
                 variant="filled"
                 type="text"
-                label="Username"
+                label="Email"
+                value={values.email}
                 onChange={handleChange}
-                value={values.username}
-                placeholder="Enter username"
-                name="username"
-                margin="none"
-                helperText={<ErrorMessage name="username" />}
+                placeholder="Enter email"
+                name="email"
+                margin="normal"
+                helperText={<ErrorMessage name="email" />}
                 sx={{
                   gridColumn: "span 2",
                   color: colors.blueAccent[500],
@@ -100,9 +98,9 @@ const Login = () => {
                 variant="filled"
                 type="password"
                 label="Password"
-                onChange={handleChange}
                 value={values.password}
-                placeholder="Enter username"
+                onChange={handleChange}
+                placeholder="Enter password"
                 name="password"
                 required
                 margin="normal"
