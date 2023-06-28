@@ -1,16 +1,47 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { mockLineData as data } from "../data/mockData";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { mockLineData as mockData } from "../data/mockData";
 
 const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch(" http://127.0.0.1:5000//get_data")
+      .then((response) => {
+        //console.log("Raw response:", response); // Log the response
+        return response.json();
+      })
+      .then((responseData) => {
+        //console.log("Response body:", responseData);
+
+        if (Array.isArray(responseData.data)) {
+          const transformedData = responseData.data.map((item: { id: any; color: any; data: any[] }) => ({
+            id: item.id,
+            color: item.color,
+            data: item.data.map((dataItem) => ({
+              x: dataItem.x,
+              y: dataItem.y,
+            })),
+          }));
+          setData(transformedData);
+        } else {
+          console.error("Invalid response format: 'data' property is not an array");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
   return (
     <ResponsiveLine
       data={data}
-      colors={isDashboard ? { datum: "color" } : { scheme: "nivo" }}
+      colors={{ scheme: "nivo" }}
       theme={{
         axis: {
           domain: {
