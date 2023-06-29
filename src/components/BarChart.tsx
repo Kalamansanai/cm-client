@@ -36,6 +36,11 @@ const BarChart = ({ isDashboard = false }) => {
             fill: colors.grey[100],
           },
         },
+        tooltip: {
+          container: {
+            color: colors.primary[500],
+          },
+        },
       }}
       keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
       indexBy="country"
@@ -144,7 +149,9 @@ const BarChart = ({ isDashboard = false }) => {
           donut: number;
           donutColor: string;
         }>
-      ) => data.id + ": " + data.formattedValue + " in country: " + data.indexValue}
+      ) =>
+        data.id + ": " + data.formattedValue + " in country: " + data.indexValue
+      }
     />
   );
 };
