@@ -10,6 +10,7 @@ import Bar from "./scenes/bar";
 import Line from "./scenes/line";
 import Pie from "./scenes/pie";
 import Login from "./scenes/login/Login";
+import Register from "./scenes/registration/Register";
 // import FAQ from "./scenes/faq";
 
 function App(): JSX.Element {
@@ -27,6 +28,7 @@ function App(): JSX.Element {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/bar" element={<Bar />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/registration" element={<Register />} />
               <Route path="/line" element={<Line />} />
               <Route path="/pie" element={<Pie />} />
               {/* <Route path="/faq" element={<FAQ />} /> */}
