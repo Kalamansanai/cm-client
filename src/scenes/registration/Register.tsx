@@ -1,14 +1,4 @@
-import {
-  Avatar,
-  TextField,
-  Button,
-  Box,
-  Container,
-  useTheme,
-  Stack,
-  Alert,
-  Grid,
-} from "@mui/material";
+import { Avatar, TextField, Button, Box, Container, useTheme, Stack, Alert, Grid } from "@mui/material";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
@@ -23,13 +13,10 @@ const Register = () => {
   const [errorAlert, setErrorAlert] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const checkoutSchema = yup.object().shape({
+  const registrationSchema = yup.object().shape({
     name: yup.string().required("Required"),
     email: yup.string().email("Please enter valid email").required("Required"),
-    password: yup
-      .string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Required"),
+    password: yup.string().min(6, "Password must be at least 6 characters").required("Required"),
     passwordrpt: yup
       .string()
       .oneOf([yup.ref("password")], "Passwords must match")
@@ -45,7 +32,7 @@ const Register = () => {
 
   const onSubmit = async (values: any) => {
     try {
-      const { passwordrpt, ...requestData } = values; // Exclude passwordrpt field
+      const { passwordrpt, ...requestData } = values;
 
       const response = await fetch("http://127.0.0.1:5000/register", {
         method: "POST",
@@ -62,7 +49,6 @@ const Register = () => {
         setErrorAlert("ok");
       }
     } catch (error: any) {
-      console.log("HELLO", error);
       setErrorMessage(error.message);
       setErrorAlert("error");
     }
@@ -89,11 +75,7 @@ const Register = () => {
         <Avatar sx={{ m: 1, bgcolor: `${colors.blueAccent[500]}` }}>
           <PersonAddAltOutlinedIcon />
         </Avatar>
-        <Header
-          title="Sign Up"
-          subtitle="Sign Up an User Profile"
-          align={"center"}
-        />
+        <Header title="Sign Up" subtitle="Sign Up an User Profile" align={"center"} />
         {errorAlert === "error" && (
           <Alert severity="error" onClose={() => setErrorAlert("")}>
             {errorMessage}
@@ -104,11 +86,7 @@ const Register = () => {
             {errorMessage}
           </Alert>
         )}
-        <Formik
-          onSubmit={onSubmit}
-          initialValues={initialValues}
-          validationSchema={checkoutSchema}
-        >
+        <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={registrationSchema}>
           {({ values, handleChange, handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
@@ -201,20 +179,13 @@ const Register = () => {
                   />
                 </Grid>
               </Grid>
-              <Stack
-                direction={"row"}
-                justifyContent="space-between"
-                mb={"20px"}
-                mt={"20px"}
-                display="flex"
-              >
+              <Stack direction={"row"} justifyContent="space-between" spacing={2} marginY={2} display="flex">
                 <Button
                   component={ReactLink}
                   to="/login"
                   sx={{
                     color: `${colors.greenAccent[400]}`,
-                    pb: "16px",
-
+                    display: "flex",
                     alignItems: "center",
                   }}
                 >
@@ -223,7 +194,6 @@ const Register = () => {
 
                 <Button
                   type="submit"
-                  color="secondary"
                   variant="contained"
                   sx={{ backgroundColor: `${colors.blueAccent[500]}` }}
                 >
