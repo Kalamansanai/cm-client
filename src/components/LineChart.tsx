@@ -1,36 +1,51 @@
-import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
+import { ResponsiveLine } from "@nivo/line";
+import { useEffect, useState } from "react";
 import { tokens } from "../theme";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { mockLineData as mockData } from "../data/mockData";
+
+const backend = process.env.REACT_APP_BACKEND;
 
 const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [data, setData] = useState([]);
 
+  const body = {
+    plot_type: "line",
+  };
+  const detector_id = "18db1559-982d-4ede-92b6-9b21e05acdc2";
+
   useEffect(() => {
-    fetch(" http://127.0.0.1:5000//get_data")
+    fetch(`${backend}/get_logs_for_plot/${detector_id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
       .then((response) => {
-        //console.log("Raw response:", response); // Log the response
+        console.log("Raw response:", response); // Log the response
         return response.json();
       })
       .then((responseData) => {
         //console.log("Response body:", responseData);
 
         if (Array.isArray(responseData.data)) {
-          const transformedData = responseData.data.map((item: { id: any; color: any; data: any[] }) => ({
-            id: item.id,
-            color: item.color,
-            data: item.data.map((dataItem) => ({
-              x: dataItem.x,
-              y: dataItem.y,
-            })),
-          }));
+          const transformedData = responseData.data.map(
+            (item: { id: any; color: any; data: any[] }) => ({
+              id: item.id,
+              color: item.color,
+              data: item.data.map((dataItem) => ({
+                x: dataItem.x,
+                y: dataItem.y,
+              })),
+            })
+          );
           setData(transformedData);
         } else {
-          console.error("Invalid response format: 'data' property is not an array");
+          console.error(
+            "Invalid response format: 'data' property is not an array"
+          );
         }
       })
       .catch((error) => {
