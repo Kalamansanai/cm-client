@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Avatar, TextField, Button, Box, Container, useTheme, Stack, Alert } from "@mui/material";
+import {
+  Avatar,
+  TextField,
+  Button,
+  Box,
+  Container,
+  useTheme,
+  Stack,
+  Alert,
+} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -25,7 +34,10 @@ const Login = () => {
     password: yup.string().required("Required"),
   });
 
-  const onSubmit = async (values: { email: any; password: any }, { resetForm, setSubmitting }: any) => {
+  const onSubmit = async (
+    values: { email: any; password: any },
+    { resetForm, setSubmitting }: any
+  ) => {
     try {
       const response = await axios.post("http://127.0.0.1:5000/login", {
         email: values.email,
@@ -64,20 +76,28 @@ const Login = () => {
         <Avatar sx={{ m: 1, bgcolor: `${colors.blueAccent[500]}` }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Header title="Sign In" subtitle="Sign in an User Profile" align={"center"} />
+        <Header
+          title="Sign In"
+          subtitle="Sign in an User Profile"
+          align={"center"}
+        />
         {errorAlert && (
           <Alert severity="error" onClose={() => setErrorAlert(false)}>
             {errorMessage}
           </Alert>
         )}
-        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+        >
           {({ values, handleChange, handleSubmit }) => (
             <Form onSubmit={handleSubmit}>
               <TextField
                 fullWidth
                 required
                 variant="filled"
-                type="text"
+                type="email"
                 label="Email"
                 value={values.email}
                 onChange={handleChange}
@@ -132,7 +152,11 @@ const Login = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: `${colors.blueAccent[500]}` }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: `${colors.blueAccent[500]}`,
+                }}
               >
                 Sign In
               </Button>
