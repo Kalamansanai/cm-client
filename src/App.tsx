@@ -10,6 +10,7 @@ import Line from "./scenes/line";
 import Pie from "./scenes/pie";
 import Login from "./scenes/login/Login";
 import Register from "./scenes/registration/Register";
+import Detector from "./scenes/detectoconfig/detector";
 
 function App(): JSX.Element {
   const [theme, colorMode] = useMode();
@@ -25,6 +26,7 @@ function App(): JSX.Element {
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/detectors" element={<Detector />} />
               <Route path="/bar" element={<Bar />} />
               <Route path="/login" element={<Login />} />
               <Route path="/registration" element={<Register />} />
