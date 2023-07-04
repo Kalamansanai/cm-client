@@ -13,6 +13,7 @@ import { TimelineOutlined as TimelineOutlinedIcon } from "@mui/icons-material";
 import { MenuOutlined as MenuOutlinedIcon } from "@mui/icons-material";
 import { MenuOpen as MenuOpenIcon } from "@mui/icons-material";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
+import VideocamIcon from "@mui/icons-material/Videocam";
 
 interface ItemProps {
   title: string;
@@ -159,6 +160,13 @@ const Sidebar: React.FC = () => {
             title="Data Grid"
             to="/grid"
             icon={<ReceiptOutlinedIcon />}
+            selected={selected}
+            setSelected={setSelected}
+          />
+          <Item
+            title="Detectors"
+            to="/detectors"
+            icon={<VideocamIcon />}
             selected={selected}
             setSelected={setSelected}
           />
