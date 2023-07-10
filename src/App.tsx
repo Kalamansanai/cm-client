@@ -1,6 +1,6 @@
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import React, { createContext, useEffect, useState } from "react";
 
 import Topbar from "./scenes/global/Topbar";
@@ -13,6 +13,10 @@ import Pie from "./scenes/pie";
 import Login, { login_cookie } from "./scenes/login/Login";
 import Register from "./scenes/registration/Register";
 import { User } from "./types";
+import DetectorList from "./scenes/detectors/DetectorList";
+import DetectorDashboard, {
+  loader as detectorDashboardLoader,
+} from "./scenes/detectors/DetectorDashboard";
 
 export const GlobalContext = createContext<{
   user: User | null;
@@ -53,14 +57,7 @@ function App(): JSX.Element {
             <Sidebar />
             <main className="content" style={{ flex: 1, overflowY: "auto" }}>
               <Topbar />
-              <Routes>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/bar" element={<Bar />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/line" element={<Line />} />
-                <Route path="/pie" element={<Pie />} />
-                {/* <Route path="/faq" element={<FAQ />} /> */}
-              </Routes>
+              <Outlet />
             </main>
           </div>
         </GlobalContext.Provider>
