@@ -117,7 +117,7 @@ const Sidebar: React.FC = () => {
             Data
           </Typography>
           <Item
-            title="Detectos"
+            title="Detectors confing"
             to="/detectors"
             icon={<ManageAccountsIcon />}
             selected={selected}

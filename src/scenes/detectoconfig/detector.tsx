@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { FormControlLabel, Grid, Switch, TextField, useTheme } from "@mui/material";
+import { Button, FormControlLabel, Grid, Switch, TextField, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import LineChart from "../../components/LineChart";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
+import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
 
 const Detector: React.FC = () => {
   const theme = useTheme();
@@ -26,12 +27,38 @@ const Detector: React.FC = () => {
       ...prevData,
       [key]: value,
     }));
+  };
+
+  const handleSubmit = () => {
+    if (data.type.trim() === "" || data.charNum.trim() === "") {
+      alert("Please fill in the required fields.");
+      return;
+    }
     // TODO: Add logic to send the data to an API endpoint
+    console.log("Sending data:", data);
   };
 
   return (
     <Box m="16px">
-      <Header title="Detector" subtitle={`Your Name, Mac Address: ${data.macAddress}`} />
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header title="Detector" subtitle={`Your Name, Mac Address: ${data.macAddress}`} />
+
+        <Box>
+          <Button
+            sx={{
+              backgroundColor: colors.blueAccent[700],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+            }}
+            onClick={handleSubmit}
+          >
+            <PublishOutlinedIcon sx={{ mr: "10px" }} />
+            Submit Changes
+          </Button>
+        </Box>
+      </Box>
       <Grid container spacing={2} columns={2} rowSpacing={2} columnSpacing={2}>
         <Grid item xs={2}>
           <Box
