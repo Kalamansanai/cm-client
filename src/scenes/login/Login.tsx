@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Avatar,
   TextField,
@@ -17,7 +17,23 @@ import * as yup from "yup";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import { Link as ReactLink } from "react-router-dom";
-import axios from "axios";
+import { GlobalContext } from "../../App";
+
+const backend = process.env.REACT_APP_BACKEND;
+
+export const login_cookie = async () => {
+  const response = await fetch(`${backend}/user`, {
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+
+  if (response.status != 400) {
+    const temp = await response.json();
+    return temp;
+  } else {
+    return null;
+  }
+};
 
 const Login = () => {
   const theme = useTheme();
@@ -34,19 +50,38 @@ const Login = () => {
     password: yup.string().required("Required"),
   });
 
+  const { user, setUser } = useContext(GlobalContext);
+
   const onSubmit = async (
     values: { email: any; password: any },
     { resetForm, setSubmitting }: any
   ) => {
     try {
-      const response = await axios.post("http://127.0.0.1:5000/login", {
-        email: values.email,
-        password: values.password,
+      const response = await fetch(`${backend}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+        }),
       });
 
-      if (response.data && response.data.result === "error") {
-        throw new Error(response.data.data);
+      const content = response.json();
+
+      const userResponse = await fetch(`${backend}/user`, {
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (userResponse.status != 400) {
+        const temp = await userResponse.json();
+        console.log(temp);
+        setUser(temp.data);
+      } else {
+        setUser(null);
       }
+
       resetForm();
       setSubmitting(false);
     } catch (error: any) {
