@@ -1,14 +1,12 @@
-import React, { useContext, useState } from "react";
-import { Alert, Box, IconButton, Typography, useTheme } from "@mui/material";
-import { ColorModeContext, tokens } from "../../theme";
-import { InputBase } from "@mui/material";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import SearchIcon from "@mui/icons-material/Search";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import axios from "axios";
+import React, { useContext, useState } from "react";
 import { GlobalContext } from "../../App";
+import { ColorModeContext, tokens } from "../../theme";
 
 const Topbar: React.FC = () => {
   const theme = useTheme();

@@ -17,10 +17,11 @@ export interface IDetector {
 }
 
 export interface IDetectorConfig {
-  quality: number;
-  resolution: number;
-  flash_time: number;
-  timeout: number;
+  charNum: string;
+  comaPosition: string;
+  uuid: string;
+  photoTime: string;
+  flashOnOff: boolean;
 }
 
-export type DetectorType = "Default" | "water" | "electricity" | "gas";
+export type DetectorType = "water" | "electricity" | "gas";

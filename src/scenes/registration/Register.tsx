@@ -14,33 +14,9 @@ import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import { ErrorMessage, Formik } from "formik";
 import * as yup from "yup";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
-import CryptoJS from "crypto-js";
-
-const backend = process.env.REACT_APP_BACKEND;
-
-export const hash = (string: string) => {
-  return CryptoJS.SHA256(string).toString();
-};
-
-type regProps = {
-  name: string;
-  email: string;
-  password: string;
-};
-
-async function SendRegister({ name, email, password }: regProps) {
-  return await fetch(`${backend}/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      name: name,
-      email: email,
-      password: hash(password),
-    }),
-  });
-}
+import { SendRegister } from "../../apis/user_api";
 
 const Register = () => {
   const theme = useTheme();
@@ -74,15 +50,14 @@ const Register = () => {
 
       const response = await SendRegister(requestData);
 
-      const data = await response.json();
-      if (data.result === "error") {
-        throw new Error(data.data);
-      } else if (data.result === "ok") {
+      if (response.result === "error") {
+        throw new Error(response.data);
+      } else if (response.result === "ok") {
         setErrorMessage("Succesful registration!");
         setErrorAlert("ok");
       }
     } catch (error: any) {
-      setErrorMessage(error.message);
+      setErrorMessage("");
       setErrorAlert("error");
     }
   };

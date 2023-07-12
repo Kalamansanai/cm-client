@@ -1,19 +1,20 @@
-import React, { useState } from "react";
-import { Sidebar as SB, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
-import { tokens } from "../../theme";
-import { HomeOutlined as HomeOutlinedIcon } from "@mui/icons-material";
-import { PeopleOutlined as PeopleOutlinedIcon } from "@mui/icons-material";
-import { ReceiptOutlined as ReceiptOutlinedIcon } from "@mui/icons-material";
-import { PersonOutlined as PersonOutlinedIcon } from "@mui/icons-material";
-import { BarChartOutlined as BarChartOutlinedIcon } from "@mui/icons-material";
-import { PieChartOutlineOutlined as PieChartOutlineOutlinedIcon } from "@mui/icons-material";
-import { TimelineOutlined as TimelineOutlinedIcon } from "@mui/icons-material";
-import { MenuOutlined as MenuOutlinedIcon } from "@mui/icons-material";
-import { MenuOpen as MenuOpenIcon } from "@mui/icons-material";
+import {
+  BarChartOutlined as BarChartOutlinedIcon,
+  HomeOutlined as HomeOutlinedIcon,
+  MenuOpen as MenuOpenIcon,
+  MenuOutlined as MenuOutlinedIcon,
+  PersonOutlined as PersonOutlinedIcon,
+  PieChartOutlineOutlined as PieChartOutlineOutlinedIcon,
+  ReceiptOutlined as ReceiptOutlinedIcon,
+  TimelineOutlined as TimelineOutlinedIcon,
+} from "@mui/icons-material";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import VideocamIcon from "@mui/icons-material/Videocam";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import React, { useState } from "react";
+import { Menu, MenuItem, Sidebar as SB } from "react-pro-sidebar";
+import { Link } from "react-router-dom";
+import { tokens } from "../../theme";
 
 interface ItemProps {
   title: string;
