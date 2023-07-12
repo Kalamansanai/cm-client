@@ -18,6 +18,11 @@ import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import { Link as ReactLink } from "react-router-dom";
 import { GlobalContext } from "../../App";
+import CryptoJS from "crypto-js";
+
+export const hash = (string: string) => {
+  return CryptoJS.SHA256(string).toString();
+};
 
 const backend = process.env.REACT_APP_BACKEND;
 
@@ -63,7 +68,7 @@ const Login = () => {
         credentials: "include",
         body: JSON.stringify({
           email: values.email,
-          password: values.password,
+          password: hash(values.password),
         }),
       });
 

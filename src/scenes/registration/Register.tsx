@@ -1,4 +1,14 @@
-import { Avatar, TextField, Button, Box, Container, useTheme, Stack, Alert, Grid } from "@mui/material";
+import {
+  Avatar,
+  TextField,
+  Button,
+  Box,
+  Container,
+  useTheme,
+  Stack,
+  Alert,
+  Grid,
+} from "@mui/material";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
@@ -6,6 +16,31 @@ import { ErrorMessage, Formik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
+import CryptoJS from "crypto-js";
+
+const backend = process.env.REACT_APP_BACKEND;
+
+export const hash = (string: string) => {
+  return CryptoJS.SHA256(string).toString();
+};
+
+type regProps = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+async function SendRegister({ name, email, password }: regProps) {
+  return await fetch(`${backend}/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: name,
+      email: email,
+      password: hash(password),
+    }),
+  });
+}
 
 const Register = () => {
   const theme = useTheme();
@@ -16,7 +51,10 @@ const Register = () => {
   const registrationSchema = yup.object().shape({
     name: yup.string().required("Required"),
     email: yup.string().email("Please enter valid email").required("Required"),
-    password: yup.string().min(6, "Password must be at least 6 characters").required("Required"),
+    password: yup
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Required"),
     passwordrpt: yup
       .string()
       .oneOf([yup.ref("password")], "Passwords must match")
@@ -34,13 +72,8 @@ const Register = () => {
     try {
       const { passwordrpt, ...requestData } = values;
 
-      const response = await fetch("http://127.0.0.1:5000/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
+      const response = await SendRegister(requestData);
+
       const data = await response.json();
       if (data.result === "error") {
         throw new Error(data.data);
@@ -75,7 +108,11 @@ const Register = () => {
         <Avatar sx={{ m: 1, bgcolor: `${colors.blueAccent[500]}` }}>
           <PersonAddAltOutlinedIcon />
         </Avatar>
-        <Header title="Sign Up" subtitle="Sign Up an User Profile" align={"center"} />
+        <Header
+          title="Sign Up"
+          subtitle="Sign Up an User Profile"
+          align={"center"}
+        />
         {errorAlert === "error" && (
           <Alert severity="error" onClose={() => setErrorAlert("")}>
             {errorMessage}
@@ -86,7 +123,11 @@ const Register = () => {
             {errorMessage}
           </Alert>
         )}
-        <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={registrationSchema}>
+        <Formik
+          onSubmit={onSubmit}
+          initialValues={initialValues}
+          validationSchema={registrationSchema}
+        >
           {({ values, handleChange, handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
@@ -179,7 +220,13 @@ const Register = () => {
                   />
                 </Grid>
               </Grid>
-              <Stack direction={"row"} justifyContent="space-between" spacing={2} marginY={2} display="flex">
+              <Stack
+                direction={"row"}
+                justifyContent="space-between"
+                spacing={2}
+                marginY={2}
+                display="flex"
+              >
                 <Button
                   component={ReactLink}
                   to="/login"
