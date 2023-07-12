@@ -23,7 +23,13 @@ interface ItemProps {
   setSelected: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Item: React.FC<ItemProps> = ({ title, to, icon, selected, setSelected }) => {
+const Item: React.FC<ItemProps> = ({
+  title,
+  to,
+  icon,
+  selected,
+  setSelected,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isActive = selected === title;
@@ -49,12 +55,18 @@ const Sidebar: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <SB style={{ border: "none" }} backgroundColor={`${colors.primary[400]}`} collapsed={isCollapsed}>
+    <SB
+      style={{ border: "none" }}
+      backgroundColor={`${colors.primary[400]}`}
+      collapsed={isCollapsed}
+    >
       <Menu
         menuItemStyles={{
           button: ({ level, active, disabled }) => {
             return {
-              color: active ? "#6870fa !important" : `${colors.grey[200]} !important`,
+              color: active
+                ? "#6870fa !important"
+                : `${colors.grey[200]} !important`,
               "&:hover": {
                 backgroundColor: "#335B8C !important",
                 color: "#868dfb !important",
@@ -70,7 +82,15 @@ const Sidebar: React.FC = () => {
           onClick={() => setIsCollapsed(!isCollapsed)}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          icon={isCollapsed ? isHovered ? <MenuOpenIcon sx={{}} /> : <MenuOutlinedIcon sx={{}} /> : undefined}
+          icon={
+            isCollapsed ? (
+              isHovered ? (
+                <MenuOpenIcon sx={{}} />
+              ) : (
+                <MenuOutlinedIcon sx={{}} />
+              )
+            ) : undefined
+          }
           style={{
             margin: "10px 0 20px 0",
             color: colors.grey[100],
@@ -78,7 +98,11 @@ const Sidebar: React.FC = () => {
           }}
         >
           {!isCollapsed && (
-            <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Typography variant="h4" fontWeight={600}>
                 Consumption Meter
               </Typography>
@@ -97,7 +121,12 @@ const Sidebar: React.FC = () => {
         {!isCollapsed && (
           <Box mb="25px">
             <Box textAlign="center">
-              <Typography variant="h2" color={colors.grey[100]} fontWeight="bold" sx={{ m: "10px 0 0 0" }}>
+              <Typography
+                variant="h2"
+                color={colors.grey[100]}
+                fontWeight="bold"
+                sx={{ m: "10px 0 0 0" }}
+              >
                 Profile Name
               </Typography>
             </Box>
@@ -113,16 +142,13 @@ const Sidebar: React.FC = () => {
             setSelected={setSelected}
           />
 
-          <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+          <Typography
+            variant="h6"
+            color={colors.grey[300]}
+            sx={{ m: "15px 0 5px 20px" }}
+          >
             Data
           </Typography>
-          <Item
-            title="Detectors confing"
-            to="/detectors"
-            icon={<ManageAccountsIcon />}
-            selected={selected}
-            setSelected={setSelected}
-          />
           <Item
             title="Data Grid"
             to="/grid"
@@ -138,7 +164,11 @@ const Sidebar: React.FC = () => {
             setSelected={setSelected}
           />
 
-          <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+          <Typography
+            variant="h6"
+            color={colors.grey[300]}
+            sx={{ m: "15px 0 5px 20px" }}
+          >
             Pages
           </Typography>
           <Item
@@ -156,7 +186,11 @@ const Sidebar: React.FC = () => {
             setSelected={setSelected}
           />
 
-          <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+          <Typography
+            variant="h6"
+            color={colors.grey[300]}
+            sx={{ m: "15px 0 5px 20px" }}
+          >
             Charts
           </Typography>
           <Item

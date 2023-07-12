@@ -31,9 +31,11 @@ export default function DetectorList() {
         justifyContent: "flex-start",
       }}
     >
-      {user?.detectors.map((detector: IDetector) => (
-        <DetectorCard key={detector.detector_id} detector={detector} />
-      ))}
+      {user?.detectors
+        ? user?.detectors.map((detector: IDetector) => (
+            <DetectorCard key={detector.detector_id} detector={detector} />
+          ))
+        : null}
     </Container>
   );
 }

@@ -11,11 +11,12 @@ export interface IUserConfig {}
 
 export interface IDetector {
   detector_id: string;
-  detector_config: IDetectoConfig;
+  detector_name: string;
+  detector_config: IDetectorConfig;
   type: DetectorType;
 }
 
-export interface IDetectoConfig {
+export interface IDetectorConfig {
   quality: number;
   resolution: number;
   flash_time: number;
