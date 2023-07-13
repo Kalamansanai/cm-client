@@ -12,33 +12,16 @@ import Typography from "@mui/material/Typography";
 import React, { useContext, useState } from "react";
 import { Params, useLoaderData } from "react-router-dom";
 import { GlobalContext } from "../../App";
+import { SetConfig } from "../../apis/detector_api";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 import { tokens } from "../../theme";
-import { IDetector, IDetectorConfig } from "../../types";
-
-const backend = process.env.REACT_APP_BACKEND;
+import { IDetector } from "../../types";
+import DeletePopup from "./DeletePopup";
 
 export async function loader({ params }: { params: Params }) {
   const id = params["detector_id"]! as any as string;
   return id;
-}
-
-async function SetConfig(new_config: IDetectorConfig) {
-  const response = await fetch(`${backend}/set_config`, {
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({
-      new_config: new_config,
-    }),
-  });
-
-  if (response.status != 400) {
-    const temp = await response.json();
-    return temp;
-  } else {
-    return null;
-  }
 }
 
 export default function DetectorDashboard() {
@@ -60,10 +43,10 @@ export default function DetectorDashboard() {
     name: detector.detector_name,
     macAddress: detector.detector_id,
     type: detector.type,
-    charNum: "",
-    comaPosition: "",
-    uuid: "",
-    photoTime: "",
+    charNum: detector.detector_config?.charNum,
+    comaPosition: detector.detector_config?.comaPosition,
+    uuid: detector.detector_config?.uuid,
+    photoTime: detector.detector_config?.photoTime,
     flashOnOff: false,
   });
 
@@ -78,13 +61,22 @@ export default function DetectorDashboard() {
     }));
   };
 
-  const handleSubmit = () => {
-    if (data.type.trim() === "" || data.charNum.trim() === "") {
-      alert("Please fill in the required fields.");
-      return;
-    }
-    // TODO: Add logic to send the data to an API endpoint
+  const [openPopup, setOpenPopup] = useState(false);
+
+  const handleSubmit = async () => {
+    // if (data.type.trim() === "" || data.charNum.trim() === "") {
+    //   alert("Please fill in the required fields.");
+    //   return;
+    // }
+
+    const { name, macAddress, type, ...newConfig } = data;
+    await SetConfig(newConfig, detector_id);
+
     console.log("Sending data:", data);
+  };
+
+  const handleDelete = () => {
+    setOpenPopup(true);
   };
 
   return (
@@ -94,7 +86,24 @@ export default function DetectorDashboard() {
           title="Detector"
           subtitle={`Detector Name: ${data.name} | Mac Address: ${data.macAddress}`}
         />
-        <Box>
+        <Box
+          width="40%"
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-around"
+        >
+          <Button
+            sx={{
+              backgroundColor: colors.redAccent[700],
+              color: colors.grey[100],
+              fontSize: "10px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+            }}
+            onClick={handleDelete}
+          >
+            Delete Detector
+          </Button>
           <Button
             sx={{
               backgroundColor: colors.blueAccent[700],
@@ -230,11 +239,20 @@ export default function DetectorDashboard() {
               </Box>
             </Box>
             <Box height={"500px"} m="-20px 0 0 0">
-              <LineChart isDashboard={true} />
+              <LineChart
+                isDashboard={true}
+                detector_id={detector_id}
+                isCustomLineColors={false}
+              />
             </Box>
           </Box>
         </Grid>
       </Grid>
+      <DeletePopup
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+        detector_id={detector_id}
+      ></DeletePopup>
     </Box>
   );
 }

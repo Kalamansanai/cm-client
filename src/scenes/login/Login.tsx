@@ -18,29 +18,9 @@ import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import { Link as ReactLink } from "react-router-dom";
 import { GlobalContext } from "../../App";
-import CryptoJS from "crypto-js";
+import { Login } from "../../apis/user_api";
 
-export const hash = (string: string) => {
-  return CryptoJS.SHA256(string).toString();
-};
-
-const backend = process.env.REACT_APP_BACKEND;
-
-export const login_cookie = async () => {
-  const response = await fetch(`${backend}/user`, {
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-  });
-
-  if (response.status != 400) {
-    const temp = await response.json();
-    return temp;
-  } else {
-    return null;
-  }
-};
-
-const Login = () => {
+const LoginComponent = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [errorAlert, setErrorAlert] = useState(false);
@@ -62,30 +42,8 @@ const Login = () => {
     { resetForm, setSubmitting }: any
   ) => {
     try {
-      const response = await fetch(`${backend}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          email: values.email,
-          password: hash(values.password),
-        }),
-      });
-
-      const content = response.json();
-
-      const userResponse = await fetch(`${backend}/user`, {
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
-
-      if (userResponse.status != 400) {
-        const temp = await userResponse.json();
-        console.log(temp);
-        setUser(temp.data);
-      } else {
-        setUser(null);
-      }
+      const userResponse = await Login(values);
+      setUser(userResponse);
 
       resetForm();
       setSubmitting(false);
@@ -217,4 +175,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginComponent;

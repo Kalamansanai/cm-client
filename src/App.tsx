@@ -1,22 +1,13 @@
-import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { Routes, Route, Navigate, Outlet } from "react-router-dom";
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { ColorModeContext, useMode } from "./theme";
 
-import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
-import Dashboard from "./scenes/dashboard/Dashboard";
-import Bar from "./scenes/bar";
-import Line from "./scenes/line";
-import Pie from "./scenes/pie";
+import Topbar from "./scenes/global/Topbar";
 
-import Login, { login_cookie } from "./scenes/login/Login";
-import Register from "./scenes/registration/Register";
+import { login_cookie } from "./apis/user_api";
 import { User } from "./types";
-import DetectorList from "./scenes/detectors/DetectorList";
-import DetectorDashboard, {
-  loader as detectorDashboardLoader,
-} from "./scenes/detectors/DetectorDashboard";
 
 export const GlobalContext = createContext<{
   user: User | null;
@@ -35,7 +26,7 @@ function App(): JSX.Element {
     if (!user) {
       login_cookie()
         .then((res) => {
-          if (res) setUser(res.data);
+          if (res) setUser(res);
         })
         .catch((e) => {
           console.log(e);

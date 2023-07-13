@@ -1,20 +1,15 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { tokens } from "../../theme";
+import BoltIcon from "@mui/icons-material/Bolt";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
+import GasMeterIcon from "@mui/icons-material/GasMeter";
+import WaterDropIcon from "@mui/icons-material/WaterDrop";
+import { Box, Button, Typography, useTheme } from "@mui/material";
+import BarChart from "../../components/BarChart";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
-import BarChart from "../../components/BarChart";
-import StatBox from "../../components/StatBox";
-import ProgressCircle from "../../components/ProgressCircle";
 import PieChart from "../../components/PieChart";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import WaterDropIcon from "@mui/icons-material/WaterDrop";
-import BoltIcon from "@mui/icons-material/Bolt";
-import GasMeterIcon from "@mui/icons-material/GasMeter";
+import StatBox from "../../components/StatBox";
+import { tokens } from "../../theme";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -43,7 +38,12 @@ const Dashboard = () => {
       </Box>
 
       {/* GRID & CHARTS */}
-      <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px">
+      <Box
+        display="grid"
+        gridTemplateColumns="repeat(12, 1fr)"
+        gridAutoRows="140px"
+        gap="20px"
+      >
         {/* ROW 1 */}
         <Box
           gridColumn="span 3"
@@ -59,7 +59,11 @@ const Dashboard = () => {
             subtitle="Pictures Obtained"
             progress="0.98"
             increase="-2%"
-            icon={<CameraAltIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={
+              <CameraAltIcon
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              />
+            }
           />
         </Box>
         <Box
@@ -76,7 +80,11 @@ const Dashboard = () => {
             subtitle="Water meter value increase"
             progress="0.10"
             increase="+10%"
-            icon={<WaterDropIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={
+              <WaterDropIcon
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              />
+            }
           />
         </Box>
         <Box
@@ -93,7 +101,11 @@ const Dashboard = () => {
             subtitle="Electricity value increase"
             progress="0.30"
             increase="+30%"
-            icon={<BoltIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={
+              <BoltIcon
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              />
+            }
           />
         </Box>
         <Box
@@ -110,7 +122,11 @@ const Dashboard = () => {
             subtitle="Gas Meter value"
             progress="0.60"
             increase="+60%"
-            icon={<GasMeterIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={
+              <GasMeterIcon
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              />
+            }
           />
         </Box>
 
@@ -137,7 +153,11 @@ const Dashboard = () => {
           sx={{ backgroundColor: `${colors.primary[400]}` }}
           borderRadius={"5px !important"}
         >
-          <Typography variant="h5" fontWeight="600" sx={{ padding: "30px 30px 0 30px" }}>
+          <Typography
+            variant="h5"
+            fontWeight="600"
+            sx={{ padding: "30px 30px 0 30px" }}
+          >
             Bar Chart
           </Typography>
           <Box height="250px" mt={"-20px"}>
@@ -153,15 +173,29 @@ const Dashboard = () => {
           sx={{ backgroundColor: `${colors.primary[400]}` }}
           borderRadius={"5px !important"}
         >
-          <Box mt="25px" p="0 30px" display="flex " justifyContent="space-between" alignItems="center">
+          <Box
+            mt="25px"
+            p="0 30px"
+            display="flex "
+            justifyContent="space-between"
+            alignItems="center"
+          >
             <Box>
-              <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>
+              <Typography
+                variant="h5"
+                fontWeight="600"
+                color={colors.grey[100]}
+              >
                 Line Chart
               </Typography>
             </Box>
           </Box>
           <Box height="250px" m="-20px 0 0 0">
-            <LineChart isDashboard={true} />
+            <LineChart
+              isDashboard={true}
+              isCustomLineColors={false}
+              detector_id="18db1559-982d-4ede-92b6-9b21e05acdc2"
+            />
           </Box>
         </Box>
       </Box>

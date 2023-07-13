@@ -1,8 +1,8 @@
+import ErrorIcon from "@mui/icons-material/Error";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import {
-  BrowserRouter,
   Navigate,
   Route,
   RouterProvider,
@@ -10,18 +10,17 @@ import {
   createRoutesFromElements,
   useRouteError,
 } from "react-router-dom";
-import Login from "./scenes/login/Login";
-import Register from "./scenes/registration/Register";
-import Dashboard from "./scenes/dashboard/Dashboard";
+import App from "./App";
 import Bar from "./scenes/bar";
-import Line from "./scenes/line";
-import Pie from "./scenes/pie";
-import DetectorList from "./scenes/detectors/DetectorList";
+import Dashboard from "./scenes/dashboard/Dashboard";
 import DetectorDashboard, {
   loader as detectorDashboardLoader,
 } from "./scenes/detectors/DetectorDashboard";
-import { Box, Typography } from "@mui/material";
-import ErrorIcon from "@mui/icons-material/Error";
+import DetectorList from "./scenes/detectors/DetectorList";
+import Line from "./scenes/line";
+import Login from "./scenes/login/Login";
+import Pie from "./scenes/pie";
+import Register from "./scenes/registration/Register";
 
 export class DetailedError extends Error {
   override name: "DetailedError" = "DetailedError";
