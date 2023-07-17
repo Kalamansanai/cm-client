@@ -1,14 +1,4 @@
-import {
-  Avatar,
-  TextField,
-  Button,
-  Box,
-  Container,
-  useTheme,
-  Stack,
-  Alert,
-  Grid,
-} from "@mui/material";
+import { Avatar, TextField, Button, Box, Container, useTheme, Stack, Alert, Grid } from "@mui/material";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
@@ -25,12 +15,9 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const registrationSchema = yup.object().shape({
-    name: yup.string().required("Required"),
+    name: yup.string().required("Required").max(10, "The username can't be longer than 10 characters"),
     email: yup.string().email("Please enter valid email").required("Required"),
-    password: yup
-      .string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Required"),
+    password: yup.string().min(6, "Password must be at least 6 characters").required("Required"),
     passwordrpt: yup
       .string()
       .oneOf([yup.ref("password")], "Passwords must match")
@@ -83,11 +70,7 @@ const Register = () => {
         <Avatar sx={{ m: 1, bgcolor: `${colors.blueAccent[500]}` }}>
           <PersonAddAltOutlinedIcon />
         </Avatar>
-        <Header
-          title="Sign Up"
-          subtitle="Sign Up an User Profile"
-          align={"center"}
-        />
+        <Header title="Sign Up" subtitle="Sign Up an User Profile" align={"center"} />
         {errorAlert === "error" && (
           <Alert severity="error" onClose={() => setErrorAlert("")}>
             {errorMessage}
@@ -98,11 +81,7 @@ const Register = () => {
             {errorMessage}
           </Alert>
         )}
-        <Formik
-          onSubmit={onSubmit}
-          initialValues={initialValues}
-          validationSchema={registrationSchema}
-        >
+        <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={registrationSchema}>
           {({ values, handleChange, handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
@@ -124,6 +103,10 @@ const Register = () => {
                       color: colors.blueAccent[500],
                       "& label.Mui-focused": {
                         color: colors.blueAccent[500],
+                        zIndex: 0,
+                      },
+                      "& label": {
+                        zIndex: 0,
                       },
                     }}
                   />
@@ -146,6 +129,10 @@ const Register = () => {
                       color: colors.blueAccent[500],
                       "& label.Mui-focused": {
                         color: colors.blueAccent[500],
+                        zIndex: 0,
+                      },
+                      "& label": {
+                        zIndex: 0,
                       },
                     }}
                   />
@@ -168,6 +155,10 @@ const Register = () => {
                       color: colors.blueAccent[500],
                       "& label.Mui-focused": {
                         color: colors.blueAccent[500],
+                        zIndex: 0,
+                      },
+                      "& label": {
+                        zIndex: 0,
                       },
                     }}
                   />
@@ -190,18 +181,16 @@ const Register = () => {
                       color: colors.blueAccent[500],
                       "& label.Mui-focused": {
                         color: colors.blueAccent[500],
+                        zIndex: 0,
+                      },
+                      "& label": {
+                        zIndex: 0,
                       },
                     }}
                   />
                 </Grid>
               </Grid>
-              <Stack
-                direction={"row"}
-                justifyContent="space-between"
-                spacing={2}
-                marginY={2}
-                display="flex"
-              >
+              <Stack direction={"row"} justifyContent="space-between" spacing={2} marginY={2} display="flex">
                 <Button
                   component={ReactLink}
                   to="/login"
