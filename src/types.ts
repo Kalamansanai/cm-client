@@ -20,8 +20,8 @@ export interface IDetectorConfig {
   charNum: string;
   comaPosition: string;
   uuid: string;
-  photoTime: string;
-  flashOnOff: boolean;
+  delay: string;
+  flash: boolean;
 }
 
 export type DetectorType = "water" | "electricity" | "gas";

@@ -1,5 +1,12 @@
 import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
-import { Button, FormControlLabel, Grid, Switch, TextField, useTheme } from "@mui/material";
+import {
+  Button,
+  FormControlLabel,
+  Grid,
+  Switch,
+  TextField,
+  useTheme,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import React, { useContext, useState } from "react";
@@ -39,11 +46,14 @@ export default function DetectorDashboard() {
     charNum: detector.detector_config?.charNum,
     comaPosition: detector.detector_config?.comaPosition,
     uuid: detector.detector_config?.uuid,
-    photoTime: detector.detector_config?.photoTime,
-    flashOnOff: false,
+    delay: detector.detector_config?.delay,
+    flash: detector.detector_config?.flash,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    key: string
+  ) => {
     const { value } = e.target;
     setData((prevData) => ({
       ...prevData,
@@ -72,8 +82,16 @@ export default function DetectorDashboard() {
   return (
     <Box m="16px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="Detector" subtitle={`Detector Name: ${data.name} | Mac Address: ${data.macAddress}`} />
-        <Box width="40%" display="flex" flexDirection="row" justifyContent="space-around">
+        <Header
+          title="Detector"
+          subtitle={`Detector Name: ${data.name} | Mac Address: ${data.macAddress}`}
+        />
+        <Box
+          width="40%"
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-around"
+        >
           <Button
             sx={{
               backgroundColor: colors.redAccent[700],
@@ -109,14 +127,22 @@ export default function DetectorDashboard() {
             borderRadius={"5px !important"}
             p={"10px"}
           >
-            <Grid container spacing={1} columns={3} rowSpacing={2} columnSpacing={1}>
+            <Grid
+              container
+              spacing={1}
+              columns={3}
+              rowSpacing={2}
+              columnSpacing={1}
+            >
               <Grid item xs={1}>
                 <TextField
                   fullWidth
                   variant="filled"
                   label="Type"
                   value={data.type}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, "type")}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(e, "type")
+                  }
                 />
               </Grid>
               <Grid item xs={1}>
@@ -125,7 +151,9 @@ export default function DetectorDashboard() {
                   variant="filled"
                   label="Char Num"
                   value={data.charNum}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, "charNum")}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(e, "charNum")
+                  }
                 />
               </Grid>
               <Grid item xs={1}>
@@ -134,7 +162,9 @@ export default function DetectorDashboard() {
                   variant="filled"
                   label="Coma Position"
                   value={data.comaPosition}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, "comaPosition")}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(e, "comaPosition")
+                  }
                 />
               </Grid>
               <Grid item xs={1}>
@@ -143,7 +173,9 @@ export default function DetectorDashboard() {
                   variant="filled"
                   label="UUID"
                   value={data.uuid}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, "uuid")}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(e, "uuid")
+                  }
                 />
               </Grid>
               <Grid item xs={1}>
@@ -151,8 +183,10 @@ export default function DetectorDashboard() {
                   fullWidth
                   variant="filled"
                   label="Photo Time"
-                  value={data.photoTime}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, "photoTime")}
+                  value={data.delay}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(e, "delay")
+                  }
                 />
               </Grid>
               <Grid
@@ -168,7 +202,7 @@ export default function DetectorDashboard() {
                   control={
                     <Switch
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInputChange(e, "flashOnOff")
+                        handleInputChange(e, "flash")
                       }
                       color="info"
                       name="toggler"
@@ -187,20 +221,38 @@ export default function DetectorDashboard() {
             borderRadius={"5px !important"}
             p={"1px"}
           >
-            <Box mt="25px" p="0 30px" display="flex " justifyContent="space-between" alignItems="center">
+            <Box
+              mt="25px"
+              p="0 30px"
+              display="flex "
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Box>
-                <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>
+                <Typography
+                  variant="h5"
+                  fontWeight="600"
+                  color={colors.grey[100]}
+                >
                   Line Chart
                 </Typography>
               </Box>
             </Box>
             <Box height={"500px"} m="-20px 0 0 0">
-              <LineChart isDashboard={true} detector_id={detector_id} isCustomLineColors={false} />
+              <LineChart
+                isDashboard={true}
+                detector_id={detector_id}
+                isCustomLineColors={false}
+              />
             </Box>
           </Box>
         </Grid>
       </Grid>
-      <DeletePopup openPopup={openPopup} setOpenPopup={setOpenPopup} detector_id={detector_id}></DeletePopup>
+      <DeletePopup
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+        detector_id={detector_id}
+      ></DeletePopup>
     </Box>
   );
 }
