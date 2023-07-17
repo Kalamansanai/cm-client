@@ -1,14 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  Avatar,
-  TextField,
-  Button,
-  Box,
-  Container,
-  useTheme,
-  Stack,
-  Alert,
-} from "@mui/material";
+import { Avatar, TextField, Button, Box, Container, useTheme, Stack, Alert } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -37,10 +28,7 @@ const LoginComponent = () => {
 
   const { user, setUser } = useContext(GlobalContext);
 
-  const onSubmit = async (
-    values: { email: any; password: any },
-    { resetForm, setSubmitting }: any
-  ) => {
+  const onSubmit = async (values: { email: any; password: any }, { resetForm, setSubmitting }: any) => {
     try {
       const userResponse = await Login(values);
       setUser(userResponse);
@@ -74,21 +62,13 @@ const LoginComponent = () => {
         <Avatar sx={{ m: 1, bgcolor: `${colors.blueAccent[500]}` }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Header
-          title="Sign In"
-          subtitle="Sign in an User Profile"
-          align={"center"}
-        />
+        <Header title="Sign In" subtitle="Sign in an User Profile" align={"center"} />
         {errorAlert && (
           <Alert severity="error" onClose={() => setErrorAlert(false)}>
             {errorMessage}
           </Alert>
         )}
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          validationSchema={validationSchema}
-        >
+        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
           {({ values, handleChange, handleSubmit }) => (
             <Form onSubmit={handleSubmit}>
               <TextField
@@ -104,10 +84,13 @@ const LoginComponent = () => {
                 margin="normal"
                 helperText={<ErrorMessage name="email" />}
                 sx={{
-                  gridColumn: "span 2",
                   color: colors.blueAccent[500],
                   "& label.Mui-focused": {
                     color: colors.blueAccent[500],
+                    zIndex: 0,
+                  },
+                  "& label": {
+                    zIndex: 0,
                   },
                 }}
               />
@@ -124,10 +107,13 @@ const LoginComponent = () => {
                 margin="normal"
                 helperText={<ErrorMessage name="password" />}
                 sx={{
-                  gridColumn: "span 2",
                   color: colors.blueAccent[500],
                   "& label.Mui-focused": {
                     color: colors.blueAccent[500],
+                    zIndex: 0,
+                  },
+                  "& label": {
+                    zIndex: 0,
                   },
                 }}
               />

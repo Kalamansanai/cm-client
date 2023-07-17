@@ -63,3 +63,13 @@ export const GetUserData = async () => {
 
   return await ApiWrapper(userResponse, true);
 };
+
+export const Logout = async () => {
+  const response = await fetch(`${backend}/logout`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+
+  return await ApiWrapper(response, true);
+};
