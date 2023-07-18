@@ -1,15 +1,24 @@
-import React, { useContext, useState } from "react";
-import { Avatar, TextField, Button, Box, Container, useTheme, Stack, Alert } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import {
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Stack,
+  TextField,
+  useTheme,
+} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useContext, useState } from "react";
+import { Link as ReactLink } from "react-router-dom";
 import * as yup from "yup";
+import { Login } from "../../apis/user_api";
+import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
-import { Link as ReactLink } from "react-router-dom";
-import { GlobalContext } from "../../App";
-import { Login } from "../../apis/user_api";
 
 const LoginComponent = () => {
   const theme = useTheme();
@@ -28,7 +37,10 @@ const LoginComponent = () => {
 
   const { user, setUser } = useContext(GlobalContext);
 
-  const onSubmit = async (values: { email: any; password: any }, { resetForm, setSubmitting }: any) => {
+  const onSubmit = async (
+    values: { email: any; password: any },
+    { resetForm, setSubmitting }: any
+  ) => {
     try {
       const userResponse = await Login(values);
       setUser(userResponse);
@@ -62,13 +74,21 @@ const LoginComponent = () => {
         <Avatar sx={{ m: 1, bgcolor: `${colors.blueAccent[500]}` }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Header title="Sign In" subtitle="Sign in an User Profile" align={"center"} />
+        <Header
+          title="Sign In"
+          subtitle="Sign in an User Profile"
+          align={"center"}
+        />
         {errorAlert && (
           <Alert severity="error" onClose={() => setErrorAlert(false)}>
             {errorMessage}
           </Alert>
         )}
-        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+        >
           {({ values, handleChange, handleSubmit }) => (
             <Form onSubmit={handleSubmit}>
               <TextField
