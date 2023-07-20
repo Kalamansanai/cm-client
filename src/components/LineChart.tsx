@@ -4,8 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { GetLinePlotData } from "../apis/detector_api";
 import { tokens } from "../theme";
 
-const backend = process.env.REACT_APP_BACKEND;
-
 type Props = {
   isCustomLineColors: boolean;
   isDashboard: boolean;
