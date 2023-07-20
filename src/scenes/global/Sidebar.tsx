@@ -10,12 +10,12 @@ import {
 } from "@mui/icons-material";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import VideocamIcon from "@mui/icons-material/Videocam";
-import { Avatar, Box, IconButton, PaletteMode, Typography, useTheme } from "@mui/material";
-import React, { useContext, useMemo, useRef, useState } from "react";
+import { Avatar, Box, IconButton, Typography, useTheme } from "@mui/material";
+import React, { useContext, useMemo, useState } from "react";
 import { Menu, MenuItem, Sidebar as SB } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-import { tokens } from "../../theme";
 import { GlobalContext } from "../../App";
+import { tokens } from "../../theme";
 
 interface ItemProps {
   title: string;
@@ -30,7 +30,13 @@ interface SidebarProps {
   setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Item: React.FC<ItemProps> = ({ title, to, icon, selected, setSelected }) => {
+const Item: React.FC<ItemProps> = ({
+  title,
+  to,
+  icon,
+  selected,
+  setSelected,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isActive = selected === title;
@@ -48,10 +54,11 @@ const Item: React.FC<ItemProps> = ({ title, to, icon, selected, setSelected }) =
   );
 };
 
-const setCollapsedAndSave = (setIsCollapsed: (arg0: any) => void) => (isCollapsed: any) => {
-  setIsCollapsed(isCollapsed);
-  localStorage.setItem("sidebarIsCollapsed", JSON.stringify(isCollapsed));
-};
+const setCollapsedAndSave =
+  (setIsCollapsed: (arg0: any) => void) => (isCollapsed: any) => {
+    setIsCollapsed(isCollapsed);
+    localStorage.setItem("sidebarIsCollapsed", JSON.stringify(isCollapsed));
+  };
 
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
   const theme = useTheme();
@@ -59,7 +66,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
   const [selected, setSelected] = useState("Dashboard");
   const [isHovered, setIsHovered] = useState(false);
   const { user, setUser, setIsLoggedOut } = useContext(GlobalContext);
-  const setIsCollapsedAndSave = useMemo(() => setCollapsedAndSave(setIsCollapsed), [setIsCollapsed]);
+  const setIsCollapsedAndSave = useMemo(
+    () => setCollapsedAndSave(setIsCollapsed),
+    [setIsCollapsed]
+  );
 
   const getInitials = (name: string) => {
     const names = name.split(" ");
@@ -120,7 +130,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
         menuItemStyles={{
           button: ({ level, active, disabled }) => {
             return {
-              color: active ? "#6870fa !important" : `${colors.grey[200]} !important`,
+              color: active
+                ? "#6870fa !important"
+                : `${colors.grey[200]} !important`,
               "&:hover": {
                 backgroundColor: "#335B8C !important",
                 color: "#868dfb !important",
@@ -136,7 +148,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
           onClick={() => setIsCollapsedAndSave(!isCollapsed)}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          icon={isCollapsed ? isHovered ? <MenuOpenIcon sx={{}} /> : <MenuOutlinedIcon sx={{}} /> : undefined}
+          icon={
+            isCollapsed ? (
+              isHovered ? (
+                <MenuOpenIcon sx={{}} />
+              ) : (
+                <MenuOutlinedIcon sx={{}} />
+              )
+            ) : undefined
+          }
           style={{
             margin: "10px 0 20px 0",
             color: colors.grey[100],
@@ -144,7 +164,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
           }}
         >
           {!isCollapsed && (
-            <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Typography variant="h4" fontWeight={600}>
                 Consumption Meter
               </Typography>
@@ -163,7 +187,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
         {user && !isCollapsed && (
           <Box mb="25px">
             <Box display="flex" justifyContent="center" alignItems="center">
-              <Avatar sx={{ width: 50, height: 50, backgroundColor: userColor }}>
+              <Avatar
+                sx={{ width: 50, height: 50, backgroundColor: userColor }}
+              >
                 {getInitials(user?.name)}
               </Avatar>
             </Box>
@@ -189,7 +215,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
             setSelected={setSelected}
           />
 
-          <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+          <Typography
+            variant="h6"
+            color={colors.grey[300]}
+            sx={{ m: "15px 0 5px 20px" }}
+          >
             Data
           </Typography>
           <Item
@@ -207,7 +237,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
             setSelected={setSelected}
           />
 
-          <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+          <Typography
+            variant="h6"
+            color={colors.grey[300]}
+            sx={{ m: "15px 0 5px 20px" }}
+          >
             Pages
           </Typography>
           <Item
@@ -225,7 +259,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
             setSelected={setSelected}
           />
 
-          <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+          <Typography
+            variant="h6"
+            color={colors.grey[300]}
+            sx={{ m: "15px 0 5px 20px" }}
+          >
             Charts
           </Typography>
           <Item

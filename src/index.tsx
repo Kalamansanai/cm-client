@@ -3,11 +3,11 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {
+  createBrowserRouter,
+  createRoutesFromElements,
   Navigate,
   Route,
   RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
   useRouteError,
 } from "react-router-dom";
 import App from "./App";
@@ -35,7 +35,10 @@ export class DetailedError extends Error {
 
 export class ResponseError extends Error {
   override name: "ResponseError" = "ResponseError";
-  constructor(public response: Response, msg?: string) {
+  constructor(
+    public response: Response,
+    msg?: string
+  ) {
     super(msg);
   }
 }

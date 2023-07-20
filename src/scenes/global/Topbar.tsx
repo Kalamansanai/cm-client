@@ -1,12 +1,12 @@
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Alert, Box, IconButton, Snackbar, Typography, useTheme } from "@mui/material";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import { Alert, Box, IconButton, Snackbar, useTheme } from "@mui/material";
 import React, { useContext, useState } from "react";
+import { Logout } from "../../apis/user_api";
 import { GlobalContext } from "../../App";
 import { ColorModeContext, tokens } from "../../theme";
-import { Logout } from "../../apis/user_api";
 
 const Topbar: React.FC = () => {
   const theme = useTheme();
@@ -18,7 +18,10 @@ const Topbar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const { user, setUser, setIsLoggedOut } = useContext(GlobalContext);
 
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
     if (reason === "clickaway") {
       return;
     }
@@ -51,7 +54,11 @@ const Topbar: React.FC = () => {
     <Box display={"flex"} justifyContent={"right"} p={2}>
       <Box display={"flex"}>
         <IconButton onClick={colorMode.toggleColorMode}>
-          {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
+          {theme.palette.mode === "dark" ? (
+            <DarkModeOutlinedIcon />
+          ) : (
+            <LightModeOutlinedIcon />
+          )}
         </IconButton>
         <IconButton>
           <SettingsOutlinedIcon />
