@@ -27,7 +27,7 @@ export class DetailedError extends Error {
 
   constructor(
     public innerError: ResponseError | null,
-    public help?: React.ReactNode
+    public help?: React.ReactNode,
   ) {
     super();
   }
@@ -37,7 +37,7 @@ export class ResponseError extends Error {
   override name: "ResponseError" = "ResponseError";
   constructor(
     public response: Response,
-    msg?: string
+    msg?: string,
   ) {
     super(msg);
   }
@@ -120,15 +120,15 @@ const router = createBrowserRouter(
           element={<DetectorDashboard />}
         />
       </Route>
-    </>
-  )
+    </>,
+  ),
 );
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement,
 );
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

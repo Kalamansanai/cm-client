@@ -1,8 +1,15 @@
+import {
+  Box,
+  Button,
+  MenuItem,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../App";
 import { AddDetector } from "../../apis/detector_api";
-import { Box, Button, Grid, MenuItem, TextField, Typography, useTheme } from "@mui/material";
 import { GetUserData } from "../../apis/user_api";
+import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 
@@ -50,7 +57,11 @@ export function AddDetectorCard() {
         justifyContent: "center !important",
       }}
     >
-      <Header title="Add new detector:" subtitle="You add a new detector to you account." align={"left"} />
+      <Header
+        title="Add new detector:"
+        subtitle="You add a new detector to you account."
+        align={"left"}
+      />
       <form onSubmit={handleSubmit}>
         <TextField
           name="id"
@@ -126,7 +137,13 @@ export function AddDetectorCard() {
             </MenuItem>
           ))}
         </TextField>
-        <Button type="submit" fullWidth variant="contained" color="primary" sx={{ mt: "20px" }}>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          sx={{ mt: "20px" }}
+        >
           Submit
         </Button>
       </form>

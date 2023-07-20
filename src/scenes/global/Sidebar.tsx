@@ -65,10 +65,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
   const colors = tokens(theme.palette.mode);
   const [selected, setSelected] = useState("Dashboard");
   const [isHovered, setIsHovered] = useState(false);
-  const { user, setUser, setIsLoggedOut } = useContext(GlobalContext);
+  const { user } = useContext(GlobalContext);
   const setIsCollapsedAndSave = useMemo(
     () => setCollapsedAndSave(setIsCollapsed),
-    [setIsCollapsed]
+    [setIsCollapsed],
   );
 
   const getInitials = (name: string) => {
@@ -100,7 +100,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
         colors.blueAccent[500],
         colors.blueAccent[600],
       ],
-      [colors]
+      [colors],
     );
 
     let hash = 0;
@@ -294,6 +294,3 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
 };
 
 export default Sidebar;
-function stringToColor(name: string) {
-  throw new Error("Function not implemented.");
-}

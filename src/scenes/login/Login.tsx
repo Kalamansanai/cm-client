@@ -35,11 +35,11 @@ const LoginComponent = () => {
     password: yup.string().required("Required"),
   });
 
-  const { user, setUser } = useContext(GlobalContext);
+  const { setUser } = useContext(GlobalContext);
 
   const onSubmit = async (
     values: { email: any; password: any },
-    { resetForm, setSubmitting }: any
+    { resetForm, setSubmitting }: any,
   ) => {
     try {
       const userResponse = await Login(values);

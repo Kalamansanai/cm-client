@@ -26,7 +26,7 @@ export async function AddDetector(props: regProps) {
 
 export async function SetConfig(
   new_config: IDetectorConfig,
-  detector_id: string
+  detector_id: string,
 ) {
   const response = await fetch(
     `${backend}/set_detector_config/${detector_id}`,
@@ -37,7 +37,7 @@ export async function SetConfig(
       body: JSON.stringify({
         new_config: new_config,
       }),
-    }
+    },
   );
 
   return await ApiWrapper(response, true);

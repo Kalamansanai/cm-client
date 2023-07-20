@@ -6,11 +6,10 @@ import { Alert, Box, IconButton, Snackbar, useTheme } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { Logout } from "../../apis/user_api";
 import { GlobalContext } from "../../App";
-import { ColorModeContext, tokens } from "../../theme";
+import { ColorModeContext } from "../../theme";
 
 const Topbar: React.FC = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
 
   const [logoutError, setLogoutError] = useState(false);
@@ -20,7 +19,7 @@ const Topbar: React.FC = () => {
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
-    reason?: string
+    reason?: string,
   ) => {
     if (reason === "clickaway") {
       return;

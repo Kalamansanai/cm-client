@@ -148,7 +148,7 @@ const BarChart = ({ isDashboard = false }) => {
           kebabColor: string;
           donut: number;
           donutColor: string;
-        }>
+        }>,
       ) =>
         data.id + ": " + data.formattedValue + " in country: " + data.indexValue
       }
