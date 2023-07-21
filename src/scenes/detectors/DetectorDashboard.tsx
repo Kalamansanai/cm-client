@@ -18,6 +18,7 @@ import LineChart from "../../components/LineChart";
 import { tokens } from "../../theme";
 import { IDetector, IDetectorConfig } from "../../types";
 import DeletePopup from "./DeletePopup";
+import { ExportPie } from "../../apis/data_api";
 
 export async function loader({ params }: { params: Params }) {
   const id = params["detector_id"]! as any as string;
@@ -74,6 +75,10 @@ export default function DetectorDashboard() {
     setOpenPopup(true);
   };
 
+  const handleExport = () => {
+    ExportPie(detector_id);
+  };
+
   return (
     <Box m="16px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -87,6 +92,18 @@ export default function DetectorDashboard() {
           flexDirection="row"
           justifyContent="space-around"
         >
+          <Button
+            sx={{
+              backgroundColor: colors.blueAccent[700],
+              color: colors.grey[100],
+              fontSize: "12px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+            }}
+            onClick={handleExport}
+          >
+            Export Data
+          </Button>
           <Button
             sx={{
               backgroundColor: colors.redAccent[700],
