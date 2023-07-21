@@ -105,10 +105,7 @@ const router = createBrowserRouter(
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
       <Route element={<App />} errorElement={<ErrorPage />}>
         <Route path="dashboard" element={<Dashboard />} />
-        <Route path="bar" element={<Bar />} />
         <Route path="login" element={<Login />} />
-        <Route path="line" element={<Line />} />
-        <Route path="pie" element={<Pie />} />
         <Route path="detectors" element={<DetectorList />} />
         <Route path="registration" element={<Register />} />
         <Route

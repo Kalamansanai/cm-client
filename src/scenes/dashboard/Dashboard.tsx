@@ -38,7 +38,12 @@ const Dashboard = () => {
       </Box>
 
       {/* GRID & CHARTS */}
-      <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px">
+      <Box
+        display="grid"
+        gridTemplateColumns="repeat(12, 1fr)"
+        gridAutoRows="140px"
+        gap="20px"
+      >
         {/* ROW 1 */}
         <Box
           gridColumn="span 3"
@@ -54,7 +59,11 @@ const Dashboard = () => {
             subtitle="Pictures Obtained"
             progress="0.98"
             increase="-2%"
-            icon={<CameraAltIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={
+              <CameraAltIcon
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              />
+            }
           />
         </Box>
         <Box
@@ -71,7 +80,11 @@ const Dashboard = () => {
             subtitle="Water meter value increase"
             progress="0.10"
             increase="+10%"
-            icon={<WaterDropIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={
+              <WaterDropIcon
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              />
+            }
           />
         </Box>
         <Box
@@ -88,7 +101,11 @@ const Dashboard = () => {
             subtitle="Electricity value increase"
             progress="0.30"
             increase="+30%"
-            icon={<BoltIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={
+              <BoltIcon
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              />
+            }
           />
         </Box>
         <Box
@@ -105,7 +122,11 @@ const Dashboard = () => {
             subtitle="Gas Meter value"
             progress="0.60"
             increase="+60%"
-            icon={<GasMeterIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={
+              <GasMeterIcon
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              />
+            }
           />
         </Box>
 
@@ -132,7 +153,11 @@ const Dashboard = () => {
           sx={{ backgroundColor: `${colors.primary[400]}` }}
           borderRadius={"5px !important"}
         >
-          <Typography variant="h5" fontWeight="600" sx={{ padding: "30px 30px 0 30px" }}>
+          <Typography
+            variant="h5"
+            fontWeight="600"
+            sx={{ padding: "30px 30px 0 30px" }}
+          >
             Bar Chart
           </Typography>
           <Box height="250px" mt={"-20px"}>
@@ -148,9 +173,19 @@ const Dashboard = () => {
           sx={{ backgroundColor: `${colors.primary[400]}` }}
           borderRadius={"5px !important"}
         >
-          <Box mt="25px" p="0 30px" display="flex " justifyContent="space-between" alignItems="center">
+          <Box
+            mt="25px"
+            p="0 30px"
+            display="flex "
+            justifyContent="space-between"
+            alignItems="center"
+          >
             <Box>
-              <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>
+              <Typography
+                variant="h5"
+                fontWeight="600"
+                color={colors.grey[100]}
+              >
                 Line Chart
               </Typography>
             </Box>
@@ -159,7 +194,7 @@ const Dashboard = () => {
             <LineChart
               isDashboard={true}
               isCustomLineColors={false}
-              detector_id="18db1559-982d-4ede-92b6-9b21e05acdc2"
+              detector_id="11:b4:12:ad"
             />
           </Box>
         </Box>
