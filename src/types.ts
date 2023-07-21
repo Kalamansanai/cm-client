@@ -17,10 +17,9 @@ export interface IDetector {
 }
 
 export interface IDetectorConfig {
-  charNum: string;
-  comaPosition: string;
-  uuid: string;
-  delay: string;
+  charNum: number;
+  comaPosition: number;
+  delay: number;
   flash: boolean;
 }
 
