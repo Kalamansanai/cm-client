@@ -18,7 +18,7 @@ import LineChart from "../../components/LineChart";
 import { tokens } from "../../theme";
 import { IDetector, IDetectorConfig } from "../../types";
 import DeletePopup from "./DeletePopup";
-import { ExportPie } from "../../apis/data_api";
+import { ExportDetectorToCsv } from "../../apis/data_api";
 
 export async function loader({ params }: { params: Params }) {
   const id = params["detector_id"]! as any as string;
@@ -76,7 +76,7 @@ export default function DetectorDashboard() {
   };
 
   const handleExport = () => {
-    ExportPie(detector_id);
+    ExportDetectorToCsv(detector_id);
   };
 
   return (

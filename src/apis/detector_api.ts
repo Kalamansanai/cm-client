@@ -54,17 +54,3 @@ export async function DeleteDetector(detector_id: string) {
 
   return await ApiWrapper(response, true);
 }
-
-export async function GetLinePlotData(detector_id: string) {
-  const response = await fetch(`${backend}/get_logs_for_plot/${detector_id}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      plot_type: "line",
-    }),
-  });
-
-  return await ApiWrapper(response, true);
-}

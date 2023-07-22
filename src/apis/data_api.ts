@@ -2,7 +2,7 @@ import { ApiWrapper } from "./api.util";
 
 const backend = process.env.REACT_APP_BACKEND;
 
-export async function ExportPie(detector_id: string) {
+export async function ExportDetectorToCsv(detector_id: string) {
   const res = await fetch(`${backend}/detector/${detector_id}/export`)
     .then((response) => response.blob())
     .then((blob) => {
@@ -20,4 +20,19 @@ export async function ExportPie(detector_id: string) {
     });
 
   console.log("success");
+}
+
+export async function GetLinePlotData(detector_id: string) {
+  const response = await fetch(`${backend}/get_logs_for_plot/${detector_id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      plot_type: "line",
+    }),
+    credentials: "include",
+  });
+
+  return await ApiWrapper(response, true);
 }
