@@ -1,7 +1,15 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../App";
 import { AddDetector } from "../../apis/detector_api";
-import { Box, Button, Grid, MenuItem, TextField, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  MenuItem,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { GetUserData } from "../../apis/user_api";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
@@ -10,6 +18,7 @@ interface FormData {
   name: string;
   type: string;
   id: string;
+  cost: number;
 }
 
 export function AddDetectorCard() {
@@ -21,6 +30,7 @@ export function AddDetectorCard() {
     name: "",
     type: "",
     id: "",
+    cost: 0,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +60,11 @@ export function AddDetectorCard() {
         justifyContent: "center !important",
       }}
     >
-      <Header title="Add new detector:" subtitle="You add a new detector to you account." align={"left"} />
+      <Header
+        title="Add new detector:"
+        subtitle="You add a new detector to you account."
+        align={"left"}
+      />
       <form onSubmit={handleSubmit}>
         <TextField
           name="id"
@@ -126,7 +140,13 @@ export function AddDetectorCard() {
             </MenuItem>
           ))}
         </TextField>
-        <Button type="submit" fullWidth variant="contained" color="primary" sx={{ mt: "20px" }}>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          sx={{ mt: "20px" }}
+        >
           Submit
         </Button>
       </form>
