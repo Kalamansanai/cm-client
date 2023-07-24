@@ -51,21 +51,16 @@ export default function DetectorDashboard() {
     e: React.ChangeEvent<HTMLInputElement>,
     key: string,
   ) => {
-    const { value } = e.target;
+    const { value, checked } = e.target;
     setData((prevData) => ({
       ...prevData,
-      [key]: key !== "flash" ? parseInt(value) : false,
+      [key]: key !== "flash" ? parseInt(value) : checked,
     }));
   };
 
   const [openPopup, setOpenPopup] = useState(false);
 
   const handleSubmit = async () => {
-    // if (data.type.trim() === "" || data.charNum.trim() === "") {
-    //   alert("Please fill in the required fields.");
-    //   return;
-    // }
-
     await SetConfig(data, detector_id);
 
     console.log("Sending data:", data);
@@ -192,6 +187,7 @@ export default function DetectorDashboard() {
                 <FormControlLabel
                   control={
                     <Switch
+                      checked={data.flash}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleInputChange(e, "flash")
                       }
