@@ -13,7 +13,6 @@ const Register = () => {
   const colors = tokens(theme.palette.mode);
   const [errorAlert, setErrorAlert] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
   const registrationSchema = yup.object().shape({
     name: yup.string().required("Required").max(10, "The username can't be longer than 10 characters"),
     email: yup.string().email("Please enter valid email").required("Required"),
@@ -44,7 +43,7 @@ const Register = () => {
         setErrorAlert("ok");
       }
     } catch (error: any) {
-      setErrorMessage("");
+      setErrorMessage(error.message);
       setErrorAlert("error");
     }
   };

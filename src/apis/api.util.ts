@@ -10,7 +10,7 @@ export async function ApiWrapper(response: Response, only_data: boolean) {
       }
     } else {
       console.log("server responded an error", result);
-      return null;
+      throw new Error(result.data);
     }
   } else {
     console.log("server aborted", response);

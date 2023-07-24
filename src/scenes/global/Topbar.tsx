@@ -25,6 +25,7 @@ const Topbar: React.FC = () => {
 
     setOpen(false);
   };
+
   const handleLogout = async () => {
     if (!user) {
       setErrorMessage("No user is currently logged in");
@@ -64,9 +65,9 @@ const Topbar: React.FC = () => {
       </Box>
       <Snackbar
         open={open}
-        autoHideDuration={6000}
+        autoHideDuration={4000}
         onClose={handleClose}
-        key={"bottom" + "left"}
+        key={"bottom" + "right"}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
