@@ -1,18 +1,18 @@
-import Dialog from "@mui/material/Dialog";
-import { styled, useTheme } from "@mui/material/styles";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
-import { tokens } from "../../theme";
 import { Button } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import { styled, useTheme } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { DeleteDetector } from "../../apis/detector_api";
-import { useContext } from "react";
-import { GlobalContext } from "../../App";
 import { GetUserData } from "../../apis/user_api";
+import { GlobalContext } from "../../App";
+import { tokens } from "../../theme";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
