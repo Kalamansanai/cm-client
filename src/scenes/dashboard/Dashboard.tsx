@@ -194,7 +194,7 @@ const Dashboard = () => {
             <LineChart
               isDashboard={true}
               isCustomLineColors={false}
-              detector_id="18db1559-982d-4ede-92b6-9b21e05acdc2"
+              detector_id="11:b4:12:ad"
             />
           </Box>
         </Box>

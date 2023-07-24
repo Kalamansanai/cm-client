@@ -10,8 +10,15 @@ import {
 } from "@mui/icons-material";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import VideocamIcon from "@mui/icons-material/Videocam";
-import { Avatar, Box, IconButton, Typography, useTheme } from "@mui/material";
-import React, { useContext, useMemo, useState } from "react";
+import {
+  Avatar,
+  Box,
+  IconButton,
+  PaletteMode,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import React, { useContext, useMemo, useRef, useState } from "react";
 import { Menu, MenuItem, Sidebar as SB } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../../App";
@@ -222,13 +229,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
           >
             Data
           </Typography>
-          <Item
-            title="Data Grid"
-            to="/grid"
-            icon={<ReceiptOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
-          />
+
           <Item
             title="Detectors"
             to="/detectors"
@@ -258,7 +259,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
             selected={selected}
             setSelected={setSelected}
           />
-
           <Typography
             variant="h6"
             color={colors.grey[300]}

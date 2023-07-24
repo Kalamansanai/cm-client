@@ -16,8 +16,9 @@ import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 import { tokens } from "../../theme";
-import { IDetector } from "../../types";
+import { IDetector, IDetectorConfig } from "../../types";
 import DeletePopup from "./DeletePopup";
+import { ExportDetectorToCsv } from "../../apis/data_api";
 
 export async function loader({ params }: { params: Params }) {
   const id = params["detector_id"]! as any as string;
@@ -39,13 +40,9 @@ export default function DetectorDashboard() {
     ) as IDetector;
   }
 
-  const [data, setData] = useState({
-    name: detector.detector_name,
-    macAddress: detector.detector_id,
-    type: detector.type,
+  const [data, setData] = useState<IDetectorConfig>({
     charNum: detector.detector_config?.charNum,
     comaPosition: detector.detector_config?.comaPosition,
-    uuid: detector.detector_config?.uuid,
     delay: detector.detector_config?.delay,
     flash: detector.detector_config?.flash,
   });
@@ -57,7 +54,7 @@ export default function DetectorDashboard() {
     const { value } = e.target;
     setData((prevData) => ({
       ...prevData,
-      [key]: value,
+      [key]: key != "flash" ? parseInt(value) : false,
     }));
   };
 
@@ -69,8 +66,7 @@ export default function DetectorDashboard() {
     //   return;
     // }
 
-    const { name, macAddress, type, ...newConfig } = data;
-    await SetConfig(newConfig, detector_id);
+    await SetConfig(data, detector_id);
 
     console.log("Sending data:", data);
   };
@@ -79,12 +75,16 @@ export default function DetectorDashboard() {
     setOpenPopup(true);
   };
 
+  const handleExport = () => {
+    ExportDetectorToCsv(detector_id);
+  };
+
   return (
     <Box m="16px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title="Detector"
-          subtitle={`Detector Name: ${data.name} | Mac Address: ${data.macAddress}`}
+          subtitle={`Detector Name: ${detector.detector_name} | Mac Address: ${detector.detector_id}`}
         />
         <Box
           width="40%"
@@ -92,6 +92,18 @@ export default function DetectorDashboard() {
           flexDirection="row"
           justifyContent="space-around"
         >
+          <Button
+            sx={{
+              backgroundColor: colors.blueAccent[700],
+              color: colors.grey[100],
+              fontSize: "12px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+            }}
+            onClick={handleExport}
+          >
+            Export Data
+          </Button>
           <Button
             sx={{
               backgroundColor: colors.redAccent[700],
@@ -138,17 +150,6 @@ export default function DetectorDashboard() {
                 <TextField
                   fullWidth
                   variant="filled"
-                  label="Type"
-                  value={data.type}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleInputChange(e, "type")
-                  }
-                />
-              </Grid>
-              <Grid item xs={1}>
-                <TextField
-                  fullWidth
-                  variant="filled"
                   label="Char Num"
                   value={data.charNum}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -160,21 +161,11 @@ export default function DetectorDashboard() {
                 <TextField
                   fullWidth
                   variant="filled"
+                  type="number"
                   label="Coma Position"
                   value={data.comaPosition}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleInputChange(e, "comaPosition")
-                  }
-                />
-              </Grid>
-              <Grid item xs={1}>
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  label="UUID"
-                  value={data.uuid}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleInputChange(e, "uuid")
                   }
                 />
               </Grid>

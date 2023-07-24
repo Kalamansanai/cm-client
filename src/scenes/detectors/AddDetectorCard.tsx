@@ -1,13 +1,14 @@
+import { useContext, useState } from "react";
+import { AddDetector } from "../../apis/detector_api";
 import {
   Box,
   Button,
+  Grid,
   MenuItem,
   TextField,
   Typography,
   useTheme,
 } from "@mui/material";
-import { useContext, useState } from "react";
-import { AddDetector } from "../../apis/detector_api";
 import { GetUserData } from "../../apis/user_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
@@ -17,6 +18,7 @@ interface FormData {
   name: string;
   type: string;
   id: string;
+  cost: number;
 }
 
 export function AddDetectorCard() {
@@ -28,6 +30,7 @@ export function AddDetectorCard() {
     name: "",
     type: "",
     id: "",
+    cost: 0,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -7,6 +7,7 @@ type regProps = {
   id: string;
   name: string;
   type: string;
+  cost: number;
 };
 
 export async function AddDetector(props: regProps) {
@@ -18,6 +19,7 @@ export async function AddDetector(props: regProps) {
       detector_id: props.id,
       detector_name: props.name,
       type: props.type,
+      cost: props.cost,
     }),
   });
 
@@ -48,20 +50,6 @@ export async function DeleteDetector(detector_id: string) {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-  });
-
-  return await ApiWrapper(response, true);
-}
-
-export async function GetLinePlotData(detector_id: string) {
-  const response = await fetch(`${backend}/get_logs_for_plot/${detector_id}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      plot_type: "line",
-    }),
   });
 
   return await ApiWrapper(response, true);
