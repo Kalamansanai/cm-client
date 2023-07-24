@@ -11,8 +11,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import React, { useContext, useState } from "react";
 import { Params, useLoaderData } from "react-router-dom";
-import { GlobalContext } from "../../App";
 import { SetConfig } from "../../apis/detector_api";
+import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 import { tokens } from "../../theme";
@@ -36,7 +36,7 @@ export default function DetectorDashboard() {
   let detector: IDetector = {} as IDetector;
   if (user) {
     detector = user.detectors.find(
-      (detector: IDetector) => detector.detector_id === detector_id
+      (detector: IDetector) => detector.detector_id === detector_id,
     ) as IDetector;
   }
 
@@ -49,7 +49,7 @@ export default function DetectorDashboard() {
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    key: string
+    key: string,
   ) => {
     const { value } = e.target;
     setData((prevData) => ({

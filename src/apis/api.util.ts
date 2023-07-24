@@ -1,5 +1,5 @@
 export async function ApiWrapper(response: Response, only_data: boolean) {
-  if (response.status != 400) {
+  if (response.status !== 400) {
     const result = await response.json();
     if (result.result === "ok") {
       console.log(`backend responded with ok, data:${result.data}`);

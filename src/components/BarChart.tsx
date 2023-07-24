@@ -1,7 +1,7 @@
 import { useTheme } from "@mui/material";
 import { ComputedDatum, ResponsiveBar } from "@nivo/bar";
-import { tokens } from "../theme";
 import { mockBarData as data } from "../data/mockData";
+import { tokens } from "../theme";
 
 const BarChart = ({ isDashboard = false }) => {
   const theme = useTheme();
@@ -148,7 +148,7 @@ const BarChart = ({ isDashboard = false }) => {
           kebabColor: string;
           donut: number;
           donutColor: string;
-        }>
+        }>,
       ) =>
         data.id + ": " + data.formattedValue + " in country: " + data.indexValue
       }

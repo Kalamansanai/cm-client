@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../App";
 import { AddDetector } from "../../apis/detector_api";
 import {
   Box,
@@ -11,6 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { GetUserData } from "../../apis/user_api";
+import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import { DetectorType, IDetector, User } from "../../types";
