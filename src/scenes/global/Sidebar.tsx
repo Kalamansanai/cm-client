@@ -5,20 +5,12 @@ import {
   MenuOutlined as MenuOutlinedIcon,
   PersonOutlined as PersonOutlinedIcon,
   PieChartOutlineOutlined as PieChartOutlineOutlinedIcon,
-  ReceiptOutlined as ReceiptOutlinedIcon,
   TimelineOutlined as TimelineOutlinedIcon,
 } from "@mui/icons-material";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import VideocamIcon from "@mui/icons-material/Videocam";
-import {
-  Avatar,
-  Box,
-  IconButton,
-  PaletteMode,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import React, { useContext, useMemo, useRef, useState } from "react";
+import { Avatar, Box, IconButton, Typography, useTheme } from "@mui/material";
+import React, { useContext, useMemo, useState } from "react";
 import { Menu, MenuItem, Sidebar as SB } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../../App";
