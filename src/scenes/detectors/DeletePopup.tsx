@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { DeleteDetector } from "../../apis/detector_api";
-import { GetUserData } from "../../apis/user_api";
 import { User } from "../../types";
 import { GlobalContext } from "../../App";
 import { tokens } from "../../theme";

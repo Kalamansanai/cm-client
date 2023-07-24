@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import { useContext, useState } from "react";
 import { AddDetector } from "../../apis/detector_api";
-import { GetUserData } from "../../apis/user_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";

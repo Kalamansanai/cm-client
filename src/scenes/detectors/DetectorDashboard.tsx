@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Params, useLoaderData } from "react-router-dom";
 import { ExportDetectorToCsv } from "../../apis/data_api";
 import { SetConfig } from "../../apis/detector_api";
@@ -47,6 +47,10 @@ export default function DetectorDashboard() {
     flash: detector.detector_config?.flash,
   });
 
+  useEffect(() => {
+    setData(detector.detector_config)
+  }, [detector])
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     key: string,
@@ -73,6 +77,10 @@ export default function DetectorDashboard() {
   const handleExport = () => {
     ExportDetectorToCsv(detector_id);
   };
+
+  if(!data){
+    return null
+  }
 
   return (
     <Box m="16px">
@@ -187,7 +195,7 @@ export default function DetectorDashboard() {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={data.flash}
+                      checked={data?.flash}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleInputChange(e, "flash")
                       }

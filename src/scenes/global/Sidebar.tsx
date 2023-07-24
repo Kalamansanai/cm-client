@@ -1,11 +1,8 @@
 import {
-  BarChartOutlined as BarChartOutlinedIcon,
   HomeOutlined as HomeOutlinedIcon,
   MenuOpen as MenuOpenIcon,
   MenuOutlined as MenuOutlinedIcon,
   PersonOutlined as PersonOutlinedIcon,
-  PieChartOutlineOutlined as PieChartOutlineOutlinedIcon,
-  TimelineOutlined as TimelineOutlinedIcon,
 } from "@mui/icons-material";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import VideocamIcon from "@mui/icons-material/Videocam";
@@ -248,34 +245,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
             title="Registration"
             to="/registration"
             icon={<PersonAddAltOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
-          />
-          <Typography
-            variant="h6"
-            color={colors.grey[300]}
-            sx={{ m: "15px 0 5px 20px" }}
-          >
-            Charts
-          </Typography>
-          <Item
-            title="Bar Chart"
-            to="/bar"
-            icon={<BarChartOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
-          />
-          <Item
-            title="Pie Chart"
-            to="/pie"
-            icon={<PieChartOutlineOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
-          />
-          <Item
-            title="Line Chart"
-            to="/line"
-            icon={<TimelineOutlinedIcon />}
             selected={selected}
             setSelected={setSelected}
           />
