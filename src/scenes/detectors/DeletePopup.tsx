@@ -13,6 +13,7 @@ import { DeleteDetector } from "../../apis/detector_api";
 import { useContext } from "react";
 import { GlobalContext } from "../../App";
 import { GetUserData } from "../../apis/user_api";
+import { User } from "../../types";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -80,7 +81,7 @@ export default function DeletePopup({
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
-  const { setUser } = useContext(GlobalContext);
+  const { user, setUser } = useContext(GlobalContext);
 
   const handleClose = () => {
     setOpenPopup(false);
@@ -88,7 +89,17 @@ export default function DeletePopup({
 
   const handleDelete = async () => {
     await DeleteDetector(detector_id);
-    setUser(await GetUserData());
+
+    const updatedDetectors = (user?.detectors || []).filter(
+      (detector) => detector.detector_id !== detector_id
+    );
+
+    const updatedUser: User = {
+      ...(user as User),
+      detectors: updatedDetectors,
+    };
+
+    setUser(updatedUser);
     navigate("/detectors");
   };
 

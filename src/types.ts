@@ -14,13 +14,16 @@ export interface IDetector {
   detector_name: string;
   detector_config: IDetectorConfig;
   type: DetectorType;
+  cost: number;
+  state: DetectorState;
 }
 
 export interface IDetectorConfig {
-  charNum: number;
-  comaPosition: number;
-  delay: number;
-  flash: boolean;
+  charNum?: number;
+  comaPosition?: number;
+  delay?: number;
+  flash?: boolean;
 }
 
 export type DetectorType = "water" | "electricity" | "gas";
+export type DetectorState = "sleep" | "init" | "active";
