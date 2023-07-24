@@ -1,12 +1,10 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { ColorModeContext, useMode } from "./theme";
-
+import { login_cookie } from "./apis/user_api";
 import Sidebar from "./scenes/global/Sidebar";
 import Topbar from "./scenes/global/Topbar";
-
-import { login_cookie } from "./apis/user_api";
+import { ColorModeContext, useMode } from "./theme";
 import { User } from "./types";
 
 export const GlobalContext = createContext<{

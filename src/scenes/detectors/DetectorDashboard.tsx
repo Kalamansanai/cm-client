@@ -11,6 +11,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import React, { useContext, useState } from "react";
 import { Params, useLoaderData } from "react-router-dom";
+import { ExportDetectorToCsv } from "../../apis/data_api";
 import { SetConfig } from "../../apis/detector_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
@@ -18,7 +19,6 @@ import LineChart from "../../components/LineChart";
 import { tokens } from "../../theme";
 import { IDetector, IDetectorConfig } from "../../types";
 import DeletePopup from "./DeletePopup";
-import { ExportDetectorToCsv } from "../../apis/data_api";
 
 export async function loader({ params }: { params: Params }) {
   const id = params["detector_id"]! as any as string;
@@ -54,7 +54,7 @@ export default function DetectorDashboard() {
     const { value } = e.target;
     setData((prevData) => ({
       ...prevData,
-      [key]: key != "flash" ? parseInt(value) : false,
+      [key]: key !== "flash" ? parseInt(value) : false,
     }));
   };
 
