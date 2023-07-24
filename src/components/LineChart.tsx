@@ -1,9 +1,8 @@
 import { useTheme } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 import { useEffect, useMemo, useState } from "react";
+import { GetLinePlotData } from "../apis/detector_api";
 import { tokens } from "../theme";
-import { GetLinePlotData } from "../apis/data_api";
-
 const backend = process.env.REACT_APP_BACKEND;
 
 type Props = {

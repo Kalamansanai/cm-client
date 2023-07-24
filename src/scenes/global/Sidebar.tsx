@@ -21,8 +21,8 @@ import {
 import React, { useContext, useMemo, useRef, useState } from "react";
 import { Menu, MenuItem, Sidebar as SB } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-import { tokens } from "../../theme";
 import { GlobalContext } from "../../App";
+import { tokens } from "../../theme";
 
 interface ItemProps {
   title: string;
@@ -72,10 +72,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
   const colors = tokens(theme.palette.mode);
   const [selected, setSelected] = useState("Dashboard");
   const [isHovered, setIsHovered] = useState(false);
-  const { user, setUser, setIsLoggedOut } = useContext(GlobalContext);
+  const { user } = useContext(GlobalContext);
   const setIsCollapsedAndSave = useMemo(
     () => setCollapsedAndSave(setIsCollapsed),
-    [setIsCollapsed]
+    [setIsCollapsed],
   );
 
   const getInitials = (name: string) => {
@@ -107,7 +107,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
         colors.blueAccent[500],
         colors.blueAccent[600],
       ],
-      [colors]
+      [colors],
     );
 
     let hash = 0;
@@ -259,6 +259,34 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
             selected={selected}
             setSelected={setSelected}
           />
+          <Typography
+            variant="h6"
+            color={colors.grey[300]}
+            sx={{ m: "15px 0 5px 20px" }}
+          >
+            Charts
+          </Typography>
+          <Item
+            title="Bar Chart"
+            to="/bar"
+            icon={<BarChartOutlinedIcon />}
+            selected={selected}
+            setSelected={setSelected}
+          />
+          <Item
+            title="Pie Chart"
+            to="/pie"
+            icon={<PieChartOutlineOutlinedIcon />}
+            selected={selected}
+            setSelected={setSelected}
+          />
+          <Item
+            title="Line Chart"
+            to="/line"
+            icon={<TimelineOutlinedIcon />}
+            selected={selected}
+            setSelected={setSelected}
+          />
         </Box>
       </Menu>
     </SB>
@@ -266,6 +294,3 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
 };
 
 export default Sidebar;
-function stringToColor(name: string) {
-  throw new Error("Function not implemented.");
-}

@@ -1,14 +1,22 @@
-import { Box, Card, CardActionArea, Container, Grid, Typography, useTheme } from "@mui/material";
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { GlobalContext } from "../../App";
-import { tokens } from "../../theme";
-import { IDetector } from "../../types";
-import { AddDetectorCard } from "./AddDetectorCard";
-import Header from "../../components/Header";
 import BoltIcon from "@mui/icons-material/Bolt";
 import GasMeterIcon from "@mui/icons-material/GasMeter";
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
+import {
+  Box,
+  Card,
+  CardActionArea,
+  Container,
+  Grid,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { GlobalContext } from "../../App";
+import Header from "../../components/Header";
+import { tokens } from "../../theme";
+import { IDetector } from "../../types";
+import { AddDetectorCard } from "./AddDetectorCard";
 
 export default function DetectorList() {
   const theme = useTheme();
@@ -30,7 +38,13 @@ export default function DetectorList() {
           p: "16px",
         }}
       >
-        <Grid display="flex" flexDirection="row" alignItems="center" width="100%" justifyContent="center">
+        <Grid
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          width="100%"
+          justifyContent="center"
+        >
           <AddDetectorCard />
         </Grid>
         <Grid sx={{ width: "100%" }}>
@@ -102,7 +116,11 @@ export function DetectorCard({ detector }: Props) {
         }}
         onClick={() => navigate("/detector_dashboard/" + detector.detector_id)}
       >
-        <Typography variant="body1" color={colors.grey[100]} sx={{ margin: 0, flex: 1 }}>
+        <Typography
+          variant="body1"
+          color={colors.grey[100]}
+          sx={{ margin: 0, flex: 1 }}
+        >
           {detector.detector_id}
         </Typography>
         <Typography variant="h4">{detector.type}</Typography>

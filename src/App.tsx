@@ -1,4 +1,4 @@
-import { CssBaseline, PaletteMode, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { ColorModeContext, useMode } from "./theme";
@@ -52,8 +52,14 @@ function App(): JSX.Element {
           }}
         >
           <CssBaseline />
-          <div className="app" style={{ display: "flex", height: "100vh", position: "relative" }}>
-            <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+          <div
+            className="app"
+            style={{ display: "flex", height: "100vh", position: "relative" }}
+          >
+            <Sidebar
+              isCollapsed={isCollapsed}
+              setIsCollapsed={setIsCollapsed}
+            />
             <main
               className="content"
               style={{

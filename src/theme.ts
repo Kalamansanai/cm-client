@@ -1,6 +1,6 @@
-import { createContext, useState, useMemo, useEffect } from "react";
-import { createTheme, Theme } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
+import { createTheme, Theme } from "@mui/material/styles";
+import { createContext, useEffect, useMemo, useState } from "react";
 
 interface Tokens {
   grey: {
@@ -307,7 +307,9 @@ export const ColorModeContext = createContext<ColorModeContextProps>({
 
 export const useMode = (): [Theme, ColorModeContextProps] => {
   const storedMode = localStorage.getItem("colorMode");
-  const initialMode: PaletteMode = storedMode ? (storedMode as PaletteMode) : "dark";
+  const initialMode: PaletteMode = storedMode
+    ? (storedMode as PaletteMode)
+    : "dark";
   const [mode, setMode] = useState<PaletteMode>(initialMode);
 
   const toggleColorMode = () => {
