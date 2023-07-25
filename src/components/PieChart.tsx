@@ -1,11 +1,23 @@
 import { useTheme } from "@mui/material";
 import { ResponsivePie } from "@nivo/pie";
-import { mockPieData as data } from "../data/mockData";
+import { useMemo, useState } from "react";
+import { GetPieCostChartData } from "../apis/data_api";
 import { tokens } from "../theme";
 
 const PieChart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [data, setData] = useState([]);
+
+  useMemo(async () => {
+    const data = await GetPieCostChartData();
+    if (data) {
+      setData(data);
+    }
+    console.log(data);
+  }, []);
+
   return (
     <ResponsivePie
       data={data}
@@ -86,49 +98,19 @@ const PieChart = () => {
       fill={[
         {
           match: {
-            id: "ruby",
+            id: "electricity",
           },
           id: "dots",
         },
         {
           match: {
-            id: "c",
+            id: "gas",
           },
           id: "dots",
         },
         {
           match: {
-            id: "go",
-          },
-          id: "dots",
-        },
-        {
-          match: {
-            id: "python",
-          },
-          id: "dots",
-        },
-        {
-          match: {
-            id: "scala",
-          },
-          id: "lines",
-        },
-        {
-          match: {
-            id: "lisp",
-          },
-          id: "lines",
-        },
-        {
-          match: {
-            id: "elixir",
-          },
-          id: "lines",
-        },
-        {
-          match: {
-            id: "javascript",
+            id: "water",
           },
           id: "lines",
         },
