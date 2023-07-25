@@ -1,3 +1,4 @@
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import {
   Alert,
@@ -6,6 +7,8 @@ import {
   Button,
   Container,
   Grid,
+  IconButton,
+  InputAdornment,
   Stack,
   TextField,
   useTheme,
@@ -63,6 +66,9 @@ const Register = () => {
       setErrorAlert("error");
     }
   };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordRe, setShowPasswordRe] = useState(false);
 
   return (
     <Container
@@ -164,7 +170,7 @@ const Register = () => {
                   <TextField
                     fullWidth
                     variant="filled"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     label="Password"
                     value={values.password}
                     onChange={handleChange}
@@ -184,13 +190,25 @@ const Register = () => {
                         zIndex: 0,
                       },
                     }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
                     variant="filled"
-                    type="password"
+                    type={showPasswordRe ? "text" : "password"}
                     label="Password again"
                     value={values.passwordrpt}
                     onChange={handleChange}
@@ -209,6 +227,22 @@ const Register = () => {
                       "& label": {
                         zIndex: 0,
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() => setShowPasswordRe(!showPasswordRe)}
+                          >
+                            {showPasswordRe ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </Grid>

@@ -1,3 +1,4 @@
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {
   Alert,
@@ -5,6 +6,8 @@ import {
   Box,
   Button,
   Container,
+  IconButton,
+  InputAdornment,
   Stack,
   TextField,
   useTheme,
@@ -19,16 +22,13 @@ import { Login } from "../../apis/user_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
-import { Link as ReactLink, useNavigate } from "react-router-dom";
-import { GlobalContext } from "../../App";
-import { Login } from "../../apis/user_api";
 
 const LoginComponent = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [errorAlert, setErrorAlert] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const { user, setUser } = useContext(GlobalContext);
+  const { setUser } = useContext(GlobalContext);
   const initialValues = {
     email: "",
     password: "",
@@ -40,13 +40,10 @@ const LoginComponent = () => {
     password: yup.string().required("Required"),
   });
 
-  const { setUser } = useContext(GlobalContext);
-
   const onSubmit = async (
     values: { email: any; password: any },
     { resetForm, setSubmitting }: any,
   ) => {
-
     try {
       const userResponse = await Login(values);
       console.log("UserResponse", userResponse);
@@ -59,6 +56,8 @@ const LoginComponent = () => {
       setErrorAlert(true);
     }
   };
+
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Container
@@ -81,13 +80,21 @@ const LoginComponent = () => {
         <Avatar sx={{ m: 1, bgcolor: `${colors.blueAccent[500]}` }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Header title="Sign In" subtitle="Sign in an User Profile" align={"center"} />
+        <Header
+          title="Sign In"
+          subtitle="Sign in an User Profile"
+          align={"center"}
+        />
         {errorAlert && (
           <Alert severity="error" onClose={() => setErrorAlert(false)}>
             {errorMessage}
           </Alert>
         )}
-        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+        >
           {({ values, handleChange, handleSubmit }) => (
             <Form onSubmit={handleSubmit}>
               <TextField
@@ -116,7 +123,7 @@ const LoginComponent = () => {
               <TextField
                 fullWidth
                 variant="filled"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 label="Password"
                 value={values.password}
                 onChange={handleChange}
@@ -134,6 +141,18 @@ const LoginComponent = () => {
                   "& label": {
                     zIndex: 0,
                   },
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
                 }}
               />
               <Field
