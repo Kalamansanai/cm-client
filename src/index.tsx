@@ -11,15 +11,12 @@ import {
   useRouteError,
 } from "react-router-dom";
 import App from "./App";
-import Bar from "./scenes/bar";
 import Dashboard from "./scenes/dashboard/Dashboard";
 import DetectorDashboard, {
   loader as detectorDashboardLoader,
 } from "./scenes/detectors/DetectorDashboard";
 import DetectorList from "./scenes/detectors/DetectorList";
-import Line from "./scenes/line";
 import Login from "./scenes/login/Login";
-import Pie from "./scenes/pie";
 import Register from "./scenes/registration/Register";
 
 export class DetailedError extends Error {
@@ -47,8 +44,8 @@ function ErrorPage() {
   const error = useRouteError();
   console.error(error);
 
-  let content = null;
-  let details = null;
+  let content: React.ReactNode | null = null;
+  let details: React.ReactNode | null = null;
 
   if (error instanceof DetailedError) {
     content = error.help;

@@ -1,16 +1,19 @@
 import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
 import {
+  Alert,
   Button,
   FormControlLabel,
   Grid,
+  Snackbar,
   Switch,
   TextField,
   useTheme,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Params, useLoaderData } from "react-router-dom";
+import { ExportDetectorToCsv } from "../../apis/data_api";
 import { SetConfig } from "../../apis/detector_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
@@ -18,7 +21,6 @@ import LineChart from "../../components/LineChart";
 import { tokens } from "../../theme";
 import { IDetector, IDetectorConfig } from "../../types";
 import DeletePopup from "./DeletePopup";
-import { ExportDetectorToCsv } from "../../apis/data_api";
 
 export async function loader({ params }: { params: Params }) {
   const id = params["detector_id"]! as any as string;
@@ -47,26 +49,29 @@ export default function DetectorDashboard() {
     flash: detector.detector_config?.flash,
   });
 
+  useEffect(() => {
+    setData(detector.detector_config);
+  }, [detector]);
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     key: string,
   ) => {
-    const { value } = e.target;
+    const { value, checked } = e.target;
     setData((prevData) => ({
       ...prevData,
-      [key]: key != "flash" ? parseInt(value) : false,
+      [key]: key !== "flash" ? parseInt(value) : checked,
     }));
   };
 
   const [openPopup, setOpenPopup] = useState(false);
 
   const handleSubmit = async () => {
-    // if (data.type.trim() === "" || data.charNum.trim() === "") {
-    //   alert("Please fill in the required fields.");
-    //   return;
-    // }
+    const result = await SetConfig(data, detector_id);
 
-    await SetConfig(data, detector_id);
+    if (result) {
+      setChanged(true);
+    }
 
     console.log("Sending data:", data);
   };
@@ -79,8 +84,29 @@ export default function DetectorDashboard() {
     ExportDetectorToCsv(detector_id);
   };
 
+  const [changed, setChanged] = useState(false);
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <Box m="16px">
+      <Snackbar
+        open={changed}
+        autoHideDuration={6000}
+        onClose={() => setChanged(false)}
+        key={"bottom" + "left"}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={() => setChanged(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Config values changed successfully!
+        </Alert>
+      </Snackbar>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title="Detector"
@@ -150,6 +176,7 @@ export default function DetectorDashboard() {
                 <TextField
                   fullWidth
                   variant="filled"
+                  type="number"
                   label="Char Num"
                   value={data.charNum}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -173,6 +200,7 @@ export default function DetectorDashboard() {
                 <TextField
                   fullWidth
                   variant="filled"
+                  type="number"
                   label="Photo Time"
                   value={data.delay}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -192,6 +220,7 @@ export default function DetectorDashboard() {
                 <FormControlLabel
                   control={
                     <Switch
+                      checked={data?.flash}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleInputChange(e, "flash")
                       }

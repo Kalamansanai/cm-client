@@ -1,18 +1,17 @@
-import { useContext, useState } from "react";
-import { AddDetector } from "../../apis/detector_api";
 import {
   Box,
   Button,
-  Grid,
   MenuItem,
   TextField,
   Typography,
   useTheme,
 } from "@mui/material";
-import { GetUserData } from "../../apis/user_api";
+import { useContext, useState } from "react";
+import { AddDetector } from "../../apis/detector_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
+import { DetectorType, IDetector, User } from "../../types";
 
 interface FormData {
   name: string;
@@ -24,7 +23,7 @@ interface FormData {
 export function AddDetectorCard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { setUser } = useContext(GlobalContext);
+  const { user, setUser } = useContext(GlobalContext);
   const [inputLength, setInputLength] = useState(0);
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -46,8 +45,22 @@ export function AddDetectorCard() {
     e.preventDefault();
 
     await AddDetector(formData);
-    const userResponse = await GetUserData();
-    setUser(userResponse);
+
+    const newDetector: IDetector = {
+      detector_id: formData.id,
+      detector_name: formData.name,
+      detector_config: {},
+      type: formData.type as DetectorType,
+      cost: formData.cost,
+      state: "init",
+    };
+
+    const updatedUser: User = {
+      ...(user as User),
+      detectors: [...(user?.detectors || []), newDetector],
+    };
+
+    setUser(updatedUser);
   };
 
   return (

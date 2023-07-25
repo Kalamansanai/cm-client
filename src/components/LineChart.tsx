@@ -1,9 +1,8 @@
 import { useTheme } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 import { useEffect, useMemo, useState } from "react";
-import { GetLinePlotData } from "../apis/detector_api";
+import { GetLinePlotData } from "../apis/data_api";
 import { tokens } from "../theme";
-const backend = process.env.REACT_APP_BACKEND;
 
 type Props = {
   isCustomLineColors: boolean;
@@ -16,7 +15,7 @@ const LineChart = ({ isCustomLineColors, isDashboard, detector_id }: Props) => {
   const colors = tokens(theme.palette.mode);
   const [data, setData] = useState([]);
 
-  const loadData = useMemo(async () => {
+  useMemo(async () => {
     const data = await GetLinePlotData(detector_id);
     if (data) {
       setData(data);

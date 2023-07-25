@@ -3,7 +3,7 @@ import { ApiWrapper } from "./api.util";
 const backend = process.env.REACT_APP_BACKEND;
 
 export async function ExportDetectorToCsv(detector_id: string) {
-  const res = await fetch(`${backend}/detector/${detector_id}/export`)
+  await fetch(`${backend}/detector/${detector_id}/export`)
     .then((response) => response.blob())
     .then((blob) => {
       // 2. Create blob link to download
