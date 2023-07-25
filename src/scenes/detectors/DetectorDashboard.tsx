@@ -1,10 +1,10 @@
-import ClearIcon from "@mui/icons-material/Clear";
 import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
 import {
+  Alert,
   Button,
   FormControlLabel,
   Grid,
-  IconButton,
+  Snackbar,
   Switch,
   TextField,
   useTheme,
@@ -92,26 +92,21 @@ export default function DetectorDashboard() {
 
   return (
     <Box m="16px">
-      {changed && (
-        <Box
-          height="5%"
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems="center"
-          sx={{
-            backgroundColor: "white",
-            color: "black",
-            borderRadius: 2,
-            padding: 1,
-          }}
+      <Snackbar
+        open={changed}
+        autoHideDuration={6000}
+        onClose={() => setChanged(false)}
+        key={"bottom" + "left"}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={() => setChanged(false)}
+          severity="success"
+          sx={{ width: "100%" }}
         >
-          <Typography>Config values changed successfully!</Typography>
-          <IconButton sx={{ color: "black" }} onClick={() => setChanged(false)}>
-            <ClearIcon />
-          </IconButton>
-        </Box>
-      )}
+          Config values changed successfully!
+        </Alert>
+      </Snackbar>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title="Detector"
