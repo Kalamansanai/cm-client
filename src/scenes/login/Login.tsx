@@ -19,17 +19,22 @@ import { Login } from "../../apis/user_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
+import { Link as ReactLink, useNavigate } from "react-router-dom";
+import { GlobalContext } from "../../App";
+import { Login } from "../../apis/user_api";
 
 const LoginComponent = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [errorAlert, setErrorAlert] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const { user, setUser } = useContext(GlobalContext);
   const initialValues = {
     email: "",
     password: "",
     remember: false,
   };
+
   const validationSchema = yup.object().shape({
     email: yup.string().email("Please enter valid email").required("Required"),
     password: yup.string().required("Required"),
@@ -41,10 +46,12 @@ const LoginComponent = () => {
     values: { email: any; password: any },
     { resetForm, setSubmitting }: any,
   ) => {
+
     try {
       const userResponse = await Login(values);
+      console.log("UserResponse", userResponse);
       setUser(userResponse);
-
+      setErrorMessage("Registration was successful!");
       resetForm();
       setSubmitting(false);
     } catch (error: any) {
@@ -74,21 +81,13 @@ const LoginComponent = () => {
         <Avatar sx={{ m: 1, bgcolor: `${colors.blueAccent[500]}` }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Header
-          title="Sign In"
-          subtitle="Sign in an User Profile"
-          align={"center"}
-        />
+        <Header title="Sign In" subtitle="Sign in an User Profile" align={"center"} />
         {errorAlert && (
           <Alert severity="error" onClose={() => setErrorAlert(false)}>
             {errorMessage}
           </Alert>
         )}
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          validationSchema={validationSchema}
-        >
+        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
           {({ values, handleChange, handleSubmit }) => (
             <Form onSubmit={handleSubmit}>
               <TextField

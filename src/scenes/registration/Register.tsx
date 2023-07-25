@@ -23,7 +23,6 @@ const Register = () => {
   const colors = tokens(theme.palette.mode);
   const [errorAlert, setErrorAlert] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
   const registrationSchema = yup.object().shape({
     name: yup
       .string()
@@ -60,7 +59,7 @@ const Register = () => {
         setErrorAlert("ok");
       }
     } catch (error: any) {
-      setErrorMessage("");
+      setErrorMessage(error.message);
       setErrorAlert("error");
     }
   };

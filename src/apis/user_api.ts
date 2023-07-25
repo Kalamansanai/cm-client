@@ -41,20 +41,6 @@ type logProps = {
   password: string;
 };
 
-export const Login = async ({ email, password }: logProps) => {
-  await fetch(`${backend}/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({
-      email: email,
-      password: hash(password),
-    }),
-  });
-
-  return await GetUserData();
-};
-
 export const GetUserData = async () => {
   const userResponse = await fetch(`${backend}/user`, {
     headers: { "Content-Type": "application/json" },
@@ -64,12 +50,40 @@ export const GetUserData = async () => {
   return await ApiWrapper(userResponse, true);
 };
 
+export const Login = async ({ email, password }: logProps) => {
+  try {
+    const response = await fetch(`${backend}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        email: email,
+        password: hash(password),
+      }),
+    });
+
+    const data = await ApiWrapper(response, false);
+
+    if (data.result !== "error") {
+      try {
+        const userData = await GetUserData();
+        return userData;
+      } catch (error) {
+        throw error;
+      }
+    } else {
+      throw new Error(data.data);
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const Logout = async () => {
   const response = await fetch(`${backend}/logout`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
   });
-
   return await ApiWrapper(response, true);
 };
