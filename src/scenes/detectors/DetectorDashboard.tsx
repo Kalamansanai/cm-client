@@ -1,8 +1,10 @@
+import ClearIcon from "@mui/icons-material/Clear";
 import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
 import {
   Button,
   FormControlLabel,
   Grid,
+  IconButton,
   Switch,
   TextField,
   useTheme,
@@ -48,8 +50,8 @@ export default function DetectorDashboard() {
   });
 
   useEffect(() => {
-    setData(detector.detector_config)
-  }, [detector])
+    setData(detector.detector_config);
+  }, [detector]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -65,7 +67,11 @@ export default function DetectorDashboard() {
   const [openPopup, setOpenPopup] = useState(false);
 
   const handleSubmit = async () => {
-    await SetConfig(data, detector_id);
+    const result = await SetConfig(data, detector_id);
+
+    if (result) {
+      setChanged(true);
+    }
 
     console.log("Sending data:", data);
   };
@@ -78,12 +84,34 @@ export default function DetectorDashboard() {
     ExportDetectorToCsv(detector_id);
   };
 
-  if(!data){
-    return null
+  const [changed, setChanged] = useState(false);
+
+  if (!data) {
+    return null;
   }
 
   return (
     <Box m="16px">
+      {changed && (
+        <Box
+          height="5%"
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{
+            backgroundColor: "white",
+            color: "black",
+            borderRadius: 2,
+            padding: 1,
+          }}
+        >
+          <Typography>Config values changed successfully!</Typography>
+          <IconButton sx={{ color: "black" }} onClick={() => setChanged(false)}>
+            <ClearIcon />
+          </IconButton>
+        </Box>
+      )}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title="Detector"
@@ -153,6 +181,7 @@ export default function DetectorDashboard() {
                 <TextField
                   fullWidth
                   variant="filled"
+                  type="number"
                   label="Char Num"
                   value={data.charNum}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -176,6 +205,7 @@ export default function DetectorDashboard() {
                 <TextField
                   fullWidth
                   variant="filled"
+                  type="number"
                   label="Photo Time"
                   value={data.delay}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
