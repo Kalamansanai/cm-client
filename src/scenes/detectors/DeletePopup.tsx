@@ -10,9 +10,9 @@ import Typography from "@mui/material/Typography";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { DeleteDetector } from "../../apis/detector_api";
-import { User } from "../../types";
 import { GlobalContext } from "../../App";
 import { tokens } from "../../theme";
+import { User } from "../../types";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -90,7 +90,7 @@ export default function DeletePopup({
     await DeleteDetector(detector_id);
 
     const updatedDetectors = (user?.detectors || []).filter(
-      (detector) => detector.detector_id !== detector_id
+      (detector) => detector.detector_id !== detector_id,
     );
 
     const updatedUser: User = {
