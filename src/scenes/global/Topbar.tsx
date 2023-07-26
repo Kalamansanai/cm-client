@@ -1,9 +1,11 @@
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Alert, Box, IconButton, Snackbar, useTheme } from "@mui/material";
 import React, { useContext, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Logout } from "../../apis/user_api";
 import { GlobalContext } from "../../App";
 import { ColorModeContext } from "../../theme";
@@ -11,11 +13,16 @@ import { ColorModeContext } from "../../theme";
 const Topbar: React.FC = () => {
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
-
+  const location = useLocation();
   const [logoutError, setLogoutError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
   const { user, setUser, setIsLoggedOut } = useContext(GlobalContext);
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate("/detectors");
+  };
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -51,7 +58,20 @@ const Topbar: React.FC = () => {
   };
 
   return (
-    <Box display={"flex"} justifyContent={"right"} p={2}>
+    <Box
+      display={"flex"}
+      justifyContent={
+        location.pathname.startsWith("/detector_dashboard/")
+          ? "space-between"
+          : "right"
+      }
+      p={2}
+    >
+      {location.pathname.startsWith("/detector_dashboard/") && (
+        <IconButton onClick={handleBack}>
+          <ArrowBackRoundedIcon />
+        </IconButton>
+      )}
       <Box display={"flex"}>
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
