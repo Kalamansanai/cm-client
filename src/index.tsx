@@ -1,6 +1,6 @@
 import ErrorIcon from "@mui/icons-material/Error";
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
@@ -8,9 +8,10 @@ import {
   Navigate,
   Route,
   RouterProvider,
+  useLocation,
   useRouteError,
 } from "react-router-dom";
-import App from "./App";
+import App, { GlobalContext } from "./App";
 import Dashboard from "./scenes/dashboard/Dashboard";
 import DetectorDashboard, {
   loader as detectorDashboardLoader,
@@ -99,19 +100,50 @@ function ErrorPage() {
   );
 }
 
+function PrivateRoute({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+
+  const { user } = useContext(GlobalContext);
+
+  return user ? (
+    <>{children}</>
+  ) : (
+    <Navigate to="/login" state={{ from: location }} replace />
+  );
+}
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
       <Route element={<App />} errorElement={<ErrorPage />}>
-        <Route path="dashboard" element={<Dashboard />} />
         <Route path="login" element={<Login />} />
-        <Route path="detectors" element={<DetectorList />} />
         <Route path="registration" element={<Register />} />
+
+        <Route
+          path="detectors"
+          element={
+            <PrivateRoute>
+              <DetectorList />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
         <Route
           loader={detectorDashboardLoader}
           path="detector_dashboard/:detector_id"
-          element={<DetectorDashboard />}
+          element={
+            <PrivateRoute>
+              <DetectorDashboard />
+            </PrivateRoute>
+          }
         />
       </Route>
     </>,
