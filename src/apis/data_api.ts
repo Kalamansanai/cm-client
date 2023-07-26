@@ -36,3 +36,15 @@ export async function GetLinePlotData(detector_id: string) {
 
   return await ApiWrapper(response, true);
 }
+
+export async function GetPieCostChartData() {
+  const response = await fetch(`${backend}/get_user_pie`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+
+  return await ApiWrapper(response, true);
+}
