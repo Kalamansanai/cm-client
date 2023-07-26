@@ -1,3 +1,4 @@
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {
   Alert,
@@ -5,6 +6,8 @@ import {
   Box,
   Button,
   Container,
+  IconButton,
+  InputAdornment,
   Stack,
   TextField,
   useTheme,
@@ -53,6 +56,8 @@ const LoginComponent = () => {
       setErrorAlert(true);
     }
   };
+
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Container
@@ -118,7 +123,7 @@ const LoginComponent = () => {
               <TextField
                 fullWidth
                 variant="filled"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 label="Password"
                 value={values.password}
                 onChange={handleChange}
@@ -136,6 +141,18 @@ const LoginComponent = () => {
                   "& label": {
                     zIndex: 0,
                   },
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
                 }}
               />
               <Field
