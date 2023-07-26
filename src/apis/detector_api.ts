@@ -23,7 +23,7 @@ export async function AddDetector(props: regProps) {
     }),
   });
 
-  return await ApiWrapper(response, true);
+  return await response.json();
 }
 
 export async function SetConfig(

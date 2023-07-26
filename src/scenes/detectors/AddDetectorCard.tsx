@@ -1,7 +1,9 @@
 import {
+  Alert,
   Box,
   Button,
   MenuItem,
+  Snackbar,
   TextField,
   Typography,
   useTheme,
@@ -32,6 +34,8 @@ export function AddDetectorCard() {
     cost: 0,
   });
 
+  const [addingError, setAddingError] = useState<string | null>(null);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setFormData({
@@ -44,7 +48,12 @@ export function AddDetectorCard() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await AddDetector(formData);
+    const response = await AddDetector(formData);
+
+    if (response.result === "error") {
+      setAddingError(response.data);
+      return;
+    }
 
     const newDetector: IDetector = {
       detector_id: formData.id,
@@ -73,6 +82,21 @@ export function AddDetectorCard() {
         justifyContent: "center !important",
       }}
     >
+      <Snackbar
+        open={addingError !== null}
+        autoHideDuration={6000}
+        onClose={() => setAddingError(null)}
+        key={"bottom" + "left"}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={() => setAddingError(null)}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          {addingError}
+        </Alert>
+      </Snackbar>
       <Header
         title="Add new detector:"
         subtitle="You add a new detector to you account."
