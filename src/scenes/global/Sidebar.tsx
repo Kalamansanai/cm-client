@@ -50,22 +50,20 @@ const Item: React.FC<ItemProps> = ({
   );
 };
 
-const setCollapsedAndSave =
-  (setIsCollapsed: (arg0: any) => void) => (isCollapsed: any) => {
-    setIsCollapsed(isCollapsed);
-    localStorage.setItem("sidebarIsCollapsed", JSON.stringify(isCollapsed));
-  };
-
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [selected, setSelected] = useState("Dashboard");
   const [isHovered, setIsHovered] = useState(false);
   const { user } = useContext(GlobalContext);
-  const setIsCollapsedAndSave = useMemo(
-    () => setCollapsedAndSave(setIsCollapsed),
-    [setIsCollapsed],
-  );
+
+  const handleMouseEnter = () => {
+    setIsCollapsed(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsCollapsed(true);
+  };
 
   const getInitials = (name: string) => {
     const names = name.split(" ");
@@ -111,6 +109,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
 
   return (
     <SB
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       style={{
         minWidth: isCollapsed ? 80 : 240,
         borderColor: colors.grey[200],
@@ -141,9 +141,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
       >
         {/* LOGO AND MENU ICON */}
         <MenuItem
-          onClick={() => setIsCollapsedAndSave(!isCollapsed)}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
           icon={
             isCollapsed ? (
               isHovered ? (
@@ -170,7 +167,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
               </Typography>
               <IconButton
                 onClick={() => {
-                  setIsCollapsedAndSave((prevState: any) => !prevState);
                   setIsHovered(false);
                 }}
               >
