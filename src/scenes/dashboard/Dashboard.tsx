@@ -8,6 +8,7 @@ import BarChart from "../../components/BarChart";
 import Header from "../../components/Header";
 import StatBox from "../../components/StatBox";
 import { tokens } from "../../theme";
+import PieChart from "../pie/index";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -141,7 +142,7 @@ const Dashboard = () => {
             Pie Chart
           </Typography>
           <Box height="250px" mt={"-20px"}>
-            {/* <PieChart /> */}
+            <PieChart />
           </Box>
         </Box>
         <Box
