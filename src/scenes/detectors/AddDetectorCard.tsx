@@ -9,11 +9,11 @@ import {
   useTheme,
 } from "@mui/material";
 import { useContext, useState } from "react";
+import { DetectorType, IDetector } from "types";
 import { AddDetector } from "../../apis/detector_api";
-import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
-import { DetectorType, IDetector, User } from "../../types";
+import { DetectorsContext } from "./DetectorList";
 
 interface FormData {
   name: string;
@@ -25,7 +25,6 @@ interface FormData {
 export function AddDetectorCard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { user, setUser } = useContext(GlobalContext);
   const [inputLength, setInputLength] = useState(0);
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -33,6 +32,8 @@ export function AddDetectorCard() {
     id: "",
     cost: 0,
   });
+
+  const { detectors, setDetectors } = useContext(DetectorsContext);
 
   const [addingError, setAddingError] = useState<string | null>(null);
 
@@ -64,12 +65,8 @@ export function AddDetectorCard() {
       state: "init",
     };
 
-    const updatedUser: User = {
-      ...(user as User),
-      detectors: [...(user?.detectors || []), newDetector],
-    };
-
-    setUser(updatedUser);
+    const newDetectors = [...detectors, newDetector];
+    setDetectors(newDetectors);
   };
 
   return (

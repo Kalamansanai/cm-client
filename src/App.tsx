@@ -30,8 +30,11 @@ function App(): JSX.Element {
     if (!user && !isLoggedOut) {
       login_cookie()
         .then((res) => {
-          if (res) setUser(res);
-          else setIsLoggedOut(false);
+          if (res) {
+            setUser(res);
+          } else {
+            setIsLoggedOut(false);
+          }
         })
         .catch((e) => {
           console.log(e);

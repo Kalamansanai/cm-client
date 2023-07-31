@@ -10,9 +10,8 @@ import Typography from "@mui/material/Typography";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { DeleteDetector } from "../../apis/detector_api";
-import { GlobalContext } from "../../App";
 import { tokens } from "../../theme";
-import { User } from "../../types";
+import { DetectorsContext } from "./DetectorList";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -80,7 +79,7 @@ export default function DeletePopup({
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
-  const { user, setUser } = useContext(GlobalContext);
+  const { detectors, setDetectors } = useContext(DetectorsContext);
 
   const handleClose = () => {
     setOpenPopup(false);
@@ -88,17 +87,11 @@ export default function DeletePopup({
 
   const handleDelete = async () => {
     await DeleteDetector(detector_id);
-
-    const updatedDetectors = (user?.detectors || []).filter(
+    const newDetectors = (detectors || []).filter(
       (detector) => detector.detector_id !== detector_id,
     );
 
-    const updatedUser: User = {
-      ...(user as User),
-      detectors: updatedDetectors,
-    };
-
-    setUser(updatedUser);
+    setDetectors(newDetectors);
     navigate("/detectors");
   };
 

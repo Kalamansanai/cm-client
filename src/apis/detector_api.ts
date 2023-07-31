@@ -54,3 +54,23 @@ export async function DeleteDetector(detector_id: string) {
 
   return await ApiWrapper(response, true);
 }
+
+export async function ListDetectorsByUser(user_id: string) {
+  const response = await fetch(`${backend}/get_detectors_by_user/${user_id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+
+  return await ApiWrapper(response, true);
+}
+
+export async function GetDetector(detector_id: string) {
+  const response = await fetch(`${backend}/get_detector/${detector_id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+
+  return await ApiWrapper(response, true);
+}

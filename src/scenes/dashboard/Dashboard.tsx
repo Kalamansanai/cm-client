@@ -6,7 +6,6 @@ import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import BarChart from "../../components/BarChart";
 import Header from "../../components/Header";
-import PieChart from "../../components/PieChart";
 import StatBox from "../../components/StatBox";
 import { tokens } from "../../theme";
 
@@ -142,7 +141,7 @@ const Dashboard = () => {
             Pie Chart
           </Typography>
           <Box height="250px" mt={"-20px"}>
-            <PieChart />
+            {/* <PieChart /> */}
           </Box>
         </Box>
         <Box

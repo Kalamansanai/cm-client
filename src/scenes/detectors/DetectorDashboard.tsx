@@ -11,11 +11,10 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Params, useLoaderData } from "react-router-dom";
 import { ExportDetectorToCsv } from "../../apis/data_api";
-import { SetConfig } from "../../apis/detector_api";
-import { GlobalContext } from "../../App";
+import { GetDetector, SetConfig } from "../../apis/detector_api";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 import { tokens } from "../../theme";
@@ -23,34 +22,32 @@ import { IDetector, IDetectorConfig } from "../../types";
 import DeletePopup from "./DeletePopup";
 
 export async function loader({ params }: { params: Params }) {
-  const id = params["detector_id"]! as any as string;
-  return id;
+  const detector_id = params["detector_id"]! as any as string;
+
+  try {
+    const detector = await GetDetector(detector_id);
+    console.log(detector_id);
+    return detector || null;
+  } catch {
+    return null;
+  }
 }
 
 export default function DetectorDashboard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const { user } = useContext(GlobalContext);
-
-  const detector_id = useLoaderData() as string;
-
-  let detector: IDetector = {} as IDetector;
-  if (user) {
-    detector = user.detectors.find(
-      (detector: IDetector) => detector.detector_id === detector_id,
-    ) as IDetector;
-  }
+  const detector = (useLoaderData() as IDetector) || null;
 
   const [data, setData] = useState<IDetectorConfig>({
-    charNum: detector.detector_config?.charNum,
-    comaPosition: detector.detector_config?.comaPosition,
-    delay: detector.detector_config?.delay,
-    flash: detector.detector_config?.flash,
+    charNum: detector?.detector_config?.charNum,
+    comaPosition: detector?.detector_config?.comaPosition,
+    delay: detector?.detector_config?.delay,
+    flash: detector?.detector_config?.flash,
   });
 
   useEffect(() => {
-    setData(detector.detector_config);
+    setData(detector?.detector_config);
   }, [detector]);
 
   const handleInputChange = (
@@ -67,7 +64,7 @@ export default function DetectorDashboard() {
   const [openPopup, setOpenPopup] = useState(false);
 
   const handleSubmit = async () => {
-    const result = await SetConfig(data, detector_id);
+    const result = await SetConfig(data, detector.detector_id);
 
     if (result) {
       setChanged(true);
@@ -81,14 +78,10 @@ export default function DetectorDashboard() {
   };
 
   const handleExport = () => {
-    ExportDetectorToCsv(detector_id);
+    ExportDetectorToCsv(detector.detector_id);
   };
 
   const [changed, setChanged] = useState(false);
-
-  if (!data) {
-    return null;
-  }
 
   return (
     <Box m="16px">
@@ -261,7 +254,7 @@ export default function DetectorDashboard() {
             <Box height={"500px"} m="-20px 0 0 0">
               <LineChart
                 isDashboard={true}
-                detector_id={detector_id}
+                detector_id={detector.detector_id}
                 isCustomLineColors={false}
               />
             </Box>
@@ -271,7 +264,7 @@ export default function DetectorDashboard() {
       <DeletePopup
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
-        detector_id={detector_id}
+        detector_id={detector.detector_id}
       ></DeletePopup>
     </Box>
   );
