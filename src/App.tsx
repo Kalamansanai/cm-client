@@ -24,23 +24,28 @@ function App(): JSX.Element {
     return savedState ? JSON.parse(savedState) : false;
   });
   const [user, setUser] = useState<User | null>(null);
+  // eslint-disable-next-line
   const [isLoggedOut, setIsLoggedOut] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    if (!user && !isLoggedOut) {
-      login_cookie()
-        .then((res) => {
-          if (res) {
-            setUser(res);
-          } else {
-            setIsLoggedOut(false);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-  }, [user, isLoggedOut]);
+    const checkLoginStatus = async () => {
+      try {
+        const res = await login_cookie();
+        if (res) setUser(res);
+        setIsLoading(false);
+      } catch (e) {
+        console.log(e);
+        setIsLoading(false);
+      }
+    };
+    checkLoginStatus();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <ColorModeContext.Provider value={colorMode}>

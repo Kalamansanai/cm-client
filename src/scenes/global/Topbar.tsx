@@ -80,9 +80,11 @@ const Topbar: React.FC = () => {
             <LightModeOutlinedIcon />
           )}
         </IconButton>
-        <IconButton>
-          <SettingsOutlinedIcon />
-        </IconButton>
+        {user && (
+          <IconButton>
+            <SettingsOutlinedIcon />
+          </IconButton>
+        )}
         {user && (
           <IconButton onClick={handleLogout}>
             <LogoutIcon />
