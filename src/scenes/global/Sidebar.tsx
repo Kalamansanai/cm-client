@@ -7,13 +7,14 @@ import {
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import { Avatar, Box, IconButton, Typography, useTheme } from "@mui/material";
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Menu, MenuItem, Sidebar as SB } from "react-pro-sidebar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { GlobalContext } from "../../App";
 import { tokens } from "../../theme";
 
 interface ItemProps {
+  id: string;
   title: string;
   to: string;
   icon: React.ReactNode;
@@ -27,6 +28,7 @@ interface SidebarProps {
 }
 
 const Item: React.FC<ItemProps> = ({
+  id,
   title,
   to,
   icon,
@@ -35,13 +37,13 @@ const Item: React.FC<ItemProps> = ({
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const isActive = selected === title;
+  const isActive = selected === id;
 
   return (
     <MenuItem
       active={isActive}
       style={{ color: colors.grey[100] }}
-      onClick={() => setSelected(title)}
+      onClick={() => setSelected(id)}
       icon={icon}
       component={<Link to={to} />}
     >
@@ -53,8 +55,9 @@ const Item: React.FC<ItemProps> = ({
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [selected, setSelected] = useState("Dashboard");
+  const [selected, setSelected] = useState("location.pathname");
   const [isHovered, setIsHovered] = useState(false);
+  const location = useLocation();
   const { user } = useContext(GlobalContext);
 
   const handleMouseEnter = () => {
@@ -64,6 +67,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
   const handleMouseLeave = () => {
     setIsCollapsed(true);
   };
+
+  useEffect(() => {
+    const pathname = location.pathname;
+    if (pathname.includes("/detector_dashboard")) {
+      setSelected("detectors");
+    } else {
+      const match = pathname.match(/^\/(\w+)/);
+      setSelected(match ? match[1] : "");
+    }
+  }, [location]);
 
   const getInitials = (name: string) => {
     const names = name.split(" ");
@@ -199,51 +212,64 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
         )}
 
         <Box>
-          <Item
-            title="Dashboard"
-            to="/dashboard"
-            icon={<HomeOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
-          />
-
-          <Typography
-            variant="h6"
-            color={colors.grey[300]}
-            sx={{ m: "15px 0 5px 20px" }}
-          >
-            Data
-          </Typography>
-
-          <Item
-            title="Detectors"
-            to="/detectors"
-            icon={<VideocamIcon />}
-            selected={selected}
-            setSelected={setSelected}
-          />
-
-          <Typography
-            variant="h6"
-            color={colors.grey[300]}
-            sx={{ m: "15px 0 5px 20px" }}
-          >
-            Pages
-          </Typography>
-          <Item
-            title="Login"
-            to="/login"
-            icon={<PersonOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
-          />
-          <Item
-            title="Registration"
-            to="/registration"
-            icon={<PersonAddAltOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
-          />
+          {user && (
+            <Item
+              id="dashboard"
+              title="Dashboard"
+              to="/dashboard"
+              icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          )}
+          {user && (
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Data
+            </Typography>
+          )}
+          {user && (
+            <Item
+              id="detectors"
+              title="Detectors"
+              to="/detectors"
+              icon={<VideocamIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          )}
+          {!user && (
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Pages
+            </Typography>
+          )}
+          {!user && (
+            <Item
+              id="login"
+              title="Login"
+              to="/login"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          )}
+          {!user && (
+            <Item
+              id="registration"
+              title="Registration"
+              to="/registration"
+              icon={<PersonAddAltOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          )}
         </Box>
       </Menu>
     </SB>
