@@ -1,10 +1,10 @@
 export type User = {
+  id: string;
   name: string;
   email: string;
   //   email_verified: boolean;
   creation_time: number;
   config: IUserConfig;
-  detectors: IDetector[];
 };
 
 export interface IUserConfig {}

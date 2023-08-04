@@ -10,71 +10,104 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ListDetectorsByUser } from "../../apis/detector_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import { IDetector } from "../../types";
 import { AddDetectorCard } from "./AddDetectorCard";
 
+export const DetectorsContext = createContext<{
+  detectors: IDetector[];
+  setDetectors: (u: IDetector[]) => void;
+}>({
+  detectors: [],
+  setDetectors: () => {},
+});
+
 export default function DetectorList() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { user } = useContext(GlobalContext);
-  const hasNoDetectors = !user?.detectors || user?.detectors.length === 0;
+
+  const [detectors, setDetectors] = useState<IDetector[]>([]);
+
+  async function GetDetectorList() {
+    if (user) {
+      const response_data: IDetector[] = await ListDetectorsByUser(user?.id);
+      setDetectors(response_data);
+    }
+  }
+
+  useEffect(() => {
+    GetDetectorList();
+  }, [user]);
+
+  const hasNoDetectors = detectors.length === 0;
 
   return (
-    <Box>
-      <Container
-        component="main"
-        maxWidth="lg"
-        sx={{
-          backgroundColor: `${colors.primary[400]}`,
-          borderRadius: "10px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          p: "16px",
-        }}
-      >
-        <Grid
-          display="flex"
-          flexDirection="row"
-          alignItems="center"
-          width="100%"
-          justifyContent="center"
+    <DetectorsContext.Provider
+      value={{
+        detectors,
+        setDetectors,
+      }}
+    >
+      <Box>
+        <Container
+          component="main"
+          maxWidth="lg"
+          sx={{
+            backgroundColor: `${colors.primary[400]}`,
+            borderRadius: "10px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            p: "16px",
+          }}
         >
-          <AddDetectorCard />
-        </Grid>
-        <Grid sx={{ width: "100%" }}>
-          <Header
-            title="Detector List:"
-            subtitle="You can see and edit your detectors here."
-            align={"left"}
-          />
           <Grid
             display="flex"
             flexDirection="row"
+            alignItems="center"
             width="100%"
-            height="100%"
-            flexWrap="wrap"
-            overflow="auto"
-            sx={{ justifyContent: "space-evenly" }}
+            justifyContent="center"
           >
-            {hasNoDetectors ? (
-              <Typography variant="body1" color={colors.redAccent[500]}>
-                You currently have no detectors. Add a new one to get started!
-              </Typography>
-            ) : (
-              user?.detectors.map((detector: IDetector) => (
-                <DetectorCard key={detector.detector_id} detector={detector} />
-              ))
-            )}
+            <AddDetectorCard />
           </Grid>
-        </Grid>
-      </Container>
-    </Box>
+          <Grid sx={{ width: "100%" }}>
+            <Header
+              title="Detector List:"
+              subtitle="You can see and edit your detectors here."
+              align={"left"}
+            />
+            <Grid
+              display="flex"
+              flexDirection="row"
+              width="100%"
+              height="100%"
+              flexWrap="wrap"
+              overflow="auto"
+              sx={{ justifyContent: "space-evenly" }}
+            >
+              {hasNoDetectors ? (
+                <Typography variant="body1" color={colors.redAccent[500]}>
+                  You currently have no detectors. Add a new one to get started!
+                </Typography>
+              ) : (
+                detectors.map((detector: IDetector) => (
+                  <DetectorCard
+                    key={detector.detector_id}
+                    detector={detector}
+                  />
+                ))
+              )}
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+    </DetectorsContext.Provider>
   );
 }
 
