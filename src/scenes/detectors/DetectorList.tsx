@@ -47,6 +47,10 @@ export default function DetectorList() {
 
   const hasNoDetectors = detectors.length === 0;
 
+  if (!user) {
+    return null;
+  }
+
   return (
     <DetectorsContext.Provider
       value={{
