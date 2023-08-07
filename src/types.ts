@@ -27,3 +27,9 @@ export interface IDetectorConfig {
 
 export type DetectorType = "water" | "electricity" | "gas";
 export type DetectorState = "sleep" | "init" | "active";
+
+export interface ILineChartData {
+  //TODO: expand with the other props
+  date: "string";
+  value: number;
+}

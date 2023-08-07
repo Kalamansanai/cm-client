@@ -24,13 +24,10 @@ export async function ExportDetectorToCsv(detector_id: string) {
 
 export async function GetLinePlotData(detector_id: string) {
   const response = await fetch(`${backend}/get_logs_for_plot/${detector_id}`, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      plot_type: "line",
-    }),
     credentials: "include",
   });
 
