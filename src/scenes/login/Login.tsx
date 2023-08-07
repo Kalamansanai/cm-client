@@ -26,8 +26,9 @@ import { tokens } from "../../theme";
 const LoginComponent = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [errorAlert, setErrorAlert] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [alert, setAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [loginSuccessfull, setLoginSuccessfull] = useState(false);
   const { setUser } = useContext(GlobalContext);
   const initialValues = {
     email: "",
@@ -48,12 +49,14 @@ const LoginComponent = () => {
       const userResponse = await Login(values);
       console.log("UserResponse", userResponse);
       setUser(userResponse);
-      setErrorMessage("Registration was successful!");
+      setAlertMessage("Login was successful!");
+      setAlert(true);
       resetForm();
       setSubmitting(false);
+      setLoginSuccessfull(true);
     } catch (error: any) {
-      setErrorMessage(error.message);
-      setErrorAlert(true);
+      setAlertMessage(error.message);
+      setAlert(true);
     }
   };
 
@@ -85,9 +88,15 @@ const LoginComponent = () => {
           subtitle="Sign in an User Profile"
           align={"center"}
         />
-        {errorAlert && (
-          <Alert severity="error" onClose={() => setErrorAlert(false)}>
-            {errorMessage}
+        {alert && (
+          <Alert
+            severity={loginSuccessfull ? "success" : "error"}
+            onClose={() => {
+              setAlert(false);
+              setLoginSuccessfull(false);
+            }}
+          >
+            {alertMessage}
           </Alert>
         )}
         <Formik

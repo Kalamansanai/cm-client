@@ -62,7 +62,7 @@ export const Login = async ({ email, password }: logProps) => {
       }),
     });
 
-    const data = await ApiWrapper(response, false);
+    const data = await response.json();
 
     if (data.result !== "error") {
       try {
