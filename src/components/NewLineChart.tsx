@@ -29,8 +29,6 @@ export default function NewLineChart({ detector_id }: Props) {
 
   useEffect(() => {}, []);
 
-  console.log(data);
-
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart
@@ -46,7 +44,7 @@ export default function NewLineChart({ detector_id }: Props) {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />
-        <YAxis type="number" domain={[29890, 29900]} />
+        <YAxis type="number" domain={[0, 20]} />
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="value" stroke="#82ca9d" />
