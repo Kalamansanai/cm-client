@@ -16,7 +16,7 @@ import { Params, useLoaderData } from "react-router-dom";
 import { ExportDetectorToCsv } from "../../apis/data_api";
 import { GetDetector, SetConfig } from "../../apis/detector_api";
 import Header from "../../components/Header";
-import LineChart from "../../components/LineChart";
+import NewLineChart from "../../components/NewLineChart";
 import { tokens } from "../../theme";
 import { IDetector, IDetectorConfig } from "../../types";
 import DeletePopup from "./DeletePopup";
@@ -251,12 +251,8 @@ export default function DetectorDashboard() {
                 </Typography>
               </Box>
             </Box>
-            <Box height={"500px"} m="-20px 0 0 0">
-              <LineChart
-                isDashboard={true}
-                detector_id={detector.detector_id}
-                isCustomLineColors={false}
-              />
+            <Box height={"500px"}>
+              <NewLineChart detector_id={detector.detector_id} />
             </Box>
           </Box>
         </Grid>
