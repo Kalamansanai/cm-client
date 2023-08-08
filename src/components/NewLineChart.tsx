@@ -44,7 +44,7 @@ export default function NewLineChart({ detector_id }: Props) {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />
-        <YAxis type="number" domain={[0, 20]} />
+        <YAxis type="number" domain={[0, 0.1]} />
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="value" stroke="#82ca9d" />
