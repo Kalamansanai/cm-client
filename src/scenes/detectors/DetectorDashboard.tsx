@@ -2,6 +2,7 @@ import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
 import {
   Alert,
   Button,
+  Card,
   FormControlLabel,
   Grid,
   Snackbar,
@@ -14,18 +15,20 @@ import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import { Params, useLoaderData } from "react-router-dom";
 import { ExportDetectorToCsv } from "../../apis/data_api";
-import { GetDetector, SetConfig } from "../../apis/detector_api";
+import { GetDetectorWithLogs, SetConfig } from "../../apis/detector_api";
 import Header from "../../components/Header";
 import NewLineChart from "../../components/NewLineChart";
 import { tokens } from "../../theme";
-import { IDetector, IDetectorConfig } from "../../types";
+import { IDetector, IDetectorConfig, ILog } from "../../types";
 import DeletePopup from "./DeletePopup";
+
+// const locale = "hu-HU";
 
 export async function loader({ params }: { params: Params }) {
   const detector_id = params["detector_id"]! as any as string;
 
   try {
-    const detector = await GetDetector(detector_id);
+    const detector = await GetDetectorWithLogs(detector_id);
     console.log(detector_id);
     return detector || null;
   } catch {
@@ -84,7 +87,7 @@ export default function DetectorDashboard() {
   const [changed, setChanged] = useState(false);
 
   return (
-    <Box m="16px">
+    <Box m="16px" sx={{ height: "100%", width: "100%" }}>
       <Snackbar
         open={changed}
         autoHideDuration={6000}
@@ -150,8 +153,8 @@ export default function DetectorDashboard() {
           </Button>
         </Box>
       </Box>
-      <Grid container spacing={2} columns={2} rowSpacing={2} columnSpacing={2}>
-        <Grid item xs={2}>
+      <Grid container rowSpacing={2} columnSpacing={2}>
+        <Grid item xs={12}>
           <Box
             component="div"
             sx={{ backgroundColor: `${colors.primary[400]}` }}
@@ -227,7 +230,14 @@ export default function DetectorDashboard() {
             </Grid>
           </Box>
         </Grid>
-        <Grid item xs={2} sx={{ display: "flex", flexDirection: "column" }}>
+        <Grid
+          item
+          xs={8}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Box
             component="div"
             sx={{ backgroundColor: `${colors.primary[400]}` }}
@@ -256,6 +266,17 @@ export default function DetectorDashboard() {
             </Box>
           </Box>
         </Grid>
+        <Grid
+          item
+          xs={4}
+          sx={{
+            backgroundColor: `${colors.primary[400]}`,
+            overflow: "auto",
+            height: "550px",
+          }}
+        >
+          {detector ? detector.logs?.map((log) => <LogCard log={log} />) : null}
+        </Grid>
       </Grid>
       <DeletePopup
         openPopup={openPopup}
@@ -265,3 +286,37 @@ export default function DetectorDashboard() {
     </Box>
   );
 }
+
+type Props = {
+  log: ILog;
+};
+
+function LogCard({ log }: Props) {
+  return (
+    <Card
+      elevation={1}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        p: 1,
+        bgcolor: "background.paper",
+        m: 1,
+      }}
+    >
+      <Box display="flex">
+        <Box flexGrow={1}>
+          <Typography fontSize="1.3em" sx={{ fontFamily: "monospace" }}>
+            {log.value}
+          </Typography>
+          <Typography fontSize="1em" sx={{ color: "text.secondary" }}>
+            {log.timestamp.toString()}
+          </Typography>
+        </Box>
+      </Box>
+    </Card>
+  );
+}
+
+// export const formatDate = (d: Date): string => {
+//   return d.toLocaleDateString(locale) + " " + d.toLocaleTimeString(locale);
+// };
