@@ -40,10 +40,11 @@ export default function DetectorDashboard() {
   const detector = (useLoaderData() as IDetector) || null;
 
   const [data, setData] = useState<IDetectorConfig>({
-    charNum: detector?.detector_config?.charNum,
-    comaPosition: detector?.detector_config?.comaPosition,
-    delay: detector?.detector_config?.delay,
-    flash: detector?.detector_config?.flash,
+    charNum: detector?.detector_config.charNum,
+    comaPosition: detector?.detector_config.comaPosition,
+    delay: detector?.detector_config.delay,
+    flash: detector?.detector_config.flash,
+    cost: detector?.detector_config.cost,
   });
 
   useEffect(() => {
@@ -198,6 +199,18 @@ export default function DetectorDashboard() {
                   value={data.delay}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleInputChange(e, "delay")
+                  }
+                />
+              </Grid>
+              <Grid item xs={1}>
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  type="number"
+                  label="Cost"
+                  value={data.cost}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(e, "cost")
                   }
                 />
               </Grid>

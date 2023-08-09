@@ -19,7 +19,6 @@ interface FormData {
   name: string;
   type: string;
   id: string;
-  cost: number;
 }
 
 export function AddDetectorCard() {
@@ -30,7 +29,6 @@ export function AddDetectorCard() {
     name: "",
     type: "",
     id: "",
-    cost: 0,
   });
 
   const { detectors, setDetectors } = useContext(DetectorsContext);
@@ -61,7 +59,6 @@ export function AddDetectorCard() {
       detector_name: formData.name,
       detector_config: {},
       type: formData.type as DetectorType,
-      cost: formData.cost,
       state: "init",
     };
 
