@@ -15,6 +15,7 @@ export interface IDetector {
   detector_config: IDetectorConfig;
   type: DetectorType;
   state: DetectorState;
+  logs?: ILog[];
 }
 
 export interface IDetectorConfig {
@@ -31,5 +32,10 @@ export type DetectorState = "sleep" | "init" | "active";
 export interface ILineChartData {
   //TODO: expand with the other props
   date: "string";
+  value: number;
+}
+
+export interface ILog {
+  timestamp: Date;
   value: number;
 }
