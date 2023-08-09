@@ -153,7 +153,7 @@ export default function DetectorDashboard() {
           </Button>
         </Box>
       </Box>
-      <Grid container rowSpacing={2} columnSpacing={2}>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <Box
             component="div"
@@ -230,14 +230,7 @@ export default function DetectorDashboard() {
             </Grid>
           </Box>
         </Grid>
-        <Grid
-          item
-          xs={8}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <Grid item xs={8}>
           <Box
             component="div"
             sx={{ backgroundColor: `${colors.primary[400]}` }}
@@ -266,16 +259,29 @@ export default function DetectorDashboard() {
             </Box>
           </Box>
         </Grid>
-        <Grid
-          item
-          xs={4}
-          sx={{
-            backgroundColor: `${colors.primary[400]}`,
-            overflow: "auto",
-            height: "550px",
-          }}
-        >
-          {detector ? detector.logs?.map((log) => <LogCard log={log} />) : null}
+        <Grid item xs={4}>
+          <Box
+            sx={{
+              backgroundColor: `${colors.primary[400]}`,
+              borderRadius: "8px ",
+              height: "550px",
+              padding: "5px",
+            }}
+          >
+            <Typography variant="h4" margin="10px">
+              Logs
+            </Typography>
+            <Box
+              sx={{
+                overflow: "auto",
+                height: "90%",
+              }}
+            >
+              {detector
+                ? detector.logs?.map((log) => <LogCard log={log} />)
+                : null}
+            </Box>
+          </Box>
         </Grid>
       </Grid>
       <DeletePopup
