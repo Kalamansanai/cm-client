@@ -22,7 +22,7 @@ export interface IDetectorConfig {
   charNum?: number;
   comaPosition?: number;
   delay?: number;
-  flash?: boolean;
+  flash?: number;
   cost?: number;
 }
 

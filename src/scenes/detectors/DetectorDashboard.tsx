@@ -61,7 +61,7 @@ export default function DetectorDashboard() {
     const { value, checked } = e.target;
     setData((prevData) => ({
       ...prevData,
-      [key]: key !== "flash" ? parseInt(value) : checked,
+      [key]: key !== "flash" ? parseInt(value) : checked ? 1 : 0,
     }));
   };
 
@@ -229,7 +229,7 @@ export default function DetectorDashboard() {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={data?.flash}
+                      checked={data?.flash == 1 ? true : false}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleInputChange(e, "flash")
                       }
