@@ -22,7 +22,20 @@ import { tokens } from "../../theme";
 import { IDetector, IDetectorConfig, ILog } from "../../types";
 import DeletePopup from "./DeletePopup";
 
-// const locale = "hu-HU";
+function calculateInputChangeValue(
+  key: string,
+  value: string,
+  checked: boolean,
+) {
+  switch (key) {
+    case "flash":
+      return checked ? 1 : 0;
+    case "delay":
+      return parseInt(value) * 3600000;
+    default:
+      return parseInt(value);
+  }
+}
 
 export async function loader({ params }: { params: Params }) {
   const detector_id = params["detector_id"]! as any as string;
@@ -61,7 +74,7 @@ export default function DetectorDashboard() {
     const { value, checked } = e.target;
     setData((prevData) => ({
       ...prevData,
-      [key]: key !== "flash" ? parseInt(value) : checked ? 1 : 0,
+      [key]: calculateInputChangeValue(key, value, checked),
     }));
   };
 
@@ -198,8 +211,8 @@ export default function DetectorDashboard() {
                   fullWidth
                   variant="filled"
                   type="number"
-                  label="Photo Time"
-                  value={data.delay}
+                  label="Photo Time(hours)"
+                  value={data.delay ? data.delay / 3600000 : undefined}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleInputChange(e, "delay")
                   }
