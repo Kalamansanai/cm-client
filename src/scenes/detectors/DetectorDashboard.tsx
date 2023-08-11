@@ -15,7 +15,11 @@ import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import { Params, useLoaderData } from "react-router-dom";
 import { ExportDetectorToCsv } from "../../apis/data_api";
-import { GetDetectorWithLogs, SetConfig } from "../../apis/detector_api";
+import {
+  GetDetectorImage,
+  GetDetectorWithLogs,
+  SetConfig,
+} from "../../apis/detector_api";
 import Header from "../../components/Header";
 import NewLineChart from "../../components/NewLineChart";
 import { tokens } from "../../theme";
@@ -40,20 +44,33 @@ function calculateInputChangeValue(
 export async function loader({ params }: { params: Params }) {
   const detector_id = params["detector_id"]! as any as string;
 
-  try {
-    const detector = await GetDetectorWithLogs(detector_id);
-    console.log(detector_id);
-    return detector || null;
-  } catch {
-    return null;
+  let detector = null;
+  let detector_image = null;
+
+  const resp_detector = await GetDetectorWithLogs(detector_id);
+  console.log(detector_id);
+  detector = resp_detector || null;
+
+  const resp_detector_image = await GetDetectorImage(detector_id);
+
+  if (resp_detector_image.status === 400) {
+    detector_image = null;
+  } else {
+    const data = await resp_detector_image.blob();
+    detector_image = URL.createObjectURL(data) || null;
   }
+
+  return { detector: detector, detector_image: detector_image };
 }
 
 export default function DetectorDashboard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const detector = (useLoaderData() as IDetector) || null;
+  const { detector, detector_image } = useLoaderData() as {
+    detector: IDetector;
+    detector_image: string;
+  };
 
   const [data, setData] = useState<IDetectorConfig>({
     charNum: detector?.detector_config.charNum,
@@ -100,6 +117,8 @@ export default function DetectorDashboard() {
 
   const [changed, setChanged] = useState(false);
 
+  console.log("detector_image");
+  console.log(detector_image);
   return (
     <Box m="16px" sx={{ height: "100%", width: "100%" }}>
       <Snackbar
@@ -168,10 +187,38 @@ export default function DetectorDashboard() {
         </Box>
       </Box>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={4}>
+          {detector_image ? (
+            <Box
+              sx={{
+                backgroundColor: `${colors.primary[400]}`,
+              }}
+              borderRadius={"5px !important"}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Box
+                sx={{
+                  backgroundColor: `${colors.primary[400]}`,
+                  border: "2px solid black",
+                }}
+                borderRadius={"5px !important"}
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <img src={detector_image} height="200px" />
+              </Box>
+            </Box>
+          ) : (
+            "no image yet"
+          )}
+        </Grid>
+        <Grid item xs={8}>
           <Box
             component="div"
-            sx={{ backgroundColor: `${colors.primary[400]}` }}
+            sx={{ backgroundColor: `${colors.primary[400]}`, height: "100%" }}
             borderRadius={"5px !important"}
             p={"10px"}
           >
@@ -304,7 +351,9 @@ export default function DetectorDashboard() {
               }}
             >
               {detector
-                ? detector.logs?.map((log) => <LogCard log={log} />)
+                ? detector.logs?.map((log, i) => (
+                    <LogCard log={log} index={i} />
+                  ))
                 : null}
             </Box>
           </Box>
@@ -321,11 +370,13 @@ export default function DetectorDashboard() {
 
 type Props = {
   log: ILog;
+  index: number;
 };
 
-function LogCard({ log }: Props) {
+function LogCard({ log, index }: Props) {
   return (
     <Card
+      key={index}
       elevation={1}
       sx={{
         display: "flex",
