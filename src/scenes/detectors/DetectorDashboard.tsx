@@ -117,8 +117,6 @@ export default function DetectorDashboard() {
 
   const [changed, setChanged] = useState(false);
 
-  console.log("detector_image");
-  console.log(detector_image);
   return (
     <Box m="16px" sx={{ height: "100%", width: "100%" }}>
       <Snackbar
@@ -399,7 +397,3 @@ function LogCard({ log, index }: Props) {
     </Card>
   );
 }
-
-// export const formatDate = (d: Date): string => {
-//   return d.toLocaleDateString(locale) + " " + d.toLocaleTimeString(locale);
-// };
