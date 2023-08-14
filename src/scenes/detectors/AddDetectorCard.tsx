@@ -60,6 +60,7 @@ export function AddDetectorCard() {
       detector_config: {},
       type: formData.type as DetectorType,
       state: "init",
+      image_path: "",
     };
 
     const newDetectors = [...detectors, newDetector];

@@ -16,6 +16,7 @@ export interface IDetector {
   type: DetectorType;
   state: DetectorState;
   logs?: ILog[];
+  image_path: string;
 }
 
 export interface IDetectorConfig {
