@@ -40,3 +40,23 @@ export interface ILog {
   timestamp: Date;
   value: number;
 }
+
+export interface IDashboardLayoutConfig {
+  //any other config ?
+  cards: IDashboardCardConfig[];
+}
+
+export interface IDashboardCardConfig {
+  title: string;
+  componentType: string; //TODO: make this
+  size: IDashboardCardSize;
+  children?: IDashboardCardConfig[];
+}
+
+export interface IDashboardCardSize {
+  xs: number;
+  sm: number;
+  md: number;
+  lg: number;
+  xl: number;
+}
