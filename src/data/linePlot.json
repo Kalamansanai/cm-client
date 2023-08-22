@@ -1,0 +1,35 @@
+{
+  "type": "line",
+  "containerWidth": "100%",
+  "containerHeight": "100%",
+  "chartWidth": 50,
+  "chartHeight": 0,
+  "chartMargin": {
+    "top": 5,
+    "right": 30,
+    "left": 20,
+    "bottom": 5
+  },
+  "YAxis": {
+    "type": "number"
+  },
+  "XAxis": {
+    "dataKey": "date"
+  },
+  "CartesianGrid": {
+    "strokeDashArray": "3 3"
+  },
+  "Tooltip": {
+    "enable": true
+  },
+  "Legend": {
+    "enable": true
+  },
+  "Lines": [
+    {
+      "type": "monotone",
+      "dataKey": "value",
+      "stroke": "#82ca9d"
+    }
+  ]
+}
