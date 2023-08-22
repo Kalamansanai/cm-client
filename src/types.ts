@@ -48,6 +48,26 @@ export interface ILog {
   value: number;
 }
 
+export interface IDashboardLayoutConfig {
+  //any other config ?
+  cards: IDashboardCardConfig[];
+}
+
+export interface IDashboardCardConfig {
+  title: string;
+  componentType: string; //TODO: make this
+  size: IDashboardCardSize;
+  children?: IDashboardCardConfig[];
+}
+
+export interface IDashboardCardSize {
+  xs: number;
+  sm: number;
+  md: number;
+  lg: number;
+  xl: number;
+}
+
 export interface ILineChartConfig {
   type: string;
   containerWidth: string;

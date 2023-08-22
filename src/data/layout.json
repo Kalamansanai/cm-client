@@ -1,0 +1,129 @@
+{
+  "cards": [
+    {
+      "title": "first",
+      "componentType": "",
+      "size": {
+        "xs": 12,
+        "sm": 12,
+        "md": 12,
+        "lg": 8,
+        "xl": 12
+      },
+      "children": [
+        {
+          "title": "first",
+          "componentType": "gasStatBox",
+          "size": {
+            "xs": 6,
+            "sm": 6,
+            "md": 6,
+            "lg": 6,
+            "xl": 6
+          }
+        },
+        {
+          "title": "first",
+          "componentType": "gasStatBox",
+          "size": {
+            "xs": 6,
+            "sm": 6,
+            "md": 6,
+            "lg": 6,
+            "xl": 6
+          }
+        },
+        {
+          "title": "first",
+          "componentType": "gasStatBox",
+          "size": {
+            "xs": 6,
+            "sm": 6,
+            "md": 6,
+            "lg": 6,
+            "xl": 6
+          }
+        },
+        {
+          "title": "first",
+          "componentType": "gasStatBox",
+          "size": {
+            "xs": 6,
+            "sm": 6,
+            "md": 6,
+            "lg": 6,
+            "xl": 6
+          }
+        }
+      ]
+    },
+    {
+      "title": "second",
+      "componentType": "gasStatBox",
+      "size": {
+        "xs": 12,
+        "sm": 12,
+        "md": 12,
+        "lg": 4,
+        "xl": 12
+      }
+    },
+    {
+      "title": "second",
+      "componentType": "pie",
+      "size": {
+        "xs": 12,
+        "sm": 12,
+        "md": 12,
+        "lg": 4,
+        "xl": 12
+      }
+    },
+    {
+      "title": "second",
+      "componentType": "",
+      "size": {
+        "xs": 12,
+        "sm": 12,
+        "md": 12,
+        "lg": 4,
+        "xl": 12
+      },
+      "children": [
+        {
+          "title": "first",
+          "componentType": "gasStatBox",
+          "size": {
+            "xs": 6,
+            "sm": 6,
+            "md": 6,
+            "lg": 6,
+            "xl": 6
+          }
+        },
+        {
+          "title": "first",
+          "componentType": "gasStatBox",
+          "size": {
+            "xs": 6,
+            "sm": 6,
+            "md": 6,
+            "lg": 6,
+            "xl": 6
+          }
+        },
+        {
+          "title": "first",
+          "componentType": "gasStatBox",
+          "size": {
+            "xs": 6,
+            "sm": 6,
+            "md": 6,
+            "lg": 6,
+            "xl": 6
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -12,7 +12,7 @@ import {
   useRouteError,
 } from "react-router-dom";
 import App, { GlobalContext } from "./App";
-import Dashboard from "./scenes/dashboard/Dashboard";
+import NewDashboard from "./scenes/dashboard/NewDashboard";
 import DetectorDashboard, {
   loader as detectorDashboardLoader,
 } from "./scenes/detectors/DetectorDashboard";
@@ -132,7 +132,7 @@ const router = createBrowserRouter(
           path="dashboard"
           element={
             <PrivateRoute>
-              <Dashboard />
+              <NewDashboard />
             </PrivateRoute>
           }
         />
