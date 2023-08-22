@@ -48,7 +48,6 @@ export async function loader({ params }: { params: Params }) {
   let detector_image = null;
 
   const resp_detector = await GetDetectorWithLogs(detector_id);
-  console.log(detector_id);
   detector = resp_detector || null;
 
   const resp_detector_image = await GetDetectorImage(detector_id);
@@ -91,20 +90,22 @@ export default function DetectorDashboard() {
     const { value, checked } = e.target;
     setData((prevData) => ({
       ...prevData,
-      [key]: calculateInputChangeValue(key, value, checked),
+      [key]: value ? calculateInputChangeValue(key, value, checked) : "",
     }));
   };
 
   const [openPopup, setOpenPopup] = useState(false);
 
   const handleSubmit = async () => {
+    if (Object.values(data).some((value) => value === "")) {
+      setAlert(true);
+      return null;
+    }
     const result = await SetConfig(data, detector.detector_id);
 
     if (result) {
       setChanged(true);
     }
-
-    console.log("Sending data:", data);
   };
 
   const handleDelete = () => {
@@ -116,6 +117,7 @@ export default function DetectorDashboard() {
   };
 
   const [changed, setChanged] = useState(false);
+  const [alert, setAlert] = useState(false);
 
   return (
     <Box m="16px" sx={{ height: "100%", width: "100%" }}>
@@ -123,7 +125,7 @@ export default function DetectorDashboard() {
         open={changed}
         autoHideDuration={6000}
         onClose={() => setChanged(false)}
-        key={"bottom" + "left"}
+        key={"changeAlert"}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
         <Alert
@@ -132,6 +134,21 @@ export default function DetectorDashboard() {
           sx={{ width: "100%" }}
         >
           Config values changed successfully!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={alert}
+        autoHideDuration={6000}
+        onClose={() => setAlert(false)}
+        key={"emptyAlert"}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={() => setAlert(false)}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Empty fields are not allowed!
         </Alert>
       </Snackbar>
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -351,7 +368,7 @@ export default function DetectorDashboard() {
               <Box display="flex" flexDirection="column-reverse">
                 {detector
                   ? detector.logs?.map((log, i) => (
-                      <LogCard log={log} index={i} />
+                      <LogCard key={i} log={log} index={i} />
                     ))
                   : null}
               </Box>

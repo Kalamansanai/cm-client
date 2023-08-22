@@ -58,8 +58,8 @@ export default function NewLineChart({ detector_id }: Props) {
         <YAxis {...chartConfig.YAxis} />
         {chartConfig.Tooltip.enable && <Tooltip />}
         {chartConfig.Legend.enable && <Legend />}
-        {chartConfig.Lines.map((line) => (
-          <Line {...line} />
+        {chartConfig.Lines.map((line, i) => (
+          <Line key={i} {...line} />
         ))}
       </LineChart>
     </ResponsiveContainer>
