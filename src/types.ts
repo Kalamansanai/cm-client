@@ -1,3 +1,10 @@
+import { Props as XAxisProps } from "recharts/types/cartesian/XAxis";
+import { Props as YAxisProps } from "recharts/types/cartesian/YAxis";
+
+import { Legend } from "recharts";
+// import { Props as LineProps } from "recharts/types/cartesian/Line";
+import { CurveType } from "recharts/types/shape/Curve";
+
 export type User = {
   id: string;
   name: string;
@@ -39,4 +46,39 @@ export interface ILineChartData {
 export interface ILog {
   timestamp: Date;
   value: number;
+}
+
+export interface ILineChartConfig {
+  type: string;
+  containerWidth: string;
+  containerHeight: string;
+  chartWidth: number;
+  chartHeight: number;
+  chartMargin: {
+    top: number;
+    right: number;
+    left: number;
+    bottom: number;
+  };
+  XAxis: XAxisProps;
+  YAxis: YAxisProps;
+  CartesianGrid: {
+    //TODO: the config of this is so messy
+    strokeDashArray: string;
+  };
+  Tooltip: {
+    enable: boolean;
+    config?: any;
+  }; // soooooo messy
+  Legend: {
+    enable: boolean;
+    config?: Legend;
+  };
+  Lines: LineProps[];
+}
+
+export interface LineProps {
+  type: CurveType;
+  dataKey: string;
+  stroke: string;
 }
