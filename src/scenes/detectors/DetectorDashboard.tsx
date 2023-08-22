@@ -348,11 +348,13 @@ export default function DetectorDashboard() {
                 height: "90%",
               }}
             >
-              {detector
-                ? detector.logs?.map((log, i) => (
-                    <LogCard log={log} index={i} />
-                  ))
-                : null}
+              <Box display="flex" flexDirection="column-reverse">
+                {detector
+                  ? detector.logs?.map((log, i) => (
+                      <LogCard log={log} index={i} />
+                    ))
+                  : null}
+              </Box>
             </Box>
           </Box>
         </Grid>
