@@ -12,6 +12,11 @@ export type User = {
   //   email_verified: boolean;
   creation_time: number;
   config: IUserConfig;
+  monthly_sums?: {
+    water?: number;
+    electricity?: number;
+    gas?: number;
+  };
 };
 
 export interface IUserConfig {}
