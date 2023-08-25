@@ -4,6 +4,7 @@ import { ApiWrapper } from "./api.util";
 const backend = process.env.REACT_APP_BACKEND;
 
 type regProps = {
+  location_id: string;
   id: string;
   name: string;
   type: string;
@@ -15,6 +16,7 @@ export async function AddDetector(props: regProps) {
     headers: { "Content-Type": "application/json" },
     credentials: "include",
     body: JSON.stringify({
+      location_id: props.location_id,
       detector_id: props.id,
       detector_name: props.name,
       type: props.type,
