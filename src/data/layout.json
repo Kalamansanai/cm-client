@@ -4,11 +4,11 @@
       "title": "first",
       "componentType": "",
       "size": {
-        "xs": 12,
-        "sm": 12,
-        "md": 12,
-        "lg": 8,
-        "xl": 12
+        "xs": 4,
+        "sm": 4,
+        "md": 4,
+        "lg": 4,
+        "xl": 4
       },
       "children": [
         {
@@ -45,6 +45,17 @@
           }
         }
       ]
+    },
+    {
+      "title": "second",
+      "componentType": "pie",
+      "size": {
+        "xs": 6,
+        "sm": 6,
+        "md": 6,
+        "lg": 6,
+        "xl": 6
+      }
     }
   ]
 }

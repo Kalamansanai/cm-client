@@ -111,7 +111,19 @@ export interface LineProps {
 
 export interface ILocation {
   id: string;
-  user_id: string;
+  userId: string;
   name: string;
   detectors: IDetector[];
+  monthly_logs: IMonthlyLog[];
+}
+
+export interface IMonthlyLog {
+  month: string;
+  values: IConsumptionValues;
+}
+
+export interface IConsumptionValues {
+  water: number;
+  electricity: number;
+  gas: number;
 }

@@ -1,57 +1,90 @@
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import { Box, Button, Grid } from "@mui/material";
-import { IDashboardCardConfig, IDashboardLayoutConfig } from "types";
+import { Box, Button, Grid, useTheme } from "@mui/material";
+import { createContext, useContext, useEffect, useState } from "react";
+import { IDashboardCardConfig, IDashboardLayoutConfig, ILocation } from "types";
+import { GetLocation } from "../../apis/location_api";
+import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import layoutConfigJson from "../../data/layout.json";
+import { tokens } from "../../theme";
 import getCardComponentByType from "./dashboard.utils";
 
+export const LocationContext = createContext<{
+  location: ILocation | null;
+}>({
+  location: null,
+});
+
 export default function NewDashboard() {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const layoutConfig: IDashboardLayoutConfig = layoutConfigJson;
 
+  const { user } = useContext(GlobalContext);
+  const [location, setLocation] = useState<ILocation | null>(null);
+
+  async function SetLocation() {
+    if (user) {
+      const response: ILocation = await GetLocation();
+      setLocation(response);
+    }
+  }
+
+  useEffect(() => {
+    SetLocation();
+  }, []);
+
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      height="100%"
-      width="100%"
+    <LocationContext.Provider
+      value={{
+        location,
+      }}
     >
       <Box
         display="flex"
-        justifyContent="space-between"
+        flexDirection="column"
         alignItems="center"
-        height="10%"
+        height="100%"
         width="100%"
       >
-        <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
-        <Box>
-          <Button
-            sx={{
-              backgroundColor: "black",
-              color: "white",
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
-          >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          height="10%"
+          width="100%"
+        >
+          <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
+          <Box>
+            <Button
+              sx={{
+                backgroundColor: colors.blueAccent[500],
+                color: "white",
+                fontSize: "14px",
+                fontWeight: "bold",
+                padding: "10px 20px",
+              }}
+            >
+              <DownloadOutlinedIcon sx={{ mr: "10px" }} />
+              Download Reports
+            </Button>
+          </Box>
         </Box>
+        <Grid
+          container
+          spacing={0}
+          width="100%"
+          display="flex"
+          justifyContent="flex-start"
+        >
+          {layoutConfig &&
+            layoutConfig.cards.map((card, i) => (
+              <Card key={i} card={card} level={0} />
+            ))}
+        </Grid>
       </Box>
-      <Grid
-        container
-        spacing={0}
-        width="100%"
-        display="flex"
-        justifyContent="flex-start"
-      >
-        {layoutConfig &&
-          layoutConfig.cards.map((card, i) => (
-            <Card key={i} card={card} level={0} />
-          ))}
-      </Grid>
-    </Box>
+    </LocationContext.Provider>
   );
 }
 
@@ -61,7 +94,10 @@ type Props = {
 };
 
 function Card({ card, level }: Props) {
-  const cardHeight = 400;
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  const cardHeight = 200;
   return (
     <Grid
       item
@@ -83,7 +119,10 @@ function Card({ card, level }: Props) {
             alignItems="center"
             justifyContent="center"
             borderRadius={"5px !important"}
-            sx={{ backgroundColor: "black", borderRadius: "10px" }}
+            sx={{
+              backgroundColor: colors.primary[400],
+              borderRadius: "10px",
+            }}
           >
             {getCardComponentByType(card.componentType)}
           </Box>
