@@ -99,8 +99,6 @@ export default function DetectorDashboard() {
   const [openPopup, setOpenPopup] = useState(false);
 
   const handleSubmit = async () => {
-    console.log("ggg");
-    console.log(data);
     if (Object.values(data).some((value) => value === "")) {
       setAlert(true);
       return null;

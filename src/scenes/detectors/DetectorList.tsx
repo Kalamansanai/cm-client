@@ -40,9 +40,6 @@ export default function DetectorList() {
   async function GetDetectorList() {
     if (user) {
       const response: ILocation = await GetLocation();
-      console.log("location:");
-      console.log(response);
-      // const response_data: IDetector[] = await ListDetectorsByUser(user?.id);
       setLocation(response);
       setDetectors(response.detectors);
     }
