@@ -12,17 +12,19 @@ import {
 } from "@mui/material";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ListDetectorsByUser } from "../../apis/detector_api";
+import { GetLocation } from "../../apis/location_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
-import { IDetector } from "../../types";
+import { IDetector, ILocation } from "../../types";
 import { AddDetectorCard } from "./AddDetectorCard";
 
 export const DetectorsContext = createContext<{
+  location: ILocation | null;
   detectors: IDetector[];
   setDetectors: (u: IDetector[]) => void;
 }>({
+  location: null,
   detectors: [],
   setDetectors: () => {},
 });
@@ -32,12 +34,14 @@ export default function DetectorList() {
   const colors = tokens(theme.palette.mode);
   const { user } = useContext(GlobalContext);
 
+  const [location, setLocation] = useState<ILocation | null>(null);
   const [detectors, setDetectors] = useState<IDetector[]>([]);
 
   async function GetDetectorList() {
     if (user) {
-      const response_data: IDetector[] = await ListDetectorsByUser(user?.id);
-      setDetectors(response_data);
+      const response: ILocation = await GetLocation();
+      setLocation(response);
+      setDetectors(response.detectors);
     }
   }
 
@@ -54,6 +58,7 @@ export default function DetectorList() {
   return (
     <DetectorsContext.Provider
       value={{
+        location,
         detectors,
         setDetectors,
       }}

@@ -78,6 +78,8 @@ export default function DetectorDashboard() {
     flash: detector?.detector_config.flash,
     cost: detector?.detector_config.cost,
   });
+  console.log("kkkkk");
+  console.log(data);
 
   useEffect(() => {
     setData(detector?.detector_config);
@@ -113,7 +115,7 @@ export default function DetectorDashboard() {
   };
 
   const handleExport = () => {
-    ExportDetectorToCsv(detector.detector_id);
+    ExportDetectorToCsv(detector.id);
   };
 
   const [changed, setChanged] = useState(false);
@@ -379,7 +381,7 @@ export default function DetectorDashboard() {
       <DeletePopup
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
-        detector_id={detector.detector_id}
+        detector_id={detector.id}
       ></DeletePopup>
     </Box>
   );

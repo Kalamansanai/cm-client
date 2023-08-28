@@ -1,24 +1,50 @@
+import BoltIcon from "@mui/icons-material/Bolt";
+import GasMeterIcon from "@mui/icons-material/GasMeter";
+import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import { Box, Typography, useTheme } from "@mui/material";
+import { useContext } from "react";
+import { GlobalContext } from "../App";
 import { tokens } from "../theme";
 import ProgressCircle from "./ProgressCircle";
 
 interface StatBoxProps {
-  title: string;
-  subtitle: string;
-  icon: JSX.Element;
-  progress: string;
-  increase: string;
+  type: string;
 }
 
-const StatBox: React.FC<StatBoxProps> = ({
-  title,
-  subtitle,
-  icon,
-  progress,
-  increase,
-}) => {
+const StatBox: React.FC<StatBoxProps> = ({ type }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const { user } = useContext(GlobalContext);
+
+  let value: string = "0";
+  let icon = null;
+  let progress = "0.60";
+  let subtitle = "Water Meter value increase";
+  let increase = "+60%";
+
+  if (user?.monthly_sums) {
+    switch (type) {
+      case "water":
+        icon = <WaterDropIcon sx={{ color: "white", fontSize: "26px" }} />;
+        value = user.monthly_sums.water
+          ? user.monthly_sums.water.toString()
+          : "0";
+        break;
+      case "gas":
+        icon = <GasMeterIcon sx={{ color: "white", fontSize: "26px" }} />;
+        value = user.monthly_sums.gas ? user.monthly_sums.gas.toString() : "0";
+        break;
+      case "electricity":
+        icon = <BoltIcon sx={{ color: "white", fontSize: "26px" }} />;
+        value = user.monthly_sums.electricity
+          ? user.monthly_sums.electricity.toString()
+          : "0";
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <Box width="100%" m="0 10px">
@@ -30,7 +56,7 @@ const StatBox: React.FC<StatBoxProps> = ({
             fontWeight="bold"
             sx={{ color: colors.grey[100] }}
           >
-            {title}
+            {value}
           </Typography>
         </Box>
         <Box>

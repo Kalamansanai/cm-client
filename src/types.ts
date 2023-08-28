@@ -12,11 +12,17 @@ export type User = {
   //   email_verified: boolean;
   creation_time: number;
   config: IUserConfig;
+  monthly_sums?: {
+    water?: number;
+    electricity?: number;
+    gas?: number;
+  };
 };
 
 export interface IUserConfig {}
 
 export interface IDetector {
+  id: string;
   detector_id: string;
   detector_name: string;
   detector_config: IDetectorConfig;
@@ -101,4 +107,11 @@ export interface LineProps {
   type: CurveType;
   dataKey: string;
   stroke: string;
+}
+
+export interface ILocation {
+  id: string;
+  user_id: string;
+  name: string;
+  detectors: IDetector[];
 }

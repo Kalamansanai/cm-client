@@ -16,6 +16,7 @@ import { tokens } from "../../theme";
 import { DetectorsContext } from "./DetectorList";
 
 interface FormData {
+  location_id: string;
   name: string;
   type: string;
   id: string;
@@ -25,13 +26,13 @@ export function AddDetectorCard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [inputLength, setInputLength] = useState(0);
+  const { location, detectors, setDetectors } = useContext(DetectorsContext);
   const [formData, setFormData] = useState<FormData>({
+    location_id: "",
     name: "",
     type: "",
     id: "",
   });
-
-  const { detectors, setDetectors } = useContext(DetectorsContext);
 
   const [addingError, setAddingError] = useState<string | null>(null);
 
@@ -47,6 +48,8 @@ export function AddDetectorCard() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    formData.location_id = location!.id;
+
     const response = await AddDetector(formData);
 
     if (response.result === "error") {
@@ -55,6 +58,7 @@ export function AddDetectorCard() {
     }
 
     const newDetector: IDetector = {
+      id: response.data,
       detector_id: formData.id,
       detector_name: formData.name,
       detector_config: {},
