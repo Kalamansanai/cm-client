@@ -2,6 +2,7 @@ import {
   Alert,
   Box,
   Button,
+  CircularProgress,
   MenuItem,
   Snackbar,
   TextField,
@@ -27,6 +28,7 @@ export function AddDetectorCard() {
   const colors = tokens(theme.palette.mode);
   const [inputLength, setInputLength] = useState(0);
   const { location, detectors, setDetectors } = useContext(DetectorsContext);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     location_id: "",
     name: "",
@@ -46,6 +48,7 @@ export function AddDetectorCard() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setLoading(true);
     e.preventDefault();
 
     formData.location_id = location!.id;
@@ -69,6 +72,7 @@ export function AddDetectorCard() {
 
     const newDetectors = [...detectors, newDetector];
     setDetectors(newDetectors);
+    setLoading(false);
   };
 
   return (
@@ -185,6 +189,9 @@ export function AddDetectorCard() {
         >
           Submit
         </Button>
+        <Box display="flex" justifyContent="center">
+          {loading ? <CircularProgress /> : null}
+        </Box>
       </form>
     </Box>
   );

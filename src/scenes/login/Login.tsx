@@ -5,6 +5,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   Container,
   IconButton,
   InputAdornment,
@@ -29,6 +30,7 @@ const LoginComponent = () => {
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [loginSuccessfull, setLoginSuccessfull] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const { setUser } = useContext(GlobalContext);
   const initialValues = {
     email: "",
@@ -46,6 +48,7 @@ const LoginComponent = () => {
     { resetForm, setSubmitting }: any,
   ) => {
     try {
+      setLoading(true);
       const userResponse = await Login(values);
       console.log("UserResponse", userResponse);
       setUser(userResponse);
@@ -54,7 +57,9 @@ const LoginComponent = () => {
       resetForm();
       setSubmitting(false);
       setLoginSuccessfull(true);
+      setLoading(false);
     } catch (error: any) {
+      setLoading(false);
       setAlertMessage(error.message);
       setAlert(true);
     }
@@ -88,6 +93,7 @@ const LoginComponent = () => {
           subtitle="Sign in an User Profile"
           align={"center"}
         />
+        {loading ? <CircularProgress /> : null}
         {alert && (
           <Alert
             severity={loginSuccessfull ? "success" : "error"}

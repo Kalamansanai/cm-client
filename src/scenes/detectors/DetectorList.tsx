@@ -5,6 +5,7 @@ import {
   Box,
   Card,
   CardActionArea,
+  CircularProgress,
   Container,
   Grid,
   Typography,
@@ -36,12 +37,15 @@ export default function DetectorList() {
 
   const [location, setLocation] = useState<ILocation | null>(null);
   const [detectors, setDetectors] = useState<IDetector[]>([]);
+  const [loading, setLoading] = useState(false);
 
   async function GetDetectorList() {
     if (user) {
+      setLoading(true);
       const response: ILocation = await GetLocation();
       setLocation(response);
       setDetectors(response.detectors);
+      setLoading(false);
     }
   }
 
@@ -105,12 +109,15 @@ export default function DetectorList() {
                   You currently have no detectors. Add a new one to get started!
                 </Typography>
               ) : (
-                detectors.map((detector: IDetector) => (
-                  <DetectorCard
-                    key={detector.detector_id}
-                    detector={detector}
-                  />
-                ))
+                <>
+                  {loading ? <CircularProgress /> : null}
+                  {detectors.map((detector: IDetector) => (
+                    <DetectorCard
+                      key={detector.detector_id}
+                      detector={detector}
+                    />
+                  ))}
+                </>
               )}
             </Grid>
           </Grid>
@@ -144,6 +151,7 @@ export function DetectorCard({ detector }: Props) {
       icon = null;
   }
 
+  console.log(detector.type);
   return (
     <Card variant="outlined" sx={{ width: "30%", height: "40%", margin: 1 }}>
       <CardActionArea
