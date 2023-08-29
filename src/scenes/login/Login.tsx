@@ -17,7 +17,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useContext, useState } from "react";
-import { Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { Login } from "../../apis/user_api";
 import { GlobalContext } from "../../App";
@@ -31,6 +31,8 @@ const LoginComponent = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [loginSuccessfull, setLoginSuccessfull] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+
   const { setUser } = useContext(GlobalContext);
   const initialValues = {
     email: "",
@@ -58,6 +60,7 @@ const LoginComponent = () => {
       setSubmitting(false);
       setLoginSuccessfull(true);
       setLoading(false);
+      navigate("/dashboard");
     } catch (error: any) {
       setLoading(false);
       setAlertMessage(error.message);
@@ -93,7 +96,6 @@ const LoginComponent = () => {
           subtitle="Sign in an User Profile"
           align={"center"}
         />
-        {loading ? <CircularProgress /> : null}
         {alert && (
           <Alert
             severity={loginSuccessfull ? "success" : "error"}
@@ -185,18 +187,34 @@ const LoginComponent = () => {
                 }
                 label="Remember me"
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  backgroundColor: `${colors.blueAccent[500]}`,
-                }}
-              >
-                Sign In
-              </Button>
+              <Box sx={{ m: 1, position: "relative" }}>
+                {loading ? (
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      color: `${colors.greenAccent[500]}`,
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      marginTop: "-12px",
+                      marginLeft: "-12px",
+                    }}
+                  />
+                ) : (
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{
+                      mt: 3,
+                      mb: 2,
+                      backgroundColor: `${colors.blueAccent[500]}`,
+                    }}
+                  >
+                    Sign In
+                  </Button>
+                )}
+              </Box>
             </Form>
           )}
         </Formik>
