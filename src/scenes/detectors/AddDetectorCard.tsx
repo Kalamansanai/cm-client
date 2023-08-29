@@ -57,6 +57,7 @@ export function AddDetectorCard() {
 
     if (response.result === "error") {
       setAddingError(response.data);
+      setLoading(false);
       return;
     }
 
@@ -180,17 +181,33 @@ export function AddDetectorCard() {
             </MenuItem>
           ))}
         </TextField>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          sx={{ mt: "20px" }}
-        >
-          Submit
-        </Button>
-        <Box display="flex" justifyContent="center">
-          {loading ? <CircularProgress /> : null}
+        <Box sx={{ m: 5, position: "relative" }}>
+          {loading ? (
+            <CircularProgress
+              size={24}
+              sx={{
+                color: `${colors.greenAccent[500]}`,
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                marginTop: "-12px",
+                marginLeft: "-12px",
+              }}
+            />
+          ) : (
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                mt: 3,
+                mb: 2,
+                backgroundColor: `${colors.greenAccent[700]}`,
+              }}
+            >
+              Add Detector
+            </Button>
+          )}
         </Box>
       </form>
     </Box>

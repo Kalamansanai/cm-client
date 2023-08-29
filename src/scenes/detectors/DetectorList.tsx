@@ -37,15 +37,12 @@ export default function DetectorList() {
 
   const [location, setLocation] = useState<ILocation | null>(null);
   const [detectors, setDetectors] = useState<IDetector[]>([]);
-  const [loading, setLoading] = useState(false);
 
   async function GetDetectorList() {
     if (user) {
-      setLoading(true);
       const response: ILocation = await GetLocation();
       setLocation(response);
       setDetectors(response.detectors);
-      setLoading(false);
     }
   }
 
@@ -84,6 +81,7 @@ export default function DetectorList() {
             display="flex"
             flexDirection="row"
             alignItems="center"
+            height="500px"
             width="100%"
             justifyContent="center"
           >
@@ -104,19 +102,23 @@ export default function DetectorList() {
               overflow="auto"
               sx={{ justifyContent: "space-evenly" }}
             >
-              {hasNoDetectors ? (
-                <Typography variant="body1" color={colors.redAccent[500]}>
-                  You currently have no detectors. Add a new one to get started!
-                </Typography>
+              {!location ? (
+                <CircularProgress />
               ) : (
                 <>
-                  {loading ? <CircularProgress /> : null}
-                  {detectors.map((detector: IDetector) => (
-                    <DetectorCard
-                      key={detector.detector_id}
-                      detector={detector}
-                    />
-                  ))}
+                  {hasNoDetectors ? (
+                    <Typography variant="body1" color={colors.redAccent[500]}>
+                      You currently have no detectors. Add a new one to get
+                      started!
+                    </Typography>
+                  ) : (
+                    detectors.map((detector: IDetector) => (
+                      <DetectorCard
+                        key={detector.detector_id}
+                        detector={detector}
+                      />
+                    ))
+                  )}
                 </>
               )}
             </Grid>
@@ -136,6 +138,8 @@ export function DetectorCard({ detector }: Props) {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+
   let icon;
   switch (detector.type) {
     case "water":
@@ -151,12 +155,17 @@ export function DetectorCard({ detector }: Props) {
       icon = null;
   }
 
-  console.log(detector.type);
+  function handleClick() {
+    setLoading(true);
+    navigate("/detector_dashboard/" + detector.detector_id);
+  }
+
+  console.log(loading);
   return (
     <Card variant="outlined" sx={{ width: "30%", height: "40%", margin: 1 }}>
       <CardActionArea
         sx={{
-          height: "100%",
+          height: "100px",
           width: "100%",
           backgroundColor: `${colors.greenAccent[600]}`,
           display: "flex",
@@ -164,18 +173,24 @@ export function DetectorCard({ detector }: Props) {
           flexDirection: "column",
           alignItems: "center",
         }}
-        onClick={() => navigate("/detector_dashboard/" + detector.detector_id)}
+        onClick={handleClick}
       >
-        <Typography
-          variant="body1"
-          color={colors.grey[100]}
-          sx={{ margin: 0, flex: 1 }}
-        >
-          {detector.detector_id}
-        </Typography>
-        <Typography variant="h4">{detector.type}</Typography>
-        {icon}
-      </CardActionArea>
+        {!loading ? (
+          <>
+            <Typography
+              variant="body1"
+              color={colors.grey[100]}
+              sx={{ margin: 0, flex: 1 }}
+            >
+              {detector.detector_id}
+            </Typography>
+            <Typography variant="h4">{detector.detector_name}</Typography>
+            {icon}
+          </>
+        ) : (
+          <CircularProgress sx={{ color: "white" }} />
+        )}
+      </CardActionArea>{" "}
     </Card>
   );
 }

@@ -1,5 +1,5 @@
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import { Box, Button, Grid, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, useTheme } from "@mui/material";
 import { createContext, useContext, useEffect, useState } from "react";
 import { IDashboardCardConfig, IDashboardLayoutConfig, ILocation } from "types";
 import { GetLocation } from "../../apis/location_api";
@@ -97,6 +97,8 @@ function Card({ card, level }: Props) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const { location } = useContext(LocationContext);
+
   const cardHeight = 200;
   return (
     <Grid
@@ -124,7 +126,11 @@ function Card({ card, level }: Props) {
               borderRadius: "10px",
             }}
           >
-            {getCardComponentByType(card.componentType)}
+            {location ? (
+              getCardComponentByType(card.componentType)
+            ) : (
+              <CircularProgress sx={{ color: "white" }} />
+            )}
           </Box>
         </Box>
       ) : (
