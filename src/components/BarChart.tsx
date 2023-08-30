@@ -1,11 +1,22 @@
 import { useTheme } from "@mui/material";
 import { ComputedDatum, ResponsiveBar } from "@nivo/bar";
-import { mockBarData as data } from "../data/mockData";
+import { useContext } from "react";
+import { barChartDataWrapper } from "../components/componentUtils";
+import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { tokens } from "../theme";
 
-const BarChart = ({ isDashboard = false }) => {
+const BarChart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const { location } = useContext(LocationContext);
+
+  const data = barChartDataWrapper(location?.monthly_logs);
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <ResponsiveBar
       data={data}
@@ -42,8 +53,8 @@ const BarChart = ({ isDashboard = false }) => {
           },
         },
       }}
-      keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
-      indexBy="country"
+      keys={["water", "electricity", "gas"]}
+      indexBy="month"
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
       padding={0.45}
       valueScale={{ type: "linear" }}
@@ -72,13 +83,13 @@ const BarChart = ({ isDashboard = false }) => {
       fill={[
         {
           match: {
-            id: "fries",
+            id: "water",
           },
           id: "dots",
         },
         {
           match: {
-            id: "sandwich",
+            id: "gas",
           },
           id: "lines",
         },
@@ -93,7 +104,7 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "country",
+        legend: "month",
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -101,7 +112,7 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "food",
+        legend: "consumption",
         legendPosition: "middle",
         legendOffset: -40,
       }}
@@ -139,15 +150,13 @@ const BarChart = ({ isDashboard = false }) => {
       ariaLabel="Nivo bar chart demo"
       barAriaLabel={(
         data: ComputedDatum<{
-          country: string;
-          "hot dog": number;
-          "hot dogColor": string;
-          burger: number;
-          burgerColor: string;
-          kebab: number;
-          kebabColor: string;
-          donut: number;
-          donutColor: string;
+          month: string;
+          water: number;
+          waterColor: string;
+          electricity: number;
+          electricityColor: string;
+          gas: number;
+          gasColor: string;
         }>,
       ) =>
         data.id + ": " + data.formattedValue + " in country: " + data.indexValue

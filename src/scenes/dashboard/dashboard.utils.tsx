@@ -1,3 +1,4 @@
+import BarChart from "../../components/BarChart";
 import PieChart from "../../components/PieChart";
 import StatBox from "../../components/StatBox";
 
@@ -11,6 +12,8 @@ export default function getCardComponentByType(type: string) {
       return <StatBox type="gas" />;
     case "electricityStatBox":
       return <StatBox type="electricity" />;
+    case "bar":
+      return <BarChart />;
     default:
       break;
   }

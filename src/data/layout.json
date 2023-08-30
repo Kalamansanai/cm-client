@@ -1,8 +1,9 @@
 {
   "cards": [
     {
-      "title": "first",
+      "title": "Consumption Values By Type",
       "componentType": "",
+      "heightLevel": 1,
       "size": {
         "xs": 4,
         "sm": 4,
@@ -12,8 +13,9 @@
       },
       "children": [
         {
-          "title": "first",
+          "title": "Water Consumption",
           "componentType": "waterStatBox",
+          "heightLevel": 1,
           "size": {
             "xs": 6,
             "sm": 6,
@@ -23,8 +25,9 @@
           }
         },
         {
-          "title": "first",
+          "title": "Electricity Consumption",
           "componentType": "electricityStatBox",
+          "heightLevel": 1,
           "size": {
             "xs": 6,
             "sm": 6,
@@ -34,8 +37,9 @@
           }
         },
         {
-          "title": "first",
+          "title": "Gas Consumption",
           "componentType": "gasStatBox",
+          "heightLevel": 1,
           "size": {
             "xs": 6,
             "sm": 6,
@@ -47,14 +51,27 @@
       ]
     },
     {
-      "title": "second",
+      "title": "PieChart",
       "componentType": "pie",
+      "heightLevel": 1,
       "size": {
         "xs": 6,
         "sm": 6,
         "md": 6,
         "lg": 6,
         "xl": 6
+      }
+    },
+    {
+      "title": "BarChart",
+      "componentType": "bar",
+      "heightLevel": 2,
+      "size": {
+        "xs": 8,
+        "sm": 8,
+        "md": 8,
+        "lg": 8,
+        "xl": 8
       }
     }
   ]

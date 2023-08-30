@@ -102,7 +102,7 @@ function Card({ card, level }: Props) {
     card.componentType,
   );
 
-  const cardHeight = 200;
+  const cardHeight = 200 * card.heightLevel;
   return (
     <Grid
       item
