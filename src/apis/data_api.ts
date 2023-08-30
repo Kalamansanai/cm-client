@@ -34,8 +34,8 @@ export async function GetLinePlotData(detector_id: string) {
   return await ApiWrapper(response, true);
 }
 
-export async function GetPieCostChartData() {
-  const response = await fetch(`${backend}/get_user_pie`, {
+export async function GetPieCostChartData(location_id: string) {
+  const response = await fetch(`${backend}/get_location_pie/${location_id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

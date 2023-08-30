@@ -103,7 +103,7 @@ export default function DetectorList() {
               sx={{ justifyContent: "space-evenly" }}
             >
               {!location ? (
-                <CircularProgress />
+                <CircularProgress sx={{ color: "white" }} />
               ) : (
                 <>
                   {hasNoDetectors ? (
@@ -160,7 +160,6 @@ export function DetectorCard({ detector }: Props) {
     navigate("/detector_dashboard/" + detector.detector_id);
   }
 
-  console.log(loading);
   return (
     <Card variant="outlined" sx={{ width: "30%", height: "40%", margin: 1 }}>
       <CardActionArea

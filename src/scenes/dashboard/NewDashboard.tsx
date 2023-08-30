@@ -98,6 +98,9 @@ function Card({ card, level }: Props) {
   const colors = tokens(theme.palette.mode);
 
   const { location } = useContext(LocationContext);
+  const component: JSX.Element | undefined = getCardComponentByType(
+    card.componentType,
+  );
 
   const cardHeight = 200;
   return (
@@ -127,7 +130,7 @@ function Card({ card, level }: Props) {
             }}
           >
             {location ? (
-              getCardComponentByType(card.componentType)
+              component
             ) : (
               <CircularProgress sx={{ color: "white" }} />
             )}

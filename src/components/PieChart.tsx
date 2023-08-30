@@ -1,7 +1,8 @@
-import { useTheme } from "@mui/material";
+import { CircularProgress, useTheme } from "@mui/material";
 import { ResponsivePie } from "@nivo/pie";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { GetPieCostChartData } from "../apis/data_api";
+import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { tokens } from "../theme";
 
 const PieChart = () => {
@@ -9,14 +10,20 @@ const PieChart = () => {
   const colors = tokens(theme.palette.mode);
 
   const [data, setData] = useState([]);
+  const { location } = useContext(LocationContext);
 
   useMemo(async () => {
-    const data = await GetPieCostChartData();
-    if (data) {
-      setData(data);
+    if (location) {
+      const data = await GetPieCostChartData(location.id);
+      if (data) {
+        setData(data);
+      }
     }
-    console.log(data);
   }, []);
+
+  if (data.length == 0) {
+    return <CircularProgress sx={{ color: "white" }} />;
+  }
 
   return (
     <ResponsivePie
