@@ -19,7 +19,7 @@ export type User = {
   };
 };
 
-export interface IUserConfig {}
+export interface IUserConfig { }
 
 export interface IDetector {
   id: string;
@@ -64,6 +64,7 @@ export interface IDashboardCardConfig {
   componentType: string; //TODO: make this
   size: IDashboardCardSize;
   children?: IDashboardCardConfig[];
+  heightLevel: number;
 }
 
 export interface IDashboardCardSize {
@@ -127,3 +128,10 @@ export interface IConsumptionValues {
   electricity: number;
   gas: number;
 }
+
+export type PieData = {
+  id: string;
+  value: number;
+  label: string;
+  color: string;
+};
