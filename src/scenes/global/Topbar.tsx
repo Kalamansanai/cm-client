@@ -48,14 +48,15 @@ const Topbar: React.FC = () => {
       setUser(null);
       setIsLoggedOut(true);
       setOpen(true);
-      //TODO: Delete the cookies
-      // document.cookie = "cm-user-token=; expires=Sun, 06 Nov 1994 08:49:37 GMT; path=/; SameSite=None;";
     } catch (error: any) {
       setErrorMessage(error.message);
       setLogoutError(true);
       setOpen(true);
     }
   };
+
+  const severity = logoutError ? "error" : "success";
+  const message = logoutError ? errorMessage : "Logout successful";
 
   return (
     <Box
@@ -98,8 +99,8 @@ const Topbar: React.FC = () => {
         key={"bottom" + "right"}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          {logoutError ? errorMessage : "Logout successful"}
+        <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
+          {message}
         </Alert>
       </Snackbar>
     </Box>
