@@ -19,7 +19,7 @@ export type User = {
   };
 };
 
-export interface IUserConfig { }
+export interface IUserConfig {}
 
 export interface IDetector {
   id: string;
@@ -42,12 +42,6 @@ export interface IDetectorConfig {
 
 export type DetectorType = "water" | "electricity" | "gas";
 export type DetectorState = "sleep" | "init" | "active";
-
-export interface ILineChartData {
-  //TODO: expand with the other props
-  date: "string";
-  value: number;
-}
 
 export interface ILog {
   timestamp: Date;
@@ -73,6 +67,11 @@ export interface IDashboardCardSize {
   md: number;
   lg: number;
   xl: number;
+}
+
+export interface ILineChartResponse {
+  data: any;
+  config: ILineChartConfig;
 }
 
 export interface ILineChartConfig {
