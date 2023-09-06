@@ -11,6 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 import Box from "@mui/material/Box";
+import InputAdornment from "@mui/material/InputAdornment";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import { Params, useLoaderData } from "react-router-dom";
@@ -280,6 +281,29 @@ export default function DetectorDashboard() {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleInputChange(e, "delay")
                   }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Typography style={{ fontSize: "1.1rem" }}>
+                          h
+                        </Typography>
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    '& input[type="number"]': {
+                      "-webkit-appearance": "none",
+                      "-moz-appearance": "textfield",
+                      "&::-webkit-inner-spin-button": {
+                        "-webkit-appearance": "none",
+                        margin: 0,
+                      },
+                      "&::-webkit-outer-spin-button": {
+                        "-webkit-appearance": "none",
+                        margin: 0,
+                      },
+                    },
+                  }}
                 />
               </Grid>
               <Grid item xs={1}>
