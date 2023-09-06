@@ -28,6 +28,9 @@ function App(): JSX.Element {
   const [isLoggedOut, setIsLoggedOut] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setIsCollapsed(true);
+  }, []);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
