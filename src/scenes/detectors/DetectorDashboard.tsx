@@ -257,6 +257,11 @@ export default function DetectorDashboard() {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleInputChange(e, "charNum")
                   }
+                  sx={{
+                    "& label": {
+                      zIndex: 0,
+                    },
+                  }}
                 />
               </Grid>
               <Grid item xs={1}>
@@ -269,6 +274,11 @@ export default function DetectorDashboard() {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleInputChange(e, "comaPosition")
                   }
+                  sx={{
+                    "& label": {
+                      zIndex: 0,
+                    },
+                  }}
                 />
               </Grid>
               <Grid item xs={1}>
@@ -303,6 +313,9 @@ export default function DetectorDashboard() {
                         margin: 0,
                       },
                     },
+                    "& label": {
+                      zIndex: 0,
+                    },
                   }}
                 />
               </Grid>
@@ -316,6 +329,11 @@ export default function DetectorDashboard() {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleInputChange(e, "cost")
                   }
+                  sx={{
+                    "& label": {
+                      zIndex: 0,
+                    },
+                  }}
                 />
               </Grid>
               <Grid
