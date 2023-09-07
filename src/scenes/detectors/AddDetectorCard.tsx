@@ -6,10 +6,9 @@ import {
   MenuItem,
   Snackbar,
   TextField,
-  Typography,
   useTheme,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { DetectorType, IDetector } from "types";
 import { AddDetector } from "../../apis/detector_api";
 import Header from "../../components/Header";
@@ -26,25 +25,38 @@ interface FormData {
 export function AddDetectorCard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [inputLength, setInputLength] = useState(0);
   const { location, detectors, setDetectors } = useContext(DetectorsContext);
   const [loading, setLoading] = useState(false);
+  const idInputRef = useRef<HTMLInputElement | null>(null);
   const [formData, setFormData] = useState<FormData>({
     location_id: "",
     name: "",
     type: "",
     id: "",
   });
-
   const [addingError, setAddingError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
+    const inputName = e.target.name;
+
+    if (inputName === "id") {
+      const inputElement = e.target;
+      if (inputElement) {
+        const regex =
+          /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+        if (!regex.test(inputValue)) {
+          inputElement.setCustomValidity("Invalid UUID format");
+        } else {
+          inputElement.setCustomValidity("");
+        }
+      }
+    }
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
-    setInputLength(inputValue.length);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -115,7 +127,12 @@ export function AddDetectorCard() {
           onChange={handleChange}
           fullWidth
           required
-          inputProps={{ maxLength: 36 }}
+          inputProps={{
+            maxLength: 36,
+            pattern:
+              "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+          }}
+          inputRef={idInputRef}
           sx={{
             gridColumn: "span 2",
             color: colors.blueAccent[500],
@@ -128,11 +145,6 @@ export function AddDetectorCard() {
             },
           }}
         />
-        {inputLength === 36 && (
-          <Typography variant="caption" color="error">
-            Maximum length reached
-          </Typography>
-        )}
         <TextField
           name="name"
           label="Name"
