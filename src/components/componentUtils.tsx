@@ -31,7 +31,7 @@ export function allZero(data: PieData[]) {
   return allZero;
 }
 
-export function LineChartWrapper(type: string, id?: string) {
+export function LineChartWrapper(type: string, id?: string, lineType?: string) {
   const [data, setData] = useState<ILineChartResponse | null>();
   const { location } = useContext(LocationContext);
 
@@ -39,8 +39,8 @@ export function LineChartWrapper(type: string, id?: string) {
     if (type === "detector") {
       setData(await GetLinePlotData(id!));
     } else if (type === "location") {
-      if (location) {
-        setData(await GetLinePlotDataByLocation(location.id));
+      if (location && lineType) {
+        setData(await GetLinePlotDataByLocation(location.id, lineType));
       }
     }
   }
@@ -50,7 +50,7 @@ export function LineChartWrapper(type: string, id?: string) {
   }, []);
 
   if (!data) {
-    return <></>;
+    return <>test</>;
   }
 
   return <NewLineChart response_data={data} />;
