@@ -21,8 +21,8 @@ import {
   GetDetectorWithLogs,
   SetConfig,
 } from "../../apis/detector_api";
+import { LineChartWrapper } from "../../components/componentUtils";
 import Header from "../../components/Header";
-import NewLineChart from "../../components/NewLineChart";
 import { tokens } from "../../theme";
 import { IDetector, IDetectorConfig, ILog } from "../../types";
 import DeletePopup from "./DeletePopup";
@@ -79,8 +79,6 @@ export default function DetectorDashboard() {
     flash: detector?.detector_config.flash,
     cost: detector?.detector_config.cost,
   });
-  console.log("kkkkk");
-  console.log(data);
 
   useEffect(() => {
     setData(detector?.detector_config);
@@ -387,7 +385,7 @@ export default function DetectorDashboard() {
               </Box>
             </Box>
             <Box height={"500px"}>
-              <NewLineChart detector_id={detector.detector_id} />
+              {LineChartWrapper("detector", detector.detector_id)}
             </Box>
           </Box>
         </Grid>

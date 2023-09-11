@@ -67,11 +67,23 @@
       "componentType": "bar",
       "heightLevel": 2,
       "size": {
-        "xs": 8,
-        "sm": 8,
-        "md": 8,
-        "lg": 8,
-        "xl": 8
+        "xs": 6,
+        "sm": 6,
+        "md": 6,
+        "lg": 6,
+        "xl": 6
+      }
+    },
+    {
+      "title": "LineChart",
+      "componentType": "line",
+      "heightLevel": 2,
+      "size": {
+        "xs": 6,
+        "sm": 6,
+        "md": 6,
+        "lg": 6,
+        "xl": 6
       }
     }
   ]

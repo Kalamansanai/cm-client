@@ -1,4 +1,3 @@
-import { useEffect, useMemo, useState } from "react";
 import {
   CartesianGrid,
   Legend,
@@ -9,56 +8,37 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { CurveType } from "recharts/types/shape/Curve";
-import { ILineChartConfig, ILineChartData } from "types";
-import { GetLinePlotData } from "../apis/data_api";
-import chartConfigJson from "../data/linePlot.json";
+import { ILineChartResponse } from "../types";
 
 type Props = {
-  detector_id: string;
+  response_data: ILineChartResponse;
 };
 
-export default function NewLineChart({ detector_id }: Props) {
-  const [data, setData] = useState<ILineChartData[]>([]);
-  const chartConfig: ILineChartConfig = {
-    ...chartConfigJson,
-    YAxis: {
-      type: chartConfigJson.YAxis.type as "number" | "category" | undefined,
-    },
-    Lines: chartConfigJson.Lines.map((line) => ({
-      ...line,
-      type: line.type as CurveType,
-    })),
-  };
+export default function NewLineChart({ response_data }: Props) {
+  const data = response_data.data;
+  const config = response_data.config;
 
-  useMemo(async () => {
-    const data: ILineChartData[] = await GetLinePlotData(detector_id);
-    if (data) {
-      setData(data);
-    }
-  }, []);
-
-  useEffect(() => {}, []);
+  if (!config) {
+    return null;
+  }
 
   return (
     <ResponsiveContainer
-      width={chartConfig.containerWidth}
-      height={chartConfig.containerHeight}
+      width={config.containerWidth}
+      height={config.containerHeight}
     >
       <LineChart
-        width={chartConfig.chartWidth}
-        height={chartConfig.chartHeight}
+        width={config.chartWidth}
+        height={config.chartHeight}
         data={data}
-        margin={chartConfig.chartMargin}
+        margin={config.chartMargin}
       >
-        <CartesianGrid
-          strokeDasharray={chartConfig.CartesianGrid.strokeDashArray}
-        />
-        <XAxis {...chartConfig.XAxis} />
-        <YAxis {...chartConfig.YAxis} />
-        {chartConfig.Tooltip.enable && <Tooltip />}
-        {chartConfig.Legend.enable && <Legend />}
-        {chartConfig.Lines.map((line, i) => (
+        <CartesianGrid strokeDasharray={config.CartesianGrid.strokeDashArray} />
+        <XAxis {...config.XAxis} />
+        <YAxis {...config.YAxis} />
+        {config.Tooltip.enable && <Tooltip />}
+        {config.Legend.enable && <Legend />}
+        {config.Lines.map((line, i) => (
           <Line key={i} {...line} />
         ))}
       </LineChart>
