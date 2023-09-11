@@ -35,6 +35,9 @@ export function AddDetectorCard() {
     id: "",
   });
   const [addingError, setAddingError] = useState<string | null>(null);
+  const UUID_REGEX =
+    /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+  const detectorTypes = ["water", "electricity", "gas"];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -43,9 +46,7 @@ export function AddDetectorCard() {
     if (inputName === "id") {
       const inputElement = e.target;
       if (inputElement) {
-        const regex =
-          /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
-        if (!regex.test(inputValue)) {
+        if (!UUID_REGEX.test(inputValue)) {
           inputElement.setCustomValidity("Invalid UUID format");
         } else {
           inputElement.setCustomValidity("");
@@ -129,8 +130,7 @@ export function AddDetectorCard() {
           required
           inputProps={{
             maxLength: 36,
-            pattern:
-              "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+            pattern: UUID_REGEX.source,
           }}
           inputRef={idInputRef}
           sx={{
@@ -225,5 +225,3 @@ export function AddDetectorCard() {
     </Box>
   );
 }
-
-const detectorTypes = ["water", "electricity", "gas"];
