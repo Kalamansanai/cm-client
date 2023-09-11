@@ -2,6 +2,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { login_cookie } from "./apis/user_api";
+import { SnackbarProvider } from "./components/SnackbarContext";
 import Sidebar from "./scenes/global/Sidebar";
 import Topbar from "./scenes/global/Topbar";
 import { ColorModeContext, useMode } from "./theme";
@@ -11,10 +12,14 @@ export const GlobalContext = createContext<{
   user: User | null;
   setUser: (u: User | null) => void;
   setIsLoggedOut: React.Dispatch<React.SetStateAction<boolean>>;
+  setDetectorConfigChanged: React.Dispatch<React.SetStateAction<boolean>>;
+  isDetectorConfigChanged: boolean;
 }>({
   user: null,
   setUser: () => {},
   setIsLoggedOut: () => {},
+  setDetectorConfigChanged: () => {},
+  isDetectorConfigChanged: false,
 });
 
 function App(): JSX.Element {
@@ -26,6 +31,7 @@ function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(null);
   // eslint-disable-next-line
   const [isLoggedOut, setIsLoggedOut] = useState(false);
+  const [isDetectorConfigChanged, setDetectorConfigChanged] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -53,35 +59,39 @@ function App(): JSX.Element {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <GlobalContext.Provider
-          value={{
-            user,
-            setUser,
-            setIsLoggedOut,
-          }}
-        >
-          <CssBaseline />
-          <div
-            className="app"
-            style={{ display: "flex", height: "100vh", position: "relative" }}
+        <SnackbarProvider>
+          <GlobalContext.Provider
+            value={{
+              user,
+              setUser,
+              setIsLoggedOut,
+              setDetectorConfigChanged,
+              isDetectorConfigChanged,
+            }}
           >
-            <Sidebar
-              isCollapsed={isCollapsed}
-              setIsCollapsed={setIsCollapsed}
-            />
-            <main
-              className="content"
-              style={{
-                flex: 1,
-                overflowY: "auto",
-                marginLeft: 80,
-              }}
+            <CssBaseline />
+            <div
+              className="app"
+              style={{ display: "flex", height: "100vh", position: "relative" }}
             >
-              <Topbar />
-              <Outlet />
-            </main>
-          </div>
-        </GlobalContext.Provider>
+              <Sidebar
+                isCollapsed={isCollapsed}
+                setIsCollapsed={setIsCollapsed}
+              />
+              <main
+                className="content"
+                style={{
+                  flex: 1,
+                  overflowY: "auto",
+                  marginLeft: 80,
+                }}
+              >
+                <Topbar />
+                <Outlet />
+              </main>
+            </div>
+          </GlobalContext.Provider>
+        </SnackbarProvider>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

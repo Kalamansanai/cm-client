@@ -13,7 +13,7 @@ import {
 import Box from "@mui/material/Box";
 import InputAdornment from "@mui/material/InputAdornment";
 import Typography from "@mui/material/Typography";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Params, useLoaderData } from "react-router-dom";
 import { ExportDetectorToCsv } from "../../apis/data_api";
 import {
@@ -21,6 +21,7 @@ import {
   GetDetectorWithLogs,
   SetConfig,
 } from "../../apis/detector_api";
+import { GlobalContext } from "../../App";
 import { LineChartWrapper } from "../../components/componentUtils";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
@@ -66,11 +67,11 @@ export async function loader({ params }: { params: Params }) {
 export default function DetectorDashboard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
   const { detector, detector_image } = useLoaderData() as {
     detector: IDetector;
     detector_image: string;
   };
+  const { setDetectorConfigChanged } = useContext(GlobalContext);
 
   const [data, setData] = useState<IDetectorConfig>({
     charNum: detector?.detector_config.charNum,
@@ -98,14 +99,11 @@ export default function DetectorDashboard() {
   const [openPopup, setOpenPopup] = useState(false);
 
   const handleSubmit = async () => {
-    if (Object.values(data).some((value) => value === "")) {
-      setAlert(true);
-      return null;
-    }
     const result = await SetConfig(data, detector.detector_id);
 
     if (result) {
       setChanged(true);
+      setDetectorConfigChanged(true);
     }
   };
 
