@@ -23,13 +23,16 @@ export async function ExportDetectorToCsv(detector_id: string) {
 }
 
 export async function GetLinePlotData(detector_id: string) {
-  const response = await fetch(`${backend}/get_logs_for_plot/${detector_id}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
+  const response = await fetch(
+    `${backend}/get_logs_for_plot_by_detector/${detector_id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
     },
-    credentials: "include",
-  });
+  );
 
   return await ApiWrapper(response, true);
 }
@@ -41,6 +44,24 @@ export async function GetPieCostChartData(location_id: string) {
       "Content-Type": "application/json",
     },
     credentials: "include",
+  });
+
+  return await ApiWrapper(response, true);
+}
+
+export async function GetLinePlotDataByLocation(
+  location_id: string,
+  lineType: string,
+) {
+  const response = await fetch(`${backend}/lineplot_data/${location_id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      lineType: lineType,
+    }),
   });
 
   return await ApiWrapper(response, true);

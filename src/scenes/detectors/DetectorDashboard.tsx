@@ -22,8 +22,8 @@ import {
   SetConfig,
 } from "../../apis/detector_api";
 import { GlobalContext } from "../../App";
+import { LineChartWrapper } from "../../components/componentUtils";
 import Header from "../../components/Header";
-import NewLineChart from "../../components/NewLineChart";
 import { tokens } from "../../theme";
 import { IDetector, IDetectorConfig, ILog } from "../../types";
 import DeletePopup from "./DeletePopup";
@@ -383,7 +383,7 @@ export default function DetectorDashboard() {
               </Box>
             </Box>
             <Box height={"500px"}>
-              <NewLineChart detector_id={detector.detector_id} />
+              {LineChartWrapper("detector", detector.detector_id)}
             </Box>
           </Box>
         </Grid>

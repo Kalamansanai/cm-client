@@ -6,10 +6,9 @@ import {
   MenuItem,
   Snackbar,
   TextField,
-  Typography,
   useTheme,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { DetectorType, IDetector } from "types";
 import { AddDetector } from "../../apis/detector_api";
 import { GlobalContext } from "../../App";
@@ -31,22 +30,37 @@ export function AddDetectorCard() {
   const { setDetectorConfigChanged } = useContext(GlobalContext);
   const { location, detectors, setDetectors } = useContext(DetectorsContext);
   const [loading, setLoading] = useState(false);
+  const idInputRef = useRef<HTMLInputElement | null>(null);
   const [formData, setFormData] = useState<FormData>({
     location_id: "",
     name: "",
     type: "",
     id: "",
   });
-
   const [addingError, setAddingError] = useState<string | null>(null);
+  const UUID_REGEX =
+    /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+  const detectorTypes = ["water", "electricity", "gas"];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
+    const inputName = e.target.name;
+
+    if (inputName === "id") {
+      const inputElement = e.target;
+      if (inputElement) {
+        if (!UUID_REGEX.test(inputValue)) {
+          inputElement.setCustomValidity("Invalid UUID format");
+        } else {
+          inputElement.setCustomValidity("");
+        }
+      }
+    }
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
-    setInputLength(inputValue.length);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -118,7 +132,11 @@ export function AddDetectorCard() {
           onChange={handleChange}
           fullWidth
           required
-          inputProps={{ maxLength: 36 }}
+          inputProps={{
+            maxLength: 36,
+            pattern: UUID_REGEX.source,
+          }}
+          inputRef={idInputRef}
           sx={{
             gridColumn: "span 2",
             color: colors.blueAccent[500],
@@ -131,11 +149,6 @@ export function AddDetectorCard() {
             },
           }}
         />
-        {inputLength === 36 && (
-          <Typography variant="caption" color="error">
-            Maximum length reached
-          </Typography>
-        )}
         <TextField
           name="name"
           label="Name"
@@ -216,5 +229,3 @@ export function AddDetectorCard() {
     </Box>
   );
 }
-
-const detectorTypes = ["water", "electricity", "gas"];

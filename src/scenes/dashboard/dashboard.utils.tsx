@@ -1,4 +1,5 @@
 import BarChart from "../../components/BarChart";
+import { LineChartWrapper } from "../../components/componentUtils";
 import PieChart from "../../components/PieChart";
 import StatBox from "../../components/StatBox";
 
@@ -14,6 +15,8 @@ export default function getCardComponentByType(type: string) {
       return <StatBox type="electricity" />;
     case "bar":
       return <BarChart />;
+    case "line":
+      return LineChartWrapper("location");
     default:
       break;
   }
