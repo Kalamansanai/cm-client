@@ -12,6 +12,7 @@ import {
 import { useContext, useState } from "react";
 import { DetectorType, IDetector } from "types";
 import { AddDetector } from "../../apis/detector_api";
+import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import { DetectorsContext } from "./DetectorList";
@@ -27,6 +28,7 @@ export function AddDetectorCard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [inputLength, setInputLength] = useState(0);
+  const { setDetectorConfigChanged } = useContext(GlobalContext);
   const { location, detectors, setDetectors } = useContext(DetectorsContext);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -73,6 +75,7 @@ export function AddDetectorCard() {
 
     const newDetectors = [...detectors, newDetector];
     setDetectors(newDetectors);
+    setDetectorConfigChanged(true);
     setLoading(false);
   };
 
