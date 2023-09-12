@@ -30,7 +30,7 @@ const BarChart = () => {
         alignItems: "center",
       }}
     >
-      <Typography height="10%" variant="h3">
+      <Typography height="10%" variant="h3" mt="10px">
         {config.title}
       </Typography>
       <div
@@ -77,7 +77,7 @@ const BarChart = () => {
           }}
           keys={config.keys}
           indexBy={config.indexBy}
-          margin={{ top: 0, right: 130, bottom: 50, left: 60 }}
+          margin={{ top: 20, right: 130, bottom: 50, left: 60 }}
           padding={0.45}
           valueScale={{ type: "linear" }}
           indexScale={{ type: "band", round: true }}
