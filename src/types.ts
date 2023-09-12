@@ -19,7 +19,7 @@ export type User = {
   };
 };
 
-export interface IUserConfig {}
+export interface IUserConfig { }
 
 export interface IDetector {
   id: string;
@@ -134,3 +134,12 @@ export type PieData = {
   label: string;
   color: string;
 };
+
+export interface IBarChartConfig {
+  title: string;
+  label: string;
+  keys: string[];
+  indexBy: string;
+  leftLegend: string;
+  bottomLegend: string;
+}

@@ -9,11 +9,11 @@ export function barChartDataWrapper(logs: IMonthlyLog[] | undefined) {
     const data = logs.map((log: IMonthlyLog) => ({
       month: log.month,
       water: log.values.water,
-      waterColor: "hsl(296 70% 50%)",
+      waterColor: "hsl(229, 70%, 50%)",
       electricity: log.values.electricity,
-      electricityColor: "hsl(97, 70% 50%)",
+      electricityColor: "hsl(104, 70%, 50%)",
       gas: log.values.gas,
-      gasColor: "hsl(340, 70%, 50%)",
+      gasColor: "hsl(344, 70%, 50%)",
     }));
 
     return data;

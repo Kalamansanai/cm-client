@@ -118,7 +118,7 @@ const PieChart = () => {
           match: {
             id: "gas",
           },
-          id: "dots",
+          id: "lines",
         },
         {
           match: {
