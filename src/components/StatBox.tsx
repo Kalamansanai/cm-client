@@ -5,6 +5,7 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { useContext } from "react";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { tokens } from "../theme";
+import { IMonthlyLog } from "../types";
 
 interface StatBoxProps {
   type: string;
@@ -14,14 +15,16 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  // const { user } = useContext(GlobalContext);
   const { location } = useContext(LocationContext);
 
-  const lastTwoElement = location
-    ? location?.monthly_logs.slice(-2)
-    : undefined;
-  // const prevMonthValues = lastTwoElement ? lastTwoElement[0] : 0
-  const currentMonthValues = lastTwoElement ? lastTwoElement[1] : 0;
+  // const lastTwoElement = location
+  //   ? location?.monthly_logs.slice(-2)
+  //   : undefined;
+  //
+  // const currentMonthValues = lastTwoElement ? lastTwoElement[1] : 0;
+  //
+  const currentMonthValues: IMonthlyLog | undefined =
+    location?.monthly_logs.slice(-1)[0];
 
   let value: string = "0";
   let icon = null;
