@@ -17,8 +17,6 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
   // const { user } = useContext(GlobalContext);
   const { location } = useContext(LocationContext);
 
-  console.log(location?.monthly_logs);
-
   const lastTwoElement = location
     ? location?.monthly_logs.slice(-2)
     : undefined;
@@ -31,7 +29,6 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
   // let subtitle = "Water Meter value increase";
   // let increase = "+60%";
 
-  console.log(type);
   switch (type) {
     case "water":
       icon = <WaterDropIcon sx={{ color: "white", fontSize: "26px" }} />;
@@ -41,8 +38,6 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
       break;
     case "gas":
       icon = <GasMeterIcon sx={{ color: "white", fontSize: "26px" }} />;
-      console.log("fffff");
-      console.log(currentMonthValues);
       value = currentMonthValues
         ? currentMonthValues.values.gas.toString()
         : "0";
