@@ -26,7 +26,7 @@ interface FormData {
 export function AddDetectorCard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [inputLength, setInputLength] = useState(0);
+  // const [inputLength, setInputLength] = useState(0);
   const { setDetectorConfigChanged } = useContext(GlobalContext);
   const { location, detectors, setDetectors } = useContext(DetectorsContext);
   const [loading, setLoading] = useState(false);
