@@ -50,7 +50,7 @@ export function LineChartWrapper(type: string, id?: string, lineType?: string) {
   }, []);
 
   if (!data) {
-    return <>test</>;
+    return <>No data is available.</>;
   }
 
   return <NewLineChart response_data={data} />;

@@ -14,7 +14,7 @@ const BarChart = () => {
   const data = barChartDataWrapper(location?.monthly_logs);
 
   if (!data) {
-    return null;
+    return <>No data is available</>;
   }
 
   return (
