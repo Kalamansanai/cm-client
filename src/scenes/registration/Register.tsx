@@ -29,13 +29,48 @@ const Register = () => {
   const registrationSchema = yup.object().shape({
     name: yup
       .string()
+      .required("Username is required.")
+      .test("length", "Must be 5-20 characters long", (value) =>
+        Boolean(value && value.length >= 5 && value.length <= 20),
+      )
+      .test("start", "Cannot start with a dot or underscore", (value) =>
+        Boolean(value && !/^[_\.]/.test(value)),
+      )
+      .test("end", "Cannot end with a dot or underscore", (value) =>
+        Boolean(value && !/[_\.]$/.test(value)),
+      )
+      .test(
+        "consecutive",
+        "Cannot contain consecutive dots or underscores",
+        (value) => Boolean(value && !/([_\.])\1/.test(value)),
+      ),
+    email: yup
+      .string()
       .required("Required")
-      .max(10, "The username can't be longer than 10 characters"),
-    email: yup.string().email("Please enter valid email").required("Required"),
+      .test("valid-email", "Please enter a valid email address.", (value) => {
+        const emailRegex =
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        return emailRegex.test(value || "");
+      }),
     password: yup
       .string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Required"),
+      .required("Please Enter your password")
+      .test("min-length", "Must be at least 8 characters long", (value) =>
+        Boolean(value && value.length >= 8),
+      )
+      .test(
+        "uppercase",
+        "Must contain at least one uppercase character",
+        (value) => Boolean(value && /[A-Z]/.test(value)),
+      )
+      .test(
+        "lowercase",
+        "Must contain at least one lowercase character",
+        (value) => Boolean(value && /[a-z]/.test(value)),
+      )
+      .test("number", "Must contain at least one number", (value) =>
+        Boolean(value && /[0-9]/.test(value)),
+      ),
     passwordrpt: yup
       .string()
       .oneOf([yup.ref("password")], "Passwords must match")
