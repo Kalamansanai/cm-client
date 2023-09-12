@@ -143,3 +143,8 @@ export interface IBarChartConfig {
   leftLegend: string;
   bottomLegend: string;
 }
+
+export interface IPieChartConfig {
+  title: string;
+  label: string;
+}
