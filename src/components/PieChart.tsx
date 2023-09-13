@@ -16,18 +16,26 @@ const PieChart = () => {
   const [data, setData] = useState<PieData[]>([]);
   const { location } = useContext(LocationContext);
   const config: IPieChartConfig = configJson;
+  const [loading, setLoading] = useState(false);
 
   useMemo(async () => {
+    setLoading(true);
     if (location) {
       const data = await GetPieCostChartData(location.id);
       if (data) {
         setData(data);
       }
     }
+    setLoading(false);
   }, []);
 
-  if (data.length == 0) {
+  if (loading) {
     return <CircularProgress sx={{ color: "white" }} />;
+  }
+
+  if (data.length == 0) {
+    return <>No data is available</>;
+    // return <CircularProgress sx={{ color: "white" }} />;
   }
 
   if (allZero(data)) {
