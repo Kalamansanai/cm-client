@@ -5,6 +5,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   Container,
   Grid,
   IconButton,
@@ -25,6 +26,7 @@ const Register = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [errorAlert, setErrorAlert] = useState("");
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const registrationSchema = yup.object().shape({
     name: yup
@@ -85,6 +87,7 @@ const Register = () => {
   };
 
   const onSubmit = async (values: any) => {
+    setLoading(true);
     try {
       const { passwordrpt, ...requestData } = values;
 
@@ -100,6 +103,7 @@ const Register = () => {
       setErrorMessage(error.message);
       setErrorAlert("error");
     }
+    setLoading(false);
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -300,14 +304,27 @@ const Register = () => {
                 >
                   Already have an account?
                 </Button>
-
-                <Button
-                  type="submit"
-                  variant="contained"
-                  sx={{ backgroundColor: `${colors.blueAccent[500]}` }}
-                >
-                  Create New User
-                </Button>
+                {loading ? (
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      color: `${colors.greenAccent[500]}`,
+                      // position: "absolute",
+                      // top: "50%",
+                      // left: "50%",
+                      // marginTop: "-12px",
+                      // marginLeft: "-12px",
+                    }}
+                  />
+                ) : (
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ backgroundColor: `${colors.blueAccent[500]}` }}
+                  >
+                    Create New User
+                  </Button>
+                )}
               </Stack>
             </form>
           )}

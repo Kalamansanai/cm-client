@@ -16,7 +16,7 @@ const BarChart = () => {
   const data = barChartDataWrapper(location?.monthly_logs);
   const config: IBarChartConfig = configJson;
 
-  if (!data) {
+  if (data == null || data?.length === 0) {
     return <>No data is available</>;
   }
 
