@@ -34,6 +34,10 @@ export class ApiResponse {
   }
 
   Unwrap(setUser: (u: User | null) => void) {
+    console.log("---wrapper---");
+    console.log(`result:${this.result}`);
+    console.log(`result:${this.data}`);
+    console.log("-------------");
     if (this.result === "error") {
       console.error(this.data);
       if (this.data === "No user signed in!") {
