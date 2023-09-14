@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from "react";
+import { ApiResponse } from "../apis/api.util";
 import { GetLinePlotData, GetLinePlotDataByLocation } from "../apis/data_api";
+import { GlobalContext } from "../App";
 import NewLineChart from "../components/NewLineChart";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { ILineChartResponse, IMonthlyLog, PieData } from "../types";
@@ -34,13 +36,19 @@ export function allZero(data: PieData[]) {
 export function LineChartWrapper(type: string, id?: string, lineType?: string) {
   const [data, setData] = useState<ILineChartResponse | null>();
   const { location } = useContext(LocationContext);
+  const { setUser } = useContext(GlobalContext);
 
   async function getData() {
     if (type === "detector") {
-      setData(await GetLinePlotData(id!));
+      const response: ApiResponse = await GetLinePlotData(id!);
+      setData(response.Unwrap(setUser));
     } else if (type === "location") {
       if (location && lineType) {
-        setData(await GetLinePlotDataByLocation(location.id, lineType));
+        const response: ApiResponse = await GetLinePlotDataByLocation(
+          location.id,
+          lineType,
+        );
+        setData(response.Unwrap(setUser));
       }
     }
   }
