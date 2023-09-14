@@ -11,7 +11,7 @@ import {
   Snackbar,
   useTheme,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GetDetectorConfig } from "../../apis/detector_api";
 import { GetLocation } from "../../apis/location_api";
@@ -32,37 +32,49 @@ const Topbar: React.FC = () => {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const [showBadge, setShowBadge] = useState(false);
-  const [checkActive, setCheckActive] = useState(true);
+  const checkActive = useRef(true);
   const { isDetectorConfigChanged, setDetectorConfigChanged } =
     useContext(GlobalContext);
 
   const checkDetectorsConfig = async () => {
-    if (!checkActive) return;
+    if (!checkActive || !user) return;
+
+    let isError = false;
+
     try {
       const response: ILocation = await GetLocation();
+      const detectorPromises = response.detectors.map((detector) =>
+        GetDetectorConfig(detector.detector_id),
+      );
 
-      for (const detector of response.detectors) {
-        const detectorResponse = await GetDetectorConfig(detector.detector_id);
+      const detectorResponses = await Promise.all(detectorPromises);
+
+      for (const detectorResponse of detectorResponses) {
         if (
           detectorResponse.charNum === undefined ||
           detectorResponse.comaPosition === undefined ||
           detectorResponse.charNum === "" ||
           detectorResponse.comaPosition === ""
         ) {
-          setShowBadge(true);
-          setCheckActive(true);
+          isError = true;
+          handleSnackbar();
           break;
         }
-        setShowBadge(false);
       }
     } catch (error) {
+      isError = true;
       console.error("An error occurred while checking detector config:", error);
       showSnackbar(
         "An error occurred while checking detector config.",
         "error",
       );
     }
+    setShowBadge(isError);
   };
+
+  useEffect(() => {
+    handleSnackbar();
+  }, [showBadge]);
 
   useEffect(() => {
     if (isDetectorConfigChanged) {
@@ -80,6 +92,7 @@ const Topbar: React.FC = () => {
   };
 
   const handleSnackbar = () => {
+    console.log(" I was here to.", showBadge);
     if (showBadge) {
       showSnackbar("Please set config values for your detector(s)", "error");
     }
