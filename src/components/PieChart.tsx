@@ -2,7 +2,9 @@ import { CircularProgress, Typography, useTheme } from "@mui/material";
 import { ResponsivePie } from "@nivo/pie";
 import { useContext, useMemo, useState } from "react";
 import { PieData } from "types";
+import { ApiResponse } from "../apis/api.util";
 import { GetPieCostChartData } from "../apis/data_api";
+import { GlobalContext } from "../App";
 import configJson from "../data/piechartConfig.json";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { tokens } from "../theme";
@@ -17,9 +19,12 @@ const PieChart = () => {
   const { location } = useContext(LocationContext);
   const config: IPieChartConfig = configJson;
 
+  const { setUser } = useContext(GlobalContext);
+
   useMemo(async () => {
     if (location) {
-      const data = await GetPieCostChartData(location.id);
+      const response: ApiResponse = await GetPieCostChartData(location.id);
+      const data = response.Unwrap(setUser);
       if (data) {
         setData(data);
       }

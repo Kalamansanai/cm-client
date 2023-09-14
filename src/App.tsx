@@ -1,6 +1,7 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
+import { ApiResponse } from "./apis/api.util";
 import { login_cookie } from "./apis/user_api";
 import { SnackbarProvider } from "./components/SnackbarContext";
 import Sidebar from "./scenes/global/Sidebar";
@@ -41,8 +42,9 @@ function App(): JSX.Element {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const res = await login_cookie();
-        if (res) setUser(res);
+        const res: ApiResponse = await login_cookie();
+        const user: User = res.Unwrap(setUser);
+        if (user) setUser(user);
         setIsLoading(false);
       } catch (e) {
         console.log(e);

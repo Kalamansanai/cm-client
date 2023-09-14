@@ -13,13 +13,14 @@ import {
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ApiResponse } from "../../apis/api.util";
 import { GetDetectorConfig } from "../../apis/detector_api";
 import { GetLocation } from "../../apis/location_api";
 import { Logout } from "../../apis/user_api";
 import { GlobalContext } from "../../App";
 import { useSnackbar } from "../../components/SnackbarContext";
 import { ColorModeContext } from "../../theme";
-import { ILocation } from "../../types";
+import { IDetectorConfig, ILocation } from "../../types";
 
 const Topbar: React.FC = () => {
   const theme = useTheme();
@@ -38,16 +39,21 @@ const Topbar: React.FC = () => {
 
   const checkDetectorsConfig = async () => {
     if (!checkActive) return;
-    try {
-      const response: ILocation = await GetLocation();
+    const response: ApiResponse = await GetLocation();
+    const location: ILocation = response.Unwrap(setUser);
+    if (response.result === "error") {
+      showSnackbar(response.data, "error");
+      return;
+    }
 
-      for (const detector of response.detectors) {
+    try {
+      for (const detector of location.detectors) {
         const detectorResponse = await GetDetectorConfig(detector.detector_id);
+        const detectorConfig: IDetectorConfig =
+          detectorResponse.Unwrap(setUser);
         if (
-          detectorResponse.charNum === undefined ||
-          detectorResponse.comaPosition === undefined ||
-          detectorResponse.charNum === "" ||
-          detectorResponse.comaPosition === ""
+          detectorConfig.charNum === undefined ||
+          detectorConfig.comaPosition === undefined
         ) {
           setShowBadge(true);
           setCheckActive(true);
@@ -56,7 +62,6 @@ const Topbar: React.FC = () => {
         setShowBadge(false);
       }
     } catch (error) {
-      console.error("An error occurred while checking detector config:", error);
       showSnackbar(
         "An error occurred while checking detector config.",
         "error",

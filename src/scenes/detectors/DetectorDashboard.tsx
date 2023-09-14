@@ -15,6 +15,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Typography from "@mui/material/Typography";
 import React, { useContext, useEffect, useState } from "react";
 import { Params, useLoaderData } from "react-router-dom";
+import { ApiResponse } from "../../apis/api.util";
 import { ExportDetectorToCsv } from "../../apis/data_api";
 import {
   GetDetectorImage,
@@ -46,14 +47,11 @@ function calculateInputChangeValue(
 export async function loader({ params }: { params: Params }) {
   const detector_id = params["detector_id"]! as any as string;
 
-  let detector = null;
-  let detector_image = null;
-
-  const resp_detector = await GetDetectorWithLogs(detector_id);
-  detector = resp_detector || null;
+  const resp_detector: ApiResponse = await GetDetectorWithLogs(detector_id);
 
   const resp_detector_image = await GetDetectorImage(detector_id);
 
+  let detector_image;
   if (resp_detector_image.status === 400) {
     detector_image = null;
   } else {
@@ -61,16 +59,18 @@ export async function loader({ params }: { params: Params }) {
     detector_image = URL.createObjectURL(data) || null;
   }
 
-  return { detector: detector, detector_image: detector_image };
+  return { detector_resp: resp_detector, detector_image: detector_image };
 }
 
 export default function DetectorDashboard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { detector, detector_image } = useLoaderData() as {
-    detector: IDetector;
+  const { setUser } = useContext(GlobalContext);
+  const { detector_resp, detector_image } = useLoaderData() as {
+    detector_resp: ApiResponse;
     detector_image: string;
   };
+  const detector: IDetector = detector_resp.Unwrap(setUser);
   const { setDetectorConfigChanged } = useContext(GlobalContext);
 
   const [data, setData] = useState<IDetectorConfig>({

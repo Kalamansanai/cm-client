@@ -16,21 +16,18 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
   const colors = tokens(theme.palette.mode);
 
   const { location } = useContext(LocationContext);
+  // if(!location.monthly_logs){
+  //   return <></>
+  // }
+  // if (location.error === "401") {
+  //   return <>No data is available</>;
+  // }
 
-  // const lastTwoElement = location
-  //   ? location?.monthly_logs.slice(-2)
-  //   : undefined;
-  //
-  // const currentMonthValues = lastTwoElement ? lastTwoElement[1] : 0;
-  //
   const currentMonthValues: IMonthlyLog | undefined =
     location?.monthly_logs.slice(-1)[0];
 
   let value: string = "0";
   let icon = null;
-  // let progress = "0.60";
-  // let subtitle = "Water Meter value increase";
-  // let increase = "+60%";
 
   switch (type) {
     case "water":
