@@ -108,5 +108,5 @@ export async function GetDetectorImage(detector_id: string) {
     credentials: "include",
   });
 
-  return await response;
+  return response;
 }
