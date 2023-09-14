@@ -9,15 +9,7 @@ export async function ApiWrapper(
   }
   const result = await response.json();
   if (response.status !== 400) {
-    if (result.result === "ok") {
-      if (only_data) {
-        return new ApiResponse("ok", result.data);
-      } else {
-        return new ApiResponse("ok", result);
-      }
-    } else {
-      return new ApiResponse("error", result.data);
-    }
+    return new ApiResponse(result.result, result.data);
   } else {
     //console.log("server aborted", response);
     return new ApiResponse("error", "Server aborted");
