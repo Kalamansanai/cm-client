@@ -2,10 +2,12 @@ import BoltIcon from "@mui/icons-material/Bolt";
 import GasMeterIcon from "@mui/icons-material/GasMeter";
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import { Box, Typography, useTheme } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ApiResponse } from "../apis/api.util";
+import { GetLocationMonthlyStatByType } from "../apis/data_api";
+import { GlobalContext } from "../App";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { tokens } from "../theme";
-import { IMonthlyLog } from "../types";
 
 interface StatBoxProps {
   type: string;
@@ -16,37 +18,46 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
   const colors = tokens(theme.palette.mode);
 
   const { location } = useContext(LocationContext);
-  // if(!location.monthly_logs){
-  //   return <></>
-  // }
-  // if (location.error === "401") {
-  //   return <>No data is available</>;
-  // }
+  const { setUser } = useContext(GlobalContext);
+  const [value, setValue] = useState(0);
 
-  const currentMonthValues: IMonthlyLog | undefined =
-    location?.monthly_logs.slice(-1)[0];
+  async function getStat() {
+    if (location) {
+      const response: ApiResponse = await GetLocationMonthlyStatByType(
+        location?.id,
+        type,
+      );
+      setValue(Math.floor(response.Unwrap(setUser)));
+    }
+  }
 
-  let value: string = "0";
+  useEffect(() => {
+    getStat();
+  }, []);
+
   let icon = null;
+  let unit = null;
 
   switch (type) {
     case "water":
       icon = <WaterDropIcon sx={{ color: "white", fontSize: "26px" }} />;
-      value = currentMonthValues
-        ? currentMonthValues?.values.water.toString()
-        : "0";
+      unit = (
+        <div>
+          m<sup>3</sup>
+        </div>
+      );
       break;
     case "gas":
       icon = <GasMeterIcon sx={{ color: "white", fontSize: "26px" }} />;
-      value = currentMonthValues
-        ? currentMonthValues.values.gas.toString()
-        : "0";
+      unit = (
+        <div>
+          m<sup>3</sup>
+        </div>
+      );
       break;
     case "electricity":
       icon = <BoltIcon sx={{ color: "white", fontSize: "26px" }} />;
-      value = currentMonthValues
-        ? currentMonthValues.values.electricity.toString()
-        : "0";
+      unit = <div>kWh</div>;
       break;
     default:
       break;
@@ -54,12 +65,13 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
 
   return (
     <Box width="100%" m="0 10px">
-      <Box display="flex" justifyContent="center">
+      <Box display="flex" justifyContent="center" alignItems="center">
         <Box
           width="50%"
           display="flex"
           flexDirection="row"
           justifyContent="space-around"
+          alignItems="center"
         >
           {icon}
           <Typography
@@ -69,23 +81,9 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
           >
             {value}
           </Typography>
+          {unit}
         </Box>
-        {/* <Box>
-          <ProgressCircle progress={progress} />
-        </Box> */}
       </Box>
-      {/* <Box display="flex" justifyContent="space-between" mt="2px">
-        <Typography variant="h5" sx={{ color: colors.greenAccent[500] }}>
-          {subtitle}
-        </Typography>
-        <Typography
-          variant="h5"
-          fontStyle="italic"
-          sx={{ color: colors.greenAccent[600] }}
-        >
-          {increase}
-        </Typography>
-      </Box> */}
     </Box>
   );
 };

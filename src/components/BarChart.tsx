@@ -41,7 +41,7 @@ const BarChart = () => {
       >
         <ResponsiveBar
           data={data}
-          label={(bar: any) => `${bar.value}${config.label}`}
+          label={(bar: any) => `${Math.floor(bar.value)}${config.label}`}
           theme={{
             axis: {
               domain: {
