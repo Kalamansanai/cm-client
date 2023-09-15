@@ -124,7 +124,7 @@ export default function DetectorDashboard() {
 
   console.log(exportLoading);
   return (
-    <Box m="16px" sx={{ height: "100%", width: "100%" }}>
+    <Box sx={{ height: "100%", width: "100%" }}>
       <Snackbar
         open={changed}
         autoHideDuration={6000}
