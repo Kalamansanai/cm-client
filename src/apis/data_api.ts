@@ -18,8 +18,6 @@ export async function ExportDetectorToCsv(detector_id: string) {
       // 5. Clean up and remove the link
       link.parentNode?.removeChild(link);
     });
-
-  console.log("success");
 }
 
 export async function GetLinePlotData(detector_id: string) {

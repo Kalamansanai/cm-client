@@ -3,6 +3,7 @@ import {
   Alert,
   Button,
   Card,
+  CircularProgress,
   FormControlLabel,
   Grid,
   Snackbar,
@@ -72,6 +73,7 @@ export default function DetectorDashboard() {
   };
   const detector: IDetector = detector_resp.Unwrap(setUser);
   const { setDetectorConfigChanged } = useContext(GlobalContext);
+  const [exportLoading, setExportLoading] = useState(false);
 
   const [data, setData] = useState<IDetectorConfig>({
     charNum: detector?.detector_config.charNum,
@@ -111,15 +113,18 @@ export default function DetectorDashboard() {
     setOpenPopup(true);
   };
 
-  const handleExport = () => {
-    ExportDetectorToCsv(detector.id);
+  const handleExport = async () => {
+    setExportLoading(true);
+    await ExportDetectorToCsv(detector.id);
+    setExportLoading(false);
   };
 
   const [changed, setChanged] = useState(false);
   const [alert, setAlert] = useState(false);
 
+  console.log(exportLoading);
   return (
-    <Box m="16px" sx={{ height: "100%", width: "100%" }}>
+    <Box sx={{ height: "100%", width: "100%" }}>
       <Snackbar
         open={changed}
         autoHideDuration={6000}
@@ -171,7 +176,7 @@ export default function DetectorDashboard() {
             }}
             onClick={handleExport}
           >
-            Export Data
+            {exportLoading ? <CircularProgress /> : "Export Data"}
           </Button>
           <Button
             sx={{

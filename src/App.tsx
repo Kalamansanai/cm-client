@@ -89,7 +89,9 @@ function App(): JSX.Element {
                 }}
               >
                 <Topbar />
-                <Outlet />
+                <div style={{ margin: "16px" }}>
+                  <Outlet />
+                </div>
               </main>
             </div>
           </GlobalContext.Provider>
