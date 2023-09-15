@@ -88,6 +88,7 @@ export default function DetectorList() {
             height="500px"
             width="100%"
             justifyContent="center"
+            mt={3}
           >
             <AddDetectorCard />
           </Grid>

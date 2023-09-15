@@ -51,10 +51,7 @@ const Topbar: React.FC = () => {
         const detectorResponse = await GetDetectorConfig(detector.detector_id);
         const detectorConfig: IDetectorConfig =
           detectorResponse.Unwrap(setUser);
-        if (
-          detectorConfig.charNum === undefined ||
-          detectorConfig.comaPosition === undefined
-        ) {
+        if (detectorConfig === undefined) {
           setShowBadge(true);
           setCheckActive(true);
           break;

@@ -21,6 +21,8 @@ interface FormData {
   name: string;
   type: string;
   id: string;
+  char_num: string;
+  coma_pos: string;
 }
 
 export function AddDetectorCard() {
@@ -36,6 +38,8 @@ export function AddDetectorCard() {
     name: "",
     type: "",
     id: "",
+    char_num: "",
+    coma_pos: "",
   });
   const [addingError, setAddingError] = useState<string | null>(null);
   const UUID_REGEX =
@@ -83,6 +87,8 @@ export function AddDetectorCard() {
       detector_name: formData.name,
       detector_config: {},
       type: formData.type as DetectorType,
+      char_num: formData.char_num,
+      coma_position: formData.coma_pos,
       state: "init",
       image_path: "",
     };
@@ -147,6 +153,9 @@ export function AddDetectorCard() {
             "& label": {
               zIndex: 0,
             },
+            "& .MuiFilledInput-underline:after": {
+              borderColor: colors.blueAccent[500],
+            },
           }}
         />
         <TextField
@@ -167,9 +176,55 @@ export function AddDetectorCard() {
             "& label": {
               zIndex: 0,
             },
+            "& .MuiFilledInput-underline:after": {
+              borderColor: colors.blueAccent[500],
+            },
           }}
         />
-
+        <TextField
+          fullWidth
+          required
+          variant="filled"
+          type="number"
+          label="Char Num"
+          onChange={handleChange}
+          sx={{
+            mt: "20px",
+            color: colors.blueAccent[500],
+            "& label.Mui-focused": {
+              color: colors.blueAccent[500],
+              zIndex: 0,
+            },
+            "& label": {
+              zIndex: 0,
+            },
+            "& .MuiFilledInput-underline:after": {
+              borderColor: colors.blueAccent[500],
+            },
+          }}
+        />
+        <TextField
+          fullWidth
+          required
+          variant="filled"
+          type="number"
+          label="Coma Position"
+          onChange={handleChange}
+          sx={{
+            mt: "20px",
+            color: colors.blueAccent[500],
+            "& label.Mui-focused": {
+              color: colors.blueAccent[500],
+              zIndex: 0,
+            },
+            "& label": {
+              zIndex: 0,
+            },
+            "& .MuiFilledInput-underline:after": {
+              borderColor: colors.blueAccent[500],
+            },
+          }}
+        />
         <TextField
           name="type"
           label="Type"
@@ -188,6 +243,9 @@ export function AddDetectorCard() {
             },
             "& label": {
               zIndex: 0,
+            },
+            "& .MuiFilledInput-underline:after": {
+              borderColor: colors.blueAccent[500],
             },
           }}
         >
@@ -216,8 +274,8 @@ export function AddDetectorCard() {
               fullWidth
               variant="contained"
               sx={{
-                mt: 3,
-                mb: 2,
+                mt: 1,
+                mb: 1,
                 backgroundColor: `${colors.greenAccent[700]}`,
               }}
             >

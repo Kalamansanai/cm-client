@@ -19,13 +19,15 @@ export type User = {
   };
 };
 
-export interface IUserConfig { }
+export interface IUserConfig {}
 
 export interface IDetector {
   id: string;
   detector_id: string;
   detector_name: string;
   detector_config: IDetectorConfig;
+  char_num: string;
+  coma_position: string;
   type: DetectorType;
   state: DetectorState;
   logs?: ILog[];
@@ -33,8 +35,6 @@ export interface IDetector {
 }
 
 export interface IDetectorConfig {
-  charNum?: number;
-  comaPosition?: number;
   delay?: number;
   flash?: number;
   cost?: number;
