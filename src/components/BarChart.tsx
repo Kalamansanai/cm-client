@@ -1,7 +1,8 @@
-import { Typography, useTheme } from "@mui/material";
+import { CircularProgress, Typography, useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
-import { useContext } from "react";
-import { barChartDataWrapper } from "../components/componentUtils";
+import { useContext, useEffect, useState } from "react";
+import { GetLocationMonthlyStat } from "../apis/data_api";
+import { GlobalContext } from "../App";
 import configJson from "../data/barchartConfig.json";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { tokens } from "../theme";
@@ -12,9 +13,33 @@ const BarChart = () => {
   const colors = tokens(theme.palette.mode);
 
   const { location } = useContext(LocationContext);
+  const { setUser } = useContext(GlobalContext);
 
-  const data = barChartDataWrapper(location?.monthly_logs);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  async function getData() {
+    setLoading(true);
+    if (location) {
+      const response = await GetLocationMonthlyStat(location.id);
+      const data = response.Unwrap(setUser);
+      if (data) {
+        setData(data);
+      }
+    }
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  // const data = barChartDataWrapper(location?.monthly_logs);
   const config: IBarChartConfig = configJson;
+
+  if (loading) {
+    return <CircularProgress sx={{ color: "white" }} />;
+  }
 
   if (data == null || data?.length === 0) {
     return <>No data is available</>;

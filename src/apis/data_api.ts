@@ -85,3 +85,18 @@ export async function GetLocationMonthlyStatByType(
 
   return await ApiWrapper(response, true);
 }
+
+export async function GetLocationMonthlyStat(location_id: string) {
+  const response = await fetch(
+    `${backend}/get_location_monthly_sums/${location_id}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    },
+  );
+
+  return await ApiWrapper(response, true);
+}
