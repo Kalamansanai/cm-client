@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { DeleteDetector } from "../../apis/detector_api";
-import { GlobalContext } from "../../App";
 import { tokens } from "../../theme";
 import { DetectorsContext } from "./DetectorList";
 
@@ -81,7 +80,6 @@ export default function DeletePopup({
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
   const { detectors, setDetectors } = useContext(DetectorsContext);
-  const { setDetectorConfigChanged } = useContext(GlobalContext);
 
   const handleClose = () => {
     setOpenPopup(false);
@@ -94,7 +92,6 @@ export default function DeletePopup({
     );
 
     setDetectors(newDetectors);
-    setDetectorConfigChanged(true);
     navigate("/detectors");
   };
 

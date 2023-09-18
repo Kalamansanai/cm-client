@@ -45,19 +45,6 @@ export async function SetConfig(
   return await ApiWrapper(response, true);
 }
 
-export async function GetDetectorConfig(detector_id: string) {
-  const response = await fetch(
-    `${backend}/get_detector_config/${detector_id}`,
-    {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    },
-  );
-
-  return await ApiWrapper(response, true);
-}
-
 export async function DeleteDetector(detector_id: string) {
   const response = await fetch(`${backend}/detector/${detector_id}`, {
     method: "DELETE",

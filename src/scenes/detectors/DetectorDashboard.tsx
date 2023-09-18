@@ -72,7 +72,6 @@ export default function DetectorDashboard() {
     detector_image: string;
   };
   const detector: IDetector = detector_resp.Unwrap(setUser);
-  const { setDetectorConfigChanged } = useContext(GlobalContext);
   const [exportLoading, setExportLoading] = useState(false);
 
   const [data, setData] = useState<IDetectorConfig>({
@@ -105,7 +104,6 @@ export default function DetectorDashboard() {
 
     if (result) {
       setChanged(true);
-      setDetectorConfigChanged(true);
     }
   };
 
