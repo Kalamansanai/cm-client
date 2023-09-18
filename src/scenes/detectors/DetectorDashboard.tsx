@@ -75,8 +75,8 @@ export default function DetectorDashboard() {
   const [exportLoading, setExportLoading] = useState(false);
 
   const [data, setData] = useState<IDetectorConfig>({
-    charNum: detector?.detector_config.charNum,
-    comaPosition: detector?.detector_config.comaPosition,
+    char_num: detector?.detector_config.char_num,
+    coma_position: detector?.detector_config.coma_position,
     delay: detector?.detector_config.delay,
     flash: detector?.detector_config.flash,
     cost: detector?.detector_config.cost,
@@ -156,7 +156,7 @@ export default function DetectorDashboard() {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title="Detector"
-          subtitle={`Detector Name: ${detector.detector_name} | Mac Address: ${detector.detector_id}`}
+          subtitle={`Detector Name: ${detector.detector_name} | Mac Address: ${detector.detector_id} | Char Number: ${data.char_num} | Com,a Position: ${data.coma_position}`}
         />
         <Box
           width="40%"
@@ -246,40 +246,6 @@ export default function DetectorDashboard() {
               rowSpacing={2}
               columnSpacing={1}
             >
-              <Grid item xs={1}>
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="number"
-                  label="Char Num"
-                  value={data.charNum}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleInputChange(e, "charNum")
-                  }
-                  sx={{
-                    "& label": {
-                      zIndex: 0,
-                    },
-                  }}
-                />
-              </Grid>
-              <Grid item xs={1}>
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="number"
-                  label="Coma Position"
-                  value={data.comaPosition}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleInputChange(e, "comaPosition")
-                  }
-                  sx={{
-                    "& label": {
-                      zIndex: 0,
-                    },
-                  }}
-                />
-              </Grid>
               <Grid item xs={1}>
                 <TextField
                   fullWidth

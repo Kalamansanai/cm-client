@@ -19,7 +19,7 @@ export type User = {
   };
 };
 
-export interface IUserConfig { }
+export interface IUserConfig {}
 
 export interface IDetector {
   id: string;
@@ -33,11 +33,11 @@ export interface IDetector {
 }
 
 export interface IDetectorConfig {
-  charNum?: number;
-  comaPosition?: number;
   delay?: number;
   flash?: number;
   cost?: number;
+  char_num: string;
+  coma_position: string;
 }
 
 export type DetectorType = "water" | "electricity" | "gas";
