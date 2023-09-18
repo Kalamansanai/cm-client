@@ -3,24 +3,12 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import {
-  Alert,
-  Badge,
-  Box,
-  IconButton,
-  Snackbar,
-  useTheme,
-} from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import { Alert, Box, IconButton, Snackbar, useTheme } from "@mui/material";
+import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ApiResponse } from "../../apis/api.util";
-import { GetDetectorConfig } from "../../apis/detector_api";
-import { GetLocation } from "../../apis/location_api";
 import { Logout } from "../../apis/user_api";
 import { GlobalContext } from "../../App";
-import { useSnackbar } from "../../components/SnackbarContext";
 import { ColorModeContext } from "../../theme";
-import { IDetectorConfig, ILocation } from "../../types";
 
 const Topbar: React.FC = () => {
   const theme = useTheme();
@@ -31,60 +19,9 @@ const Topbar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const { user, setUser, setIsLoggedOut } = useContext(GlobalContext);
   const navigate = useNavigate();
-  const { showSnackbar } = useSnackbar();
-  const [showBadge, setShowBadge] = useState(false);
-  const [checkActive, setCheckActive] = useState(true);
-  const { isDetectorConfigChanged, setDetectorConfigChanged } =
-    useContext(GlobalContext);
-
-  const checkDetectorsConfig = async () => {
-    if (!checkActive) return;
-    const response: ApiResponse = await GetLocation();
-    const location: ILocation = response.Unwrap(setUser);
-    if (response.result === "error") {
-      showSnackbar(response.data, "error");
-      return;
-    }
-
-    try {
-      for (const detector of location.detectors) {
-        const detectorResponse = await GetDetectorConfig(detector.detector_id);
-        const detectorConfig: IDetectorConfig =
-          detectorResponse.Unwrap(setUser);
-        if (detectorConfig === undefined) {
-          setShowBadge(true);
-          setCheckActive(true);
-          break;
-        }
-        setShowBadge(false);
-      }
-    } catch (error) {
-      showSnackbar(
-        "An error occurred while checking detector config.",
-        "error",
-      );
-    }
-  };
-
-  useEffect(() => {
-    if (isDetectorConfigChanged) {
-      checkDetectorsConfig();
-      setDetectorConfigChanged(false);
-    }
-  }, [isDetectorConfigChanged]);
-
-  useEffect(() => {
-    checkDetectorsConfig();
-  }, []);
 
   const handleBack = () => {
     navigate("/detectors");
-  };
-
-  const handleSnackbar = () => {
-    if (showBadge) {
-      showSnackbar("Please set config values for your detector(s)", "error");
-    }
   };
 
   const handleClose = (
@@ -145,10 +82,8 @@ const Topbar: React.FC = () => {
           )}
         </IconButton>
         {user && (
-          <IconButton onClick={handleSnackbar}>
-            <Badge badgeContent={showBadge ? "1" : null} color="error">
-              <SettingsOutlinedIcon />
-            </Badge>
+          <IconButton>
+            <SettingsOutlinedIcon />
           </IconButton>
         )}
         {user && (
