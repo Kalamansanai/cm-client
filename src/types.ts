@@ -19,7 +19,7 @@ export type User = {
   };
 };
 
-export interface IUserConfig {}
+export interface IUserConfig { }
 
 export interface IDetector {
   id: string;
@@ -86,21 +86,21 @@ export interface ILineChartConfig {
     left: number;
     bottom: number;
   };
-  XAxis: XAxisProps;
-  YAxis: YAxisProps;
-  CartesianGrid: {
+  xAxis: XAxisProps;
+  yAxis: YAxisProps;
+  cartesianGrid: {
     //TODO: the config of this is so messy
     strokeDashArray: string;
   };
-  Tooltip: {
+  tooltip: {
     enable: boolean;
     config?: any;
   }; // soooooo messy
-  Legend: {
+  legend: {
     enable: boolean;
     config?: Legend;
   };
-  Lines: LineProps[];
+  lines: LineProps[];
 }
 
 export interface LineProps {
