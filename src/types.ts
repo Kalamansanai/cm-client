@@ -26,8 +26,6 @@ export interface IDetector {
   detector_id: string;
   detector_name: string;
   detector_config: IDetectorConfig;
-  char_num: string;
-  coma_position: string;
   type: DetectorType;
   state: DetectorState;
   logs?: ILog[];
@@ -38,6 +36,8 @@ export interface IDetectorConfig {
   delay?: number;
   flash?: number;
   cost?: number;
+  char_num: string;
+  coma_position: string;
 }
 
 export type DetectorType = "water" | "electricity" | "gas";

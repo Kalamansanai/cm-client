@@ -74,6 +74,8 @@ export default function DetectorDashboard() {
   const { setDetectorConfigChanged } = useContext(GlobalContext);
 
   const [data, setData] = useState<IDetectorConfig>({
+    char_num: detector?.detector_config.char_num,
+    coma_position: detector?.detector_config.coma_position,
     delay: detector?.detector_config.delay,
     flash: detector?.detector_config.flash,
     cost: detector?.detector_config.cost,
@@ -151,7 +153,7 @@ export default function DetectorDashboard() {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title="Detector"
-          subtitle={`Detector Name: ${detector.detector_name} | Mac Address: ${detector.detector_id} | Char Number: ${detector.char_num} | Com,a Position: ${detector.coma_position}`}
+          subtitle={`Detector Name: ${detector.detector_name} | Mac Address: ${detector.detector_id} | Char Number: ${data.char_num} | Com,a Position: ${data.coma_position}`}
         />
         <Box
           width="40%"

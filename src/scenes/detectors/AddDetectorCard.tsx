@@ -85,10 +85,11 @@ export function AddDetectorCard() {
       id: response.data,
       detector_id: formData.id,
       detector_name: formData.name,
-      detector_config: {},
+      detector_config: {
+        char_num: formData.char_num,
+        coma_position: formData.coma_pos,
+      },
       type: formData.type as DetectorType,
-      char_num: formData.char_num,
-      coma_position: formData.coma_pos,
       state: "init",
       image_path: "",
     };
