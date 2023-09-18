@@ -60,6 +60,7 @@ const PieChart = () => {
       >
         <ResponsivePie
           data={formattedData}
+          valueFormat={(value) => `${value} Ft`}
           theme={{
             axis: {
               domain: {
@@ -89,7 +90,9 @@ const PieChart = () => {
             },
             tooltip: {
               container: {
-                color: colors.primary[500],
+                backgroundColor:
+                  theme.palette.mode === "dark" ? "#ecebeb" : "#1F2A40",
+                color: colors.primary[400],
               },
             },
           }}
