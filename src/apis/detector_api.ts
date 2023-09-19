@@ -8,7 +8,7 @@ type regProps = {
   id: string;
   name: string;
   char_num: string;
-  coma_pos: string;
+  coma_position: string;
   type: string;
 };
 
@@ -22,7 +22,7 @@ export async function AddDetector(props: regProps) {
       detector_id: props.id,
       detector_name: props.name,
       char_num: props.char_num,
-      coma_pos: props.coma_pos,
+      coma_position: props.coma_position,
       type: props.type,
     }),
   });

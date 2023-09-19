@@ -21,7 +21,7 @@ interface FormData {
   type: string;
   id: string;
   char_num: string;
-  coma_pos: string;
+  coma_position: string;
 }
 
 export function AddDetectorCard() {
@@ -37,7 +37,7 @@ export function AddDetectorCard() {
     type: "",
     id: "",
     char_num: "",
-    coma_pos: "",
+    coma_position: "",
   });
   const [addingError, setAddingError] = useState<string | null>(null);
   const UUID_REGEX =
@@ -85,7 +85,7 @@ export function AddDetectorCard() {
       detector_name: formData.name,
       detector_config: {
         char_num: formData.char_num,
-        coma_position: formData.coma_pos,
+        coma_position: formData.coma_position,
       },
       type: formData.type as DetectorType,
       state: "init",
