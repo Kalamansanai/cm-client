@@ -39,6 +39,30 @@ const PieChart = () => {
     label: `${item.id}: ${item.value} Ft`,
   }));
 
+  const CustomTooltip = ({
+    id,
+    value,
+    color,
+  }: {
+    id: string | number;
+    value: string | number;
+    color: string;
+  }) => (
+    <div
+      style={{
+        background: theme.palette.mode === "dark" ? "#ecebeb" : "#1F2A40",
+        padding: "10px",
+        borderRadius: "5px",
+      }}
+    >
+      <span style={{ color: color }}>
+        {" "}
+        <strong>{id}</strong>
+        {`: ${value} Ft`}
+      </span>
+    </div>
+  );
+
   return (
     <div
       style={{
@@ -61,6 +85,13 @@ const PieChart = () => {
         <ResponsivePie
           data={formattedData}
           valueFormat={(value) => `${value} Ft`}
+          tooltip={({ datum }) => (
+            <CustomTooltip
+              id={datum.id}
+              value={datum.value}
+              color={datum.color}
+            />
+          )}
           theme={{
             axis: {
               domain: {
@@ -86,13 +117,6 @@ const PieChart = () => {
             legends: {
               text: {
                 fill: colors.grey[100],
-              },
-            },
-            tooltip: {
-              container: {
-                backgroundColor:
-                  theme.palette.mode === "dark" ? "#ecebeb" : "#1F2A40",
-                color: colors.primary[400],
               },
             },
           }}
