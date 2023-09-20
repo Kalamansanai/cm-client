@@ -14,8 +14,8 @@ export const GlobalContext = createContext<{
   setIsLoggedOut: React.Dispatch<React.SetStateAction<boolean>>;
 }>({
   user: null,
-  setUser: () => {},
-  setIsLoggedOut: () => {},
+  setUser: () => { },
+  setIsLoggedOut: () => { },
 });
 
 function App(): JSX.Element {
@@ -80,7 +80,9 @@ function App(): JSX.Element {
               }}
             >
               <Topbar />
-              <Outlet />
+              <div style={{ margin: "16px" }}>
+                <Outlet />
+              </div>
             </main>
           </div>
         </GlobalContext.Provider>
