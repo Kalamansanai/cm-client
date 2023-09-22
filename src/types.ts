@@ -36,8 +36,8 @@ export interface IDetectorConfig {
   delay?: number;
   flash?: number;
   cost?: number;
-  char_num: string;
-  coma_position: string;
+  char_num: number;
+  coma_position: number;
 }
 
 export type DetectorType = "water" | "electricity" | "gas";

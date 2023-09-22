@@ -20,8 +20,8 @@ interface FormData {
   name: string;
   type: string;
   id: string;
-  char_num: string;
-  coma_position: string;
+  char_num: number;
+  coma_position: number;
 }
 
 export function AddDetectorCard() {
@@ -36,8 +36,8 @@ export function AddDetectorCard() {
     name: "",
     type: "",
     id: "",
-    char_num: "",
-    coma_position: "",
+    char_num: 0,
+    coma_position: 0,
   });
   const [addingError, setAddingError] = useState<string | null>(null);
   const UUID_REGEX =
@@ -45,8 +45,8 @@ export function AddDetectorCard() {
   const detectorTypes = ["water", "electricity", "gas"];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    const inputName = e.target.name;
+    let inputValue: number | string = e.target.value;
+    let inputName = e.target.name;
 
     if (inputName === "id") {
       const inputElement = e.target;
@@ -57,11 +57,15 @@ export function AddDetectorCard() {
           inputElement.setCustomValidity("");
         }
       }
+    } else if (inputName == "char_num") {
+      inputValue = parseInt(inputValue);
+    } else if (inputName == "coma_position") {
+      inputValue = parseInt(inputValue);
     }
 
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: inputValue,
     });
   };
 
@@ -182,6 +186,7 @@ export function AddDetectorCard() {
         <TextField
           fullWidth
           required
+          name="char_num"
           variant="filled"
           type="number"
           label="Char Num"
@@ -204,6 +209,7 @@ export function AddDetectorCard() {
         <TextField
           fullWidth
           required
+          name="coma_position"
           variant="filled"
           type="number"
           label="Coma Position"

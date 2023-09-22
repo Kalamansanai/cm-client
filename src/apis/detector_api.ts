@@ -7,8 +7,8 @@ type regProps = {
   location_id: string;
   id: string;
   name: string;
-  char_num: string;
-  coma_position: string;
+  char_num: number;
+  coma_position: number;
   type: string;
 };
 
