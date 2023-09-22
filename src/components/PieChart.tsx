@@ -1,13 +1,13 @@
 import { CircularProgress, Typography, useTheme } from "@mui/material";
 import { ResponsivePie } from "@nivo/pie";
 import { useContext, useMemo, useState } from "react";
-import { PieData } from "types";
 import { GetPieCostChartData } from "../apis/data_api";
 import configJson from "../data/piechartConfig.json";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { tokens } from "../theme";
-import { IPieChartConfig } from "../types";
+import { customColors, IPieChartConfig, PieData } from "../types";
 import { allZero } from "./componentUtils";
+import CustomTooltip from "./CustomTooltip";
 
 const PieChart = () => {
   const theme = useTheme();
@@ -39,30 +39,6 @@ const PieChart = () => {
     label: `${item.id}: ${item.value} Ft`,
   }));
 
-  const CustomTooltip = ({
-    id,
-    value,
-    color,
-  }: {
-    id: string | number;
-    value: string | number;
-    color: string;
-  }) => (
-    <div
-      style={{
-        background: theme.palette.mode === "dark" ? "#ecebeb" : "#1F2A40",
-        padding: "10px",
-        borderRadius: "5px",
-      }}
-    >
-      <span style={{ color: color }}>
-        {" "}
-        <strong>{id}</strong>
-        {`: ${value} Ft`}
-      </span>
-    </div>
-  );
-
   return (
     <div
       style={{
@@ -90,6 +66,7 @@ const PieChart = () => {
               id={datum.id}
               value={datum.value}
               color={datum.color}
+              symbol=" Ft"
             />
           )}
           theme={{
@@ -125,7 +102,7 @@ const PieChart = () => {
           padAngle={0.7}
           cornerRadius={3}
           activeOuterRadiusOffset={8}
-          colors={{ scheme: "dark2" }}
+          colors={(bar) => customColors[bar.id] || "#000000"}
           borderWidth={1}
           borderColor={{
             from: "color",

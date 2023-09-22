@@ -5,7 +5,8 @@ import { barChartDataWrapper } from "../components/componentUtils";
 import configJson from "../data/barchartConfig.json";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { tokens } from "../theme";
-import { IBarChartConfig } from "../types";
+import { customColors, IBarChartConfig } from "../types";
+import CustomTooltip from "./CustomTooltip";
 
 const BarChart = () => {
   const theme = useTheme();
@@ -42,6 +43,15 @@ const BarChart = () => {
         <ResponsiveBar
           data={data}
           label={(bar: any) => `${bar.value}${config.label}`}
+          tooltip={(barData: any) => (
+            <CustomTooltip
+              id={barData.id}
+              value={barData.value}
+              color={barData.color}
+              additionalInfo={`- ${barData.data.month} Ft`}
+              symbol={config.label}
+            />
+          )}
           theme={{
             axis: {
               domain: {
@@ -81,27 +91,7 @@ const BarChart = () => {
           padding={0.45}
           valueScale={{ type: "linear" }}
           indexScale={{ type: "band", round: true }}
-          colors={{ scheme: "dark2" }}
-          // defs={[
-          //   {
-          //     id: "dots",
-          //     type: "patternDots",
-          //     background: "inherit",
-          //     color: "rgba(255, 255, 255, 0.3)",
-          //     size: 4,
-          //     padding: 1,
-          //     stagger: true,
-          //   },
-          //   {
-          //     id: "lines",
-          //     type: "patternLines",
-          //     background: "inherit",
-          //     color: "rgba(255, 255, 255, 0.9)",
-          //     rotation: -95,
-          //     lineWidth: 6,
-          //     spacing: 10,
-          //   },
-          // ]}
+          colors={(bar) => customColors[bar.id] || "#000000"}
           fill={[
             {
               match: {
