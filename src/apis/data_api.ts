@@ -70,7 +70,7 @@ export async function GetLocationMonthlyStatByType(
   type: string,
 ) {
   const response = await fetch(
-    `${backend}/get_location_monthly_stat_by_type/${location_id}`,
+    `${backend}/get_location_monthly_sum_by_type/${location_id}`,
     {
       method: "POST",
       headers: {

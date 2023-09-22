@@ -107,26 +107,6 @@ const BarChart = () => {
           valueScale={{ type: "linear" }}
           indexScale={{ type: "band", round: true }}
           colors={{ scheme: "dark2" }}
-          // defs={[
-          //   {
-          //     id: "dots",
-          //     type: "patternDots",
-          //     background: "inherit",
-          //     color: "rgba(255, 255, 255, 0.3)",
-          //     size: 4,
-          //     padding: 1,
-          //     stagger: true,
-          //   },
-          //   {
-          //     id: "lines",
-          //     type: "patternLines",
-          //     background: "inherit",
-          //     color: "rgba(255, 255, 255, 0.9)",
-          //     rotation: -95,
-          //     lineWidth: 6,
-          //     spacing: 10,
-          //   },
-          // ]}
           fill={[
             {
               match: {
