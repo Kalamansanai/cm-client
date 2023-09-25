@@ -19,8 +19,8 @@ import { Params, useLoaderData } from "react-router-dom";
 import { ApiResponse } from "../../apis/api.util";
 import { ExportDetectorToCsv } from "../../apis/data_api";
 import {
+  GetDetector,
   GetDetectorImage,
-  GetDetectorWithLogs,
   SetConfig,
 } from "../../apis/detector_api";
 import { GlobalContext } from "../../App";
@@ -48,7 +48,7 @@ function calculateInputChangeValue(
 export async function loader({ params }: { params: Params }) {
   const detector_id = params["detector_id"]! as any as string;
 
-  const resp_detector: ApiResponse = await GetDetectorWithLogs(detector_id);
+  const resp_detector: ApiResponse = await GetDetector(detector_id);
 
   const resp_detector_image = await GetDetectorImage(detector_id);
 
@@ -60,7 +60,10 @@ export async function loader({ params }: { params: Params }) {
     detector_image = URL.createObjectURL(data) || null;
   }
 
-  return { detector_resp: resp_detector, detector_image: detector_image };
+  return {
+    detector_resp: resp_detector,
+    detector_image: detector_image,
+  };
 }
 
 export default function DetectorDashboard() {
@@ -81,7 +84,6 @@ export default function DetectorDashboard() {
     flash: detector?.detector_config.flash,
     cost: detector?.detector_config.cost,
   });
-
   useEffect(() => {
     setData(detector?.detector_config);
   }, [detector]);
@@ -120,7 +122,9 @@ export default function DetectorDashboard() {
   const [changed, setChanged] = useState(false);
   const [alert, setAlert] = useState(false);
 
-  console.log(exportLoading);
+  if (!data) {
+    return <>data error</>;
+  }
   return (
     <Box sx={{ height: "100%", width: "100%" }}>
       <Snackbar
@@ -375,10 +379,10 @@ export default function DetectorDashboard() {
               }}
             >
               <Box display="flex" flexDirection="column-reverse">
-                {detector
+                {detector.logs
                   ? detector.logs?.map((log, i) => (
-                      <LogCard key={i} log={log} index={i} />
-                    ))
+                    <LogCard key={i} log={log} index={i} />
+                  ))
                   : null}
               </Box>
             </Box>
