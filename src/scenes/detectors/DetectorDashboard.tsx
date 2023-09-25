@@ -23,6 +23,7 @@ import {
   GetDetectorImage,
   SetConfig,
 } from "../../apis/detector_api";
+import { GetLogsByDetector } from "../../apis/log_api";
 import { GlobalContext } from "../../App";
 import { LineChartWrapper } from "../../components/componentUtils";
 import Header from "../../components/Header";
@@ -60,9 +61,12 @@ export async function loader({ params }: { params: Params }) {
     detector_image = URL.createObjectURL(data) || null;
   }
 
+  const resp_logs: ApiResponse = await GetLogsByDetector(detector_id);
+
   return {
     detector_resp: resp_detector,
     detector_image: detector_image,
+    logs_resp: resp_logs,
   };
 }
 
@@ -70,11 +74,14 @@ export default function DetectorDashboard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { setUser } = useContext(GlobalContext);
-  const { detector_resp, detector_image } = useLoaderData() as {
+  const { detector_resp, detector_image, logs_resp } = useLoaderData() as {
     detector_resp: ApiResponse;
     detector_image: string;
+    logs_resp: ApiResponse;
   };
+  console.log(logs_resp);
   const detector: IDetector = detector_resp.Unwrap(setUser);
+  const logs: ILog[] = logs_resp.Unwrap(setUser);
   const [exportLoading, setExportLoading] = useState(false);
 
   const [data, setData] = useState<IDetectorConfig>({
@@ -379,8 +386,8 @@ export default function DetectorDashboard() {
               }}
             >
               <Box display="flex" flexDirection="column-reverse">
-                {detector.logs
-                  ? detector.logs?.map((log, i) => (
+                {logs
+                  ? logs?.map((log, i) => (
                     <LogCard key={i} log={log} index={i} />
                   ))
                   : null}

@@ -19,7 +19,7 @@ export type User = {
   };
 };
 
-export interface IUserConfig {}
+export interface IUserConfig { }
 
 export interface IDetector {
   id: string;
@@ -29,7 +29,6 @@ export interface IDetector {
   detector_config: IDetectorConfig;
   type: DetectorType;
   state: DetectorState;
-  logs?: ILog[];
 }
 
 export interface IDetectorConfig {
@@ -44,6 +43,9 @@ export type DetectorType = "water" | "electricity" | "gas";
 export type DetectorState = "sleep" | "init" | "active";
 
 export interface ILog {
+  location_id: string;
+  detector_id: string;
+  type: string;
   timestamp: Date;
   value: number;
 }
