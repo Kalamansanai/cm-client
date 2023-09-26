@@ -14,6 +14,7 @@ import {
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ApiResponse } from "../../apis/api.util";
+import { GetDetectorsByLocation } from "../../apis/detector_api";
 import { GetLocation } from "../../apis/location_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
@@ -45,7 +46,13 @@ export default function DetectorList() {
       const location: ILocation = response.Unwrap(setUser);
       if (location) {
         setLocation(location);
-        setDetectors(location.detectors);
+      }
+      const resp_detectors: ApiResponse = await GetDetectorsByLocation(
+        location.id,
+      );
+      const detectors: IDetector[] = resp_detectors.Unwrap(setUser);
+      if (detectors) {
+        setDetectors(detectors);
       }
     }
   }
@@ -88,6 +95,7 @@ export default function DetectorList() {
             height="500px"
             width="100%"
             justifyContent="center"
+            mt={3}
           >
             <AddDetectorCard />
           </Grid>

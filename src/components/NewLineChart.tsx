@@ -33,12 +33,12 @@ export default function NewLineChart({ response_data }: Props) {
         data={data}
         margin={config.chartMargin}
       >
-        <CartesianGrid strokeDasharray={config.CartesianGrid.strokeDashArray} />
-        <XAxis {...config.XAxis} />
-        <YAxis {...config.YAxis} />
-        {config.Tooltip.enable && <Tooltip />}
-        {config.Legend.enable && <Legend />}
-        {config.Lines.map((line, i) => (
+        <CartesianGrid strokeDasharray={config.cartesianGrid.strokeDashArray} />
+        <XAxis {...config.xAxis} />
+        <YAxis {...config.yAxis} />
+        {config.tooltip.enable && <Tooltip />}
+        {config.legend.enable && <Legend />}
+        {config.lines.map((line, i) => (
           <Line key={i} {...line} />
         ))}
       </LineChart>
