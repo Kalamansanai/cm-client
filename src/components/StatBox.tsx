@@ -29,7 +29,12 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
         location?.id,
         type,
       );
-      setValue(response.Unwrap(setUser).toFixed(3));
+      const value = response.Unwrap(setUser);
+      if (value === null) {
+        setValue(0);
+      } else {
+        setValue(value.toFixed(3));
+      }
     }
     setLoading(false);
   }
