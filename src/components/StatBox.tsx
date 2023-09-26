@@ -5,7 +5,7 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { useContext } from "react";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { tokens } from "../theme";
-import { IMonthlyLog } from "../types";
+import { customColors, IMonthlyLog } from "../types";
 
 interface StatBoxProps {
   type: string;
@@ -34,19 +34,29 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
 
   switch (type) {
     case "water":
-      icon = <WaterDropIcon sx={{ color: "white", fontSize: "26px" }} />;
+      icon = (
+        <WaterDropIcon
+          sx={{ color: `${customColors.water}`, fontSize: "26px" }}
+        />
+      );
       value = currentMonthValues
         ? currentMonthValues?.values.water.toString()
         : "0";
       break;
     case "gas":
-      icon = <GasMeterIcon sx={{ color: "white", fontSize: "26px" }} />;
+      icon = (
+        <GasMeterIcon sx={{ color: `${customColors.gas}`, fontSize: "26px" }} />
+      );
       value = currentMonthValues
         ? currentMonthValues.values.gas.toString()
         : "0";
       break;
     case "electricity":
-      icon = <BoltIcon sx={{ color: "white", fontSize: "26px" }} />;
+      icon = (
+        <BoltIcon
+          sx={{ color: `${customColors.electricity}`, fontSize: "26px" }}
+        />
+      );
       value = currentMonthValues
         ? currentMonthValues.values.electricity.toString()
         : "0";
