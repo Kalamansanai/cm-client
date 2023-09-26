@@ -23,6 +23,7 @@ import { ApiResponse } from "../../apis/api.util";
 import { Login } from "../../apis/user_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
+import { useSnackbar } from "../../components/SnackbarContext";
 import { tokens } from "../../theme";
 
 const LoginComponent = () => {
@@ -33,6 +34,7 @@ const LoginComponent = () => {
   const [loginSuccessfull, setLoginSuccessfull] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
 
   const { setUser } = useContext(GlobalContext);
   const initialValues = {
@@ -60,15 +62,29 @@ const LoginComponent = () => {
       }
       setAlertMessage("Login was successful!");
       setAlert(true);
+      setTimeout(() => {
+        setAlert(false);
+        setLoginSuccessfull(false);
+      }, 5000);
       resetForm();
       setSubmitting(false);
       setLoginSuccessfull(true);
       setLoading(false);
+      showSnackbar("Succesful login!", "success");
       navigate("/dashboard");
     } catch (error: any) {
       setLoading(false);
-      setAlertMessage(error.message);
+      console.log("Error: ", error);
+      if (error.message === "Failed to fetch") {
+        setAlertMessage("Backend is down, please try again later.");
+      } else {
+        setAlertMessage("Invalid e-mail or password!");
+      }
       setAlert(true);
+      setTimeout(() => {
+        setAlert(false);
+        setLoginSuccessfull(false);
+      }, 5000);
     }
   };
 
@@ -139,6 +155,9 @@ const LoginComponent = () => {
                   "& label": {
                     zIndex: 0,
                   },
+                  "& .MuiFilledInput-underline:after": {
+                    borderColor: colors.blueAccent[500],
+                  },
                 }}
               />
               <TextField
@@ -162,6 +181,9 @@ const LoginComponent = () => {
                   "& label": {
                     zIndex: 0,
                   },
+                  "& .MuiFilledInput-underline:after": {
+                    borderColor: colors.blueAccent[500],
+                  },
                 }}
                 InputProps={{
                   endAdornment: (
@@ -170,7 +192,7 @@ const LoginComponent = () => {
                         aria-label="toggle password visibility"
                         onClick={() => setShowPassword(!showPassword)}
                       >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
                       </IconButton>
                     </InputAdornment>
                   ),

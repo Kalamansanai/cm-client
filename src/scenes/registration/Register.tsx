@@ -195,6 +195,9 @@ const Register = () => {
                       "& label": {
                         zIndex: 0,
                       },
+                      "& .MuiFilledInput-underline:after": {
+                        borderColor: colors.blueAccent[500],
+                      },
                     }}
                   />
                 </Grid>
@@ -233,6 +236,9 @@ const Register = () => {
                       },
                       "& label": {
                         zIndex: 0,
+                      },
+                      "& .MuiFilledInput-underline:after": {
+                        borderColor: colors.blueAccent[500],
                       },
                     }}
                   />
@@ -273,6 +279,9 @@ const Register = () => {
                       "& label": {
                         zIndex: 0,
                       },
+                      "& .MuiFilledInput-underline:after": {
+                        borderColor: colors.blueAccent[500],
+                      },
                     }}
                     InputProps={{
                       endAdornment: (
@@ -281,7 +290,7 @@ const Register = () => {
                             aria-label="toggle password visibility"
                             onClick={() => setShowPassword(!showPassword)}
                           >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
                           </IconButton>
                         </InputAdornment>
                       ),
@@ -324,6 +333,9 @@ const Register = () => {
                       "& label": {
                         zIndex: 0,
                       },
+                      "& .MuiFilledInput-underline:after": {
+                        borderColor: colors.blueAccent[500],
+                      },
                     }}
                     InputProps={{
                       endAdornment: (
@@ -333,9 +345,9 @@ const Register = () => {
                             onClick={() => setShowPasswordRe(!showPasswordRe)}
                           >
                             {showPasswordRe ? (
-                              <VisibilityOff />
-                            ) : (
                               <Visibility />
+                            ) : (
+                              <VisibilityOff />
                             )}
                           </IconButton>
                         </InputAdornment>
