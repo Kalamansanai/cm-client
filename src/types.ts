@@ -23,13 +23,12 @@ export interface IUserConfig { }
 
 export interface IDetector {
   id: string;
+  location_id: string;
   detector_id: string;
   detector_name: string;
   detector_config: IDetectorConfig;
   type: DetectorType;
   state: DetectorState;
-  logs?: ILog[];
-  image_path: string;
 }
 
 export interface IDetectorConfig {
@@ -44,6 +43,9 @@ export type DetectorType = "water" | "electricity" | "gas";
 export type DetectorState = "sleep" | "init" | "active";
 
 export interface ILog {
+  location_id: string;
+  detector_id: string;
+  type: string;
   timestamp: Date;
   value: number;
 }
