@@ -1,6 +1,7 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
+import { SnackbarProvider } from "../src/components/SnackbarContext";
 import { ApiResponse } from "./apis/api.util";
 import { login_cookie } from "./apis/user_api";
 import Sidebar from "./scenes/global/Sidebar";
@@ -14,8 +15,8 @@ export const GlobalContext = createContext<{
   setIsLoggedOut: React.Dispatch<React.SetStateAction<boolean>>;
 }>({
   user: null,
-  setUser: () => { },
-  setIsLoggedOut: () => { },
+  setUser: () => {},
+  setIsLoggedOut: () => {},
 });
 
 function App(): JSX.Element {
@@ -55,37 +56,39 @@ function App(): JSX.Element {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <GlobalContext.Provider
-          value={{
-            user,
-            setUser,
-            setIsLoggedOut,
-          }}
-        >
-          <CssBaseline />
-          <div
-            className="app"
-            style={{ display: "flex", height: "100vh", position: "relative" }}
+        <SnackbarProvider>
+          <GlobalContext.Provider
+            value={{
+              user,
+              setUser,
+              setIsLoggedOut,
+            }}
           >
-            <Sidebar
-              isCollapsed={isCollapsed}
-              setIsCollapsed={setIsCollapsed}
-            />
-            <main
-              className="content"
-              style={{
-                flex: 1,
-                overflowY: "auto",
-                marginLeft: 80,
-              }}
+            <CssBaseline />
+            <div
+              className="app"
+              style={{ display: "flex", height: "100vh", position: "relative" }}
             >
-              <Topbar />
-              <div style={{ margin: "16px" }}>
-                <Outlet />
-              </div>
-            </main>
-          </div>
-        </GlobalContext.Provider>
+              <Sidebar
+                isCollapsed={isCollapsed}
+                setIsCollapsed={setIsCollapsed}
+              />
+              <main
+                className="content"
+                style={{
+                  flex: 1,
+                  overflowY: "auto",
+                  marginLeft: 80,
+                }}
+              >
+                <Topbar />
+                <div style={{ margin: "16px" }}>
+                  <Outlet />
+                </div>
+              </main>
+            </div>
+          </GlobalContext.Provider>
+        </SnackbarProvider>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

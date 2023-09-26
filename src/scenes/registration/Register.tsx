@@ -16,10 +16,11 @@ import {
 } from "@mui/material";
 import { ErrorMessage, Formik } from "formik";
 import { useState } from "react";
-import { Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { SendRegister } from "../../apis/user_api";
 import Header from "../../components/Header";
+import { useSnackbar } from "../../components/SnackbarContext";
 import { tokens } from "../../theme";
 
 const Register = () => {
@@ -27,6 +28,9 @@ const Register = () => {
   const colors = tokens(theme.palette.mode);
   const [errorAlert, setErrorAlert] = useState("");
   const [loading, setLoading] = useState(false);
+  const redColor = colors.redAccent[500];
+  const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
   const [errorMessage, setErrorMessage] = useState("");
   const registrationSchema = yup.object().shape({
     name: yup
@@ -98,6 +102,8 @@ const Register = () => {
       } else if (response.result === "ok") {
         setErrorMessage("Succesful registration!");
         setErrorAlert("ok");
+        showSnackbar("Succesful registration!", "success");
+        navigate("/login");
       }
     } catch (error: any) {
       setErrorMessage(error.message);
@@ -165,7 +171,20 @@ const Register = () => {
                     placeholder="Enter name"
                     name="name"
                     margin="normal"
-                    helperText={<ErrorMessage name="name" />}
+                    helperText={
+                      <ErrorMessage name="name">
+                        {(msg: string | null | undefined) => {
+                          if (msg) {
+                            return (
+                              <span style={{ color: redColor }}>{msg}</span>
+                            );
+                          }
+                          return (
+                            <span style={{ color: redColor }}>Required</span>
+                          );
+                        }}
+                      </ErrorMessage>
+                    }
                     sx={{
                       gridColumn: "span 2",
                       color: colors.blueAccent[500],
@@ -191,7 +210,20 @@ const Register = () => {
                     placeholder="Enter email"
                     name="email"
                     margin="normal"
-                    helperText={<ErrorMessage name="email" />}
+                    helperText={
+                      <ErrorMessage name="email">
+                        {(msg: string | null | undefined) => {
+                          if (msg) {
+                            return (
+                              <span style={{ color: redColor }}>{msg}</span>
+                            );
+                          }
+                          return (
+                            <span style={{ color: redColor }}>Required</span>
+                          );
+                        }}
+                      </ErrorMessage>
+                    }
                     sx={{
                       gridColumn: "span 2",
                       color: colors.blueAccent[500],
@@ -217,7 +249,20 @@ const Register = () => {
                     name="password"
                     required
                     margin="normal"
-                    helperText={<ErrorMessage name="password" />}
+                    helperText={
+                      <ErrorMessage name="password">
+                        {(msg: string | null | undefined) => {
+                          if (msg) {
+                            return (
+                              <span style={{ color: redColor }}>{msg}</span>
+                            );
+                          }
+                          return (
+                            <span style={{ color: redColor }}>Required</span>
+                          );
+                        }}
+                      </ErrorMessage>
+                    }
                     sx={{
                       gridColumn: "span 2",
                       color: colors.blueAccent[500],
@@ -255,7 +300,20 @@ const Register = () => {
                     name="passwordrpt"
                     required
                     margin="normal"
-                    helperText={<ErrorMessage name="passwordrpt" />}
+                    helperText={
+                      <ErrorMessage name="passwordrpt">
+                        {(msg: string | null | undefined) => {
+                          if (msg) {
+                            return (
+                              <span style={{ color: redColor }}>{msg}</span>
+                            );
+                          }
+                          return (
+                            <span style={{ color: redColor }}>Required</span>
+                          );
+                        }}
+                      </ErrorMessage>
+                    }
                     sx={{
                       gridColumn: "span 2",
                       color: colors.blueAccent[500],
