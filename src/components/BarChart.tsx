@@ -66,7 +66,7 @@ const BarChart = () => {
       >
         <ResponsiveBar
           data={data}
-          label={(bar: any) => `${Math.floor(bar.value)}${config.label}`}
+          label={(bar: any) => `${bar.value.toFixed(3)}${config.label}`}
           theme={{
             axis: {
               domain: {
@@ -122,7 +122,7 @@ const BarChart = () => {
             },
             {
               match: {
-                id: "wate",
+                id: "water",
               },
               id: "lines",
             },
