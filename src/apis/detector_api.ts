@@ -88,3 +88,16 @@ export async function GetDetectorImage(detector_id: string) {
 
   return response;
 }
+
+export async function GetDetectorsByLocation(location_id: string) {
+  const response = await fetch(
+    `${backend}/get_detectors_by_location/${location_id}`,
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    },
+  );
+
+  return await ApiWrapper(response, true);
+}
