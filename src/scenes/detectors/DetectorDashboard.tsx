@@ -388,8 +388,8 @@ export default function DetectorDashboard() {
               <Box display="flex" flexDirection="column-reverse">
                 {logs
                   ? logs?.map((log, i) => (
-                    <LogCard key={i} log={log} index={i} />
-                  ))
+                      <LogCard key={i} log={log} index={i} />
+                    ))
                   : null}
               </Box>
             </Box>

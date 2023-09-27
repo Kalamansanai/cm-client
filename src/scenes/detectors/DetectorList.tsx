@@ -61,7 +61,7 @@ export default function DetectorList() {
     GetDetectorList();
   }, [user]);
 
-  const hasNoDetectors = detectors.length === 0;
+  const hasNoDetectors = detectors?.length === 0;
 
   if (!user) {
     return null;
