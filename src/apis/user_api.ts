@@ -51,6 +51,7 @@ export const GetUserData = async () => {
 };
 
 export const Login = async ({ email, password }: logProps) => {
+  console.log(backend);
   try {
     const response = await fetch(`${backend}/login`, {
       method: "POST",

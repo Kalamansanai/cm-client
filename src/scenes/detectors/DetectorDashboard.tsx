@@ -19,10 +19,11 @@ import { Params, useLoaderData } from "react-router-dom";
 import { ApiResponse } from "../../apis/api.util";
 import { ExportDetectorToCsv } from "../../apis/data_api";
 import {
+  GetDetector,
   GetDetectorImage,
-  GetDetectorWithLogs,
   SetConfig,
 } from "../../apis/detector_api";
+import { GetLogsByDetector } from "../../apis/log_api";
 import { GlobalContext } from "../../App";
 import { LineChartWrapper } from "../../components/componentUtils";
 import Header from "../../components/Header";
@@ -48,7 +49,7 @@ function calculateInputChangeValue(
 export async function loader({ params }: { params: Params }) {
   const detector_id = params["detector_id"]! as any as string;
 
-  const resp_detector: ApiResponse = await GetDetectorWithLogs(detector_id);
+  const resp_detector: ApiResponse = await GetDetector(detector_id);
 
   const resp_detector_image = await GetDetectorImage(detector_id);
 
@@ -60,18 +61,27 @@ export async function loader({ params }: { params: Params }) {
     detector_image = URL.createObjectURL(data) || null;
   }
 
-  return { detector_resp: resp_detector, detector_image: detector_image };
+  const resp_logs: ApiResponse = await GetLogsByDetector(detector_id);
+
+  return {
+    detector_resp: resp_detector,
+    detector_image: detector_image,
+    logs_resp: resp_logs,
+  };
 }
 
 export default function DetectorDashboard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { setUser } = useContext(GlobalContext);
-  const { detector_resp, detector_image } = useLoaderData() as {
+  const { detector_resp, detector_image, logs_resp } = useLoaderData() as {
     detector_resp: ApiResponse;
     detector_image: string;
+    logs_resp: ApiResponse;
   };
+  console.log(logs_resp);
   const detector: IDetector = detector_resp.Unwrap(setUser);
+  const logs: ILog[] = logs_resp.Unwrap(setUser);
   const [exportLoading, setExportLoading] = useState(false);
 
   const [data, setData] = useState<IDetectorConfig>({
@@ -81,7 +91,6 @@ export default function DetectorDashboard() {
     flash: detector?.detector_config.flash,
     cost: detector?.detector_config.cost,
   });
-
   useEffect(() => {
     setData(detector?.detector_config);
   }, [detector]);
@@ -113,14 +122,16 @@ export default function DetectorDashboard() {
 
   const handleExport = async () => {
     setExportLoading(true);
-    await ExportDetectorToCsv(detector.id);
+    await ExportDetectorToCsv(detector.detector_id);
     setExportLoading(false);
   };
 
   const [changed, setChanged] = useState(false);
   const [alert, setAlert] = useState(false);
 
-  console.log(exportLoading);
+  if (!data) {
+    return <>data error</>;
+  }
   return (
     <Box sx={{ height: "100%", width: "100%" }}>
       <Snackbar
@@ -375,10 +386,10 @@ export default function DetectorDashboard() {
               }}
             >
               <Box display="flex" flexDirection="column-reverse">
-                {detector
-                  ? detector.logs?.map((log, i) => (
-                      <LogCard key={i} log={log} index={i} />
-                    ))
+                {logs
+                  ? logs?.map((log, i) => (
+                    <LogCard key={i} log={log} index={i} />
+                  ))
                   : null}
               </Box>
             </Box>

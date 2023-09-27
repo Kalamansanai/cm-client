@@ -79,19 +79,6 @@ export async function GetDetector(detector_id: string) {
   return await ApiWrapper(response, true);
 }
 
-export async function GetDetectorWithLogs(detector_id: string) {
-  const response = await fetch(
-    `${backend}/get_detector_with_logs/${detector_id}`,
-    {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    },
-  );
-
-  return await ApiWrapper(response, true);
-}
-
 export async function GetDetectorImage(detector_id: string) {
   const response = await fetch(`${backend}/get_detector_img/${detector_id}`, {
     method: "GET",
@@ -100,4 +87,17 @@ export async function GetDetectorImage(detector_id: string) {
   });
 
   return response;
+}
+
+export async function GetDetectorsByLocation(location_id: string) {
+  const response = await fetch(
+    `${backend}/get_detectors_by_location/${location_id}`,
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    },
+  );
+
+  return await ApiWrapper(response, true);
 }

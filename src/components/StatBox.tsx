@@ -29,7 +29,12 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
         location?.id,
         type,
       );
-      setValue(Math.floor(response.Unwrap(setUser)));
+      const value = response.Unwrap(setUser);
+      if (value === null) {
+        setValue(0);
+      } else {
+        setValue(value.toFixed(3));
+      }
     }
     setLoading(false);
   }
@@ -80,7 +85,7 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
           <Typography
             variant="h4"
             fontWeight="bold"
-            sx={{ color: colors.grey[100] }}
+            sx={{ color: colors.grey[100], m: 1 }}
           >
             {loading ? <CircularProgress sx={{ color: "white" }} /> : value}
           </Typography>

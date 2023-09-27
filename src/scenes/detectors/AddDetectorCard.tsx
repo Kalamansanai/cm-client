@@ -85,6 +85,7 @@ export function AddDetectorCard() {
 
     const newDetector: IDetector = {
       id: response.data,
+      location_id: response.location_id,
       detector_id: formData.id,
       detector_name: formData.name,
       detector_config: {
@@ -93,7 +94,6 @@ export function AddDetectorCard() {
       },
       type: formData.type as DetectorType,
       state: "init",
-      image_path: "",
     };
 
     const newDetectors = [...detectors, newDetector];
