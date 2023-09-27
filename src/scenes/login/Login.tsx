@@ -62,10 +62,6 @@ const LoginComponent = () => {
       }
       setAlertMessage("Login was successful!");
       setAlert(true);
-      setTimeout(() => {
-        setAlert(false);
-        setLoginSuccessfull(false);
-      }, 5000);
       resetForm();
       setSubmitting(false);
       setLoginSuccessfull(true);
@@ -81,10 +77,6 @@ const LoginComponent = () => {
         setAlertMessage("Invalid e-mail or password!");
       }
       setAlert(true);
-      setTimeout(() => {
-        setAlert(false);
-        setLoginSuccessfull(false);
-      }, 5000);
     }
   };
 
