@@ -122,7 +122,7 @@ export default function DetectorDashboard() {
 
   const handleExport = async () => {
     setExportLoading(true);
-    await ExportDetectorToCsv(detector.id);
+    await ExportDetectorToCsv(detector.detector_id);
     setExportLoading(false);
   };
 
