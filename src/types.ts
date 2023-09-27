@@ -19,31 +19,33 @@ export type User = {
   };
 };
 
-export interface IUserConfig { }
+export interface IUserConfig {}
 
 export interface IDetector {
   id: string;
+  location_id: string;
   detector_id: string;
   detector_name: string;
   detector_config: IDetectorConfig;
   type: DetectorType;
   state: DetectorState;
-  logs?: ILog[];
-  image_path: string;
 }
 
 export interface IDetectorConfig {
-  charNum?: number;
-  comaPosition?: number;
   delay?: number;
   flash?: number;
   cost?: number;
+  char_num: number;
+  coma_position: number;
 }
 
 export type DetectorType = "water" | "electricity" | "gas";
 export type DetectorState = "sleep" | "init" | "active";
 
 export interface ILog {
+  location_id: string;
+  detector_id: string;
+  type: string;
   timestamp: Date;
   value: number;
 }
@@ -86,21 +88,21 @@ export interface ILineChartConfig {
     left: number;
     bottom: number;
   };
-  XAxis: XAxisProps;
-  YAxis: YAxisProps;
-  CartesianGrid: {
+  xAxis: XAxisProps;
+  yAxis: YAxisProps;
+  cartesianGrid: {
     //TODO: the config of this is so messy
     strokeDashArray: string;
   };
-  Tooltip: {
+  tooltip: {
     enable: boolean;
     config?: any;
   }; // soooooo messy
-  Legend: {
+  legend: {
     enable: boolean;
     config?: Legend;
   };
-  Lines: LineProps[];
+  lines: LineProps[];
 }
 
 export interface LineProps {
@@ -113,7 +115,6 @@ export interface ILocation {
   id: string;
   userId: string;
   name: string;
-  detectors: IDetector[];
   monthly_logs: IMonthlyLog[];
 }
 

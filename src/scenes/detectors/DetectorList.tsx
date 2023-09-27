@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ApiResponse } from "../../apis/api.util";
+import { GetDetectorsByLocation } from "../../apis/detector_api";
 import { GetLocation } from "../../apis/location_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
@@ -33,16 +35,25 @@ export const DetectorsContext = createContext<{
 export default function DetectorList() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { user } = useContext(GlobalContext);
+  const { user, setUser } = useContext(GlobalContext);
 
   const [location, setLocation] = useState<ILocation | null>(null);
   const [detectors, setDetectors] = useState<IDetector[]>([]);
 
   async function GetDetectorList() {
     if (user) {
-      const response: ILocation = await GetLocation();
-      setLocation(response);
-      setDetectors(response.detectors);
+      const response: ApiResponse = await GetLocation();
+      const location: ILocation = response.Unwrap(setUser);
+      if (location) {
+        setLocation(location);
+      }
+      const resp_detectors: ApiResponse = await GetDetectorsByLocation(
+        location.id,
+      );
+      const detectors: IDetector[] = resp_detectors.Unwrap(setUser);
+      if (detectors) {
+        setDetectors(detectors);
+      }
     }
   }
 
@@ -84,6 +95,7 @@ export default function DetectorList() {
             height="500px"
             width="100%"
             justifyContent="center"
+            mt={3}
           >
             <AddDetectorCard />
           </Grid>

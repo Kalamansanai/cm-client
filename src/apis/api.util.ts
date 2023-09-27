@@ -1,20 +1,43 @@
-export async function ApiWrapper(response: Response, only_data: boolean) {
+import { User } from "../types";
+
+export async function ApiWrapper(
+  response: Response,
+  only_data: boolean,
+): Promise<ApiResponse> {
+  if (response.status === 401) {
+    return new ApiResponse("error", "No user signed in!");
+  }
   const result = await response.json();
-  //console.log(`Full response from server: ${JSON.stringify(result)}`);
   if (response.status !== 400) {
-    if (result.result === "ok") {
-      //console.log(`backend responded with ok, data:${result.data}`);
-      if (only_data) {
-        return result.data;
-      } else {
-        return result;
-      }
-    } else {
-      //console.log("server responded an error", result);
-      return { error: result };
-    }
+    return new ApiResponse(result.result, result.data);
   } else {
     //console.log("server aborted", response);
-    return { error: "Server aborted" };
+    return new ApiResponse("error", "Server aborted");
+  }
+}
+
+export class ApiResponse {
+  result: "ok" | "error";
+  data: any;
+
+  constructor(result: "ok" | "error", data: any) {
+    this.result = result;
+    this.data = data;
+  }
+
+  Unwrap(setUser: (u: User | null) => void) {
+    // console.log("---wrapper---");
+    // console.log(`result:${this.result}`);
+    // console.log(`result:${this.data}`);
+    // console.log("-------------");
+    if (this.result === "error") {
+      console.error(this.data);
+      if (this.data === "No user signed in!") {
+        setUser(null);
+      }
+      return null;
+    } else {
+      return this.data;
+    }
   }
 }

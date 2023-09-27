@@ -3,7 +3,11 @@ import { ApiWrapper } from "./api.util";
 const backend = process.env.REACT_APP_BACKEND;
 
 export async function ExportDetectorToCsv(detector_id: string) {
-  await fetch(`${backend}/detector/${detector_id}/export`)
+  await fetch(`${backend}/detector/${detector_id}/export`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  })
     .then((response) => response.blob())
     .then((blob) => {
       // 2. Create blob link to download
@@ -18,8 +22,6 @@ export async function ExportDetectorToCsv(detector_id: string) {
       // 5. Clean up and remove the link
       link.parentNode?.removeChild(link);
     });
-
-  console.log("success");
 }
 
 export async function GetLinePlotData(detector_id: string) {
@@ -63,6 +65,42 @@ export async function GetLinePlotDataByLocation(
       lineType: lineType,
     }),
   });
+
+  return await ApiWrapper(response, true);
+}
+
+export async function GetLocationMonthlyStatByType(
+  location_id: string,
+  type: string,
+) {
+  const response = await fetch(
+    `${backend}/get_location_monthly_sum_by_type/${location_id}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        type: type,
+      }),
+    },
+  );
+
+  return await ApiWrapper(response, true);
+}
+
+export async function GetLocationMonthlyStat(location_id: string) {
+  const response = await fetch(
+    `${backend}/get_location_monthly_sums/${location_id}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    },
+  );
 
   return await ApiWrapper(response, true);
 }

@@ -11,7 +11,6 @@ import {
 import { useContext, useRef, useState } from "react";
 import { DetectorType, IDetector } from "types";
 import { AddDetector } from "../../apis/detector_api";
-import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import { DetectorsContext } from "./DetectorList";
@@ -21,13 +20,14 @@ interface FormData {
   name: string;
   type: string;
   id: string;
+  char_num: number;
+  coma_position: number;
 }
 
 export function AddDetectorCard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   // const [inputLength, setInputLength] = useState(0);
-  const { setDetectorConfigChanged } = useContext(GlobalContext);
   const { location, detectors, setDetectors } = useContext(DetectorsContext);
   const [loading, setLoading] = useState(false);
   const idInputRef = useRef<HTMLInputElement | null>(null);
@@ -36,6 +36,8 @@ export function AddDetectorCard() {
     name: "",
     type: "",
     id: "",
+    char_num: 0,
+    coma_position: 0,
   });
   const [addingError, setAddingError] = useState<string | null>(null);
   const UUID_REGEX =
@@ -43,8 +45,8 @@ export function AddDetectorCard() {
   const detectorTypes = ["water", "electricity", "gas"];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    const inputName = e.target.name;
+    let inputValue: number | string = e.target.value;
+    let inputName = e.target.name;
 
     if (inputName === "id") {
       const inputElement = e.target;
@@ -55,11 +57,15 @@ export function AddDetectorCard() {
           inputElement.setCustomValidity("");
         }
       }
+    } else if (inputName == "char_num") {
+      inputValue = parseInt(inputValue);
+    } else if (inputName == "coma_position") {
+      inputValue = parseInt(inputValue);
     }
 
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: inputValue,
     });
   };
 
@@ -79,17 +85,19 @@ export function AddDetectorCard() {
 
     const newDetector: IDetector = {
       id: response.data,
+      location_id: response.location_id,
       detector_id: formData.id,
       detector_name: formData.name,
-      detector_config: {},
+      detector_config: {
+        char_num: formData.char_num,
+        coma_position: formData.coma_position,
+      },
       type: formData.type as DetectorType,
       state: "init",
-      image_path: "",
     };
 
     const newDetectors = [...detectors, newDetector];
     setDetectors(newDetectors);
-    setDetectorConfigChanged(true);
     setLoading(false);
   };
 
@@ -147,6 +155,9 @@ export function AddDetectorCard() {
             "& label": {
               zIndex: 0,
             },
+            "& .MuiFilledInput-underline:after": {
+              borderColor: colors.blueAccent[500],
+            },
           }}
         />
         <TextField
@@ -167,9 +178,57 @@ export function AddDetectorCard() {
             "& label": {
               zIndex: 0,
             },
+            "& .MuiFilledInput-underline:after": {
+              borderColor: colors.blueAccent[500],
+            },
           }}
         />
-
+        <TextField
+          fullWidth
+          required
+          name="char_num"
+          variant="filled"
+          type="number"
+          label="Char Num"
+          onChange={handleChange}
+          sx={{
+            mt: "20px",
+            color: colors.blueAccent[500],
+            "& label.Mui-focused": {
+              color: colors.blueAccent[500],
+              zIndex: 0,
+            },
+            "& label": {
+              zIndex: 0,
+            },
+            "& .MuiFilledInput-underline:after": {
+              borderColor: colors.blueAccent[500],
+            },
+          }}
+        />
+        <TextField
+          fullWidth
+          required
+          name="coma_position"
+          variant="filled"
+          type="number"
+          label="Coma Position"
+          onChange={handleChange}
+          sx={{
+            mt: "20px",
+            color: colors.blueAccent[500],
+            "& label.Mui-focused": {
+              color: colors.blueAccent[500],
+              zIndex: 0,
+            },
+            "& label": {
+              zIndex: 0,
+            },
+            "& .MuiFilledInput-underline:after": {
+              borderColor: colors.blueAccent[500],
+            },
+          }}
+        />
         <TextField
           name="type"
           label="Type"
@@ -188,6 +247,9 @@ export function AddDetectorCard() {
             },
             "& label": {
               zIndex: 0,
+            },
+            "& .MuiFilledInput-underline:after": {
+              borderColor: colors.blueAccent[500],
             },
           }}
         >
@@ -216,8 +278,8 @@ export function AddDetectorCard() {
               fullWidth
               variant="contained"
               sx={{
-                mt: 3,
-                mb: 2,
+                mt: 1,
+                mb: 1,
                 backgroundColor: `${colors.greenAccent[700]}`,
               }}
             >

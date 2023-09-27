@@ -2,6 +2,7 @@ import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import { Box, Button, CircularProgress, Grid, useTheme } from "@mui/material";
 import { createContext, useContext, useEffect, useState } from "react";
 import { IDashboardCardConfig, IDashboardLayoutConfig, ILocation } from "types";
+import { ApiResponse } from "../../apis/api.util";
 import { GetLocation } from "../../apis/location_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
@@ -21,13 +22,16 @@ export default function NewDashboard() {
 
   const layoutConfig: IDashboardLayoutConfig = layoutConfigJson;
 
-  const { user } = useContext(GlobalContext);
+  const { user, setUser } = useContext(GlobalContext);
   const [location, setLocation] = useState<ILocation | null>(null);
 
   async function SetLocation() {
     if (user) {
-      const response: ILocation = await GetLocation();
-      setLocation(response);
+      const response: ApiResponse = await GetLocation();
+      const location: ILocation = response.Unwrap(setUser);
+      if (location) {
+        setLocation(location);
+      }
     }
   }
 

@@ -19,6 +19,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useContext, useState } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { ApiResponse } from "../../apis/api.util";
 import { Login } from "../../apis/user_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
@@ -51,9 +52,12 @@ const LoginComponent = () => {
   ) => {
     try {
       setLoading(true);
-      const userResponse = await Login(values);
-      console.log("UserResponse", userResponse);
-      setUser(userResponse);
+      const response: ApiResponse = await Login(values);
+      const user = response.Unwrap(setUser);
+      console.log("UserResponse", response);
+      if (user) {
+        setUser(user);
+      }
       setAlertMessage("Login was successful!");
       setAlert(true);
       resetForm();

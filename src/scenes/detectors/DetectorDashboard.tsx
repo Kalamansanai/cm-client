@@ -3,6 +3,7 @@ import {
   Alert,
   Button,
   Card,
+  CircularProgress,
   FormControlLabel,
   Grid,
   Snackbar,
@@ -15,12 +16,14 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Typography from "@mui/material/Typography";
 import React, { useContext, useEffect, useState } from "react";
 import { Params, useLoaderData } from "react-router-dom";
+import { ApiResponse } from "../../apis/api.util";
 import { ExportDetectorToCsv } from "../../apis/data_api";
 import {
+  GetDetector,
   GetDetectorImage,
-  GetDetectorWithLogs,
   SetConfig,
 } from "../../apis/detector_api";
+import { GetLogsByDetector } from "../../apis/log_api";
 import { GlobalContext } from "../../App";
 import { LineChartWrapper } from "../../components/componentUtils";
 import Header from "../../components/Header";
@@ -46,14 +49,11 @@ function calculateInputChangeValue(
 export async function loader({ params }: { params: Params }) {
   const detector_id = params["detector_id"]! as any as string;
 
-  let detector = null;
-  let detector_image = null;
-
-  const resp_detector = await GetDetectorWithLogs(detector_id);
-  detector = resp_detector || null;
+  const resp_detector: ApiResponse = await GetDetector(detector_id);
 
   const resp_detector_image = await GetDetectorImage(detector_id);
 
+  let detector_image;
   if (resp_detector_image.status === 400) {
     detector_image = null;
   } else {
@@ -61,26 +61,36 @@ export async function loader({ params }: { params: Params }) {
     detector_image = URL.createObjectURL(data) || null;
   }
 
-  return { detector: detector, detector_image: detector_image };
+  const resp_logs: ApiResponse = await GetLogsByDetector(detector_id);
+
+  return {
+    detector_resp: resp_detector,
+    detector_image: detector_image,
+    logs_resp: resp_logs,
+  };
 }
 
 export default function DetectorDashboard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { detector, detector_image } = useLoaderData() as {
-    detector: IDetector;
+  const { setUser } = useContext(GlobalContext);
+  const { detector_resp, detector_image, logs_resp } = useLoaderData() as {
+    detector_resp: ApiResponse;
     detector_image: string;
+    logs_resp: ApiResponse;
   };
-  const { setDetectorConfigChanged } = useContext(GlobalContext);
+  console.log(logs_resp);
+  const detector: IDetector = detector_resp.Unwrap(setUser);
+  const logs: ILog[] = logs_resp.Unwrap(setUser);
+  const [exportLoading, setExportLoading] = useState(false);
 
   const [data, setData] = useState<IDetectorConfig>({
-    charNum: detector?.detector_config.charNum,
-    comaPosition: detector?.detector_config.comaPosition,
+    char_num: detector?.detector_config.char_num,
+    coma_position: detector?.detector_config.coma_position,
     delay: detector?.detector_config.delay,
     flash: detector?.detector_config.flash,
     cost: detector?.detector_config.cost,
   });
-
   useEffect(() => {
     setData(detector?.detector_config);
   }, [detector]);
@@ -103,7 +113,6 @@ export default function DetectorDashboard() {
 
     if (result) {
       setChanged(true);
-      setDetectorConfigChanged(true);
     }
   };
 
@@ -111,15 +120,20 @@ export default function DetectorDashboard() {
     setOpenPopup(true);
   };
 
-  const handleExport = () => {
-    ExportDetectorToCsv(detector.id);
+  const handleExport = async () => {
+    setExportLoading(true);
+    await ExportDetectorToCsv(detector.detector_id);
+    setExportLoading(false);
   };
 
   const [changed, setChanged] = useState(false);
   const [alert, setAlert] = useState(false);
 
+  if (!data) {
+    return <>data error</>;
+  }
   return (
-    <Box m="16px" sx={{ height: "100%", width: "100%" }}>
+    <Box sx={{ height: "100%", width: "100%" }}>
       <Snackbar
         open={changed}
         autoHideDuration={6000}
@@ -153,7 +167,7 @@ export default function DetectorDashboard() {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title="Detector"
-          subtitle={`Detector Name: ${detector.detector_name} | Mac Address: ${detector.detector_id}`}
+          subtitle={`Detector Name: ${detector.detector_name} | Mac Address: ${detector.detector_id} | Char Number: ${data.char_num} | Com,a Position: ${data.coma_position}`}
         />
         <Box
           width="40%"
@@ -171,7 +185,7 @@ export default function DetectorDashboard() {
             }}
             onClick={handleExport}
           >
-            Export Data
+            {exportLoading ? <CircularProgress /> : "Export Data"}
           </Button>
           <Button
             sx={{
@@ -243,40 +257,6 @@ export default function DetectorDashboard() {
               rowSpacing={2}
               columnSpacing={1}
             >
-              <Grid item xs={1}>
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="number"
-                  label="Char Num"
-                  value={data.charNum}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleInputChange(e, "charNum")
-                  }
-                  sx={{
-                    "& label": {
-                      zIndex: 0,
-                    },
-                  }}
-                />
-              </Grid>
-              <Grid item xs={1}>
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="number"
-                  label="Coma Position"
-                  value={data.comaPosition}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleInputChange(e, "comaPosition")
-                  }
-                  sx={{
-                    "& label": {
-                      zIndex: 0,
-                    },
-                  }}
-                />
-              </Grid>
               <Grid item xs={1}>
                 <TextField
                   fullWidth
@@ -406,10 +386,10 @@ export default function DetectorDashboard() {
               }}
             >
               <Box display="flex" flexDirection="column-reverse">
-                {detector
-                  ? detector.logs?.map((log, i) => (
-                      <LogCard key={i} log={log} index={i} />
-                    ))
+                {logs
+                  ? logs?.map((log, i) => (
+                    <LogCard key={i} log={log} index={i} />
+                  ))
                   : null}
               </Box>
             </Box>
