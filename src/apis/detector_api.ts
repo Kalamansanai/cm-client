@@ -7,6 +7,8 @@ type regProps = {
   location_id: string;
   id: string;
   name: string;
+  char_num: number;
+  coma_position: number;
   type: string;
 };
 
@@ -19,6 +21,8 @@ export async function AddDetector(props: regProps) {
       location_id: props.location_id,
       detector_id: props.id,
       detector_name: props.name,
+      char_num: props.char_num,
+      coma_position: props.coma_position,
       type: props.type,
     }),
   });
@@ -39,19 +43,6 @@ export async function SetConfig(
       body: JSON.stringify({
         new_config: new_config,
       }),
-    },
-  );
-
-  return await ApiWrapper(response, true);
-}
-
-export async function GetDetectorConfig(detector_id: string) {
-  const response = await fetch(
-    `${backend}/get_detector_config/${detector_id}`,
-    {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
     },
   );
 
@@ -88,9 +79,19 @@ export async function GetDetector(detector_id: string) {
   return await ApiWrapper(response, true);
 }
 
-export async function GetDetectorWithLogs(detector_id: string) {
+export async function GetDetectorImage(detector_id: string) {
+  const response = await fetch(`${backend}/get_detector_img/${detector_id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+
+  return response;
+}
+
+export async function GetDetectorsByLocation(location_id: string) {
   const response = await fetch(
-    `${backend}/get_detector_with_logs/${detector_id}`,
+    `${backend}/get_detectors_by_location/${location_id}`,
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -99,14 +100,4 @@ export async function GetDetectorWithLogs(detector_id: string) {
   );
 
   return await ApiWrapper(response, true);
-}
-
-export async function GetDetectorImage(detector_id: string) {
-  const response = await fetch(`${backend}/get_detector_img/${detector_id}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-  });
-
-  return await response;
 }

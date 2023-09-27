@@ -1,8 +1,8 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
+import { ApiResponse } from "./apis/api.util";
 import { login_cookie } from "./apis/user_api";
-import { SnackbarProvider } from "./components/SnackbarContext";
 import Sidebar from "./scenes/global/Sidebar";
 import Topbar from "./scenes/global/Topbar";
 import { ColorModeContext, useMode } from "./theme";
@@ -12,14 +12,10 @@ export const GlobalContext = createContext<{
   user: User | null;
   setUser: (u: User | null) => void;
   setIsLoggedOut: React.Dispatch<React.SetStateAction<boolean>>;
-  setDetectorConfigChanged: React.Dispatch<React.SetStateAction<boolean>>;
-  isDetectorConfigChanged: boolean;
 }>({
   user: null,
-  setUser: () => {},
-  setIsLoggedOut: () => {},
-  setDetectorConfigChanged: () => {},
-  isDetectorConfigChanged: false,
+  setUser: () => { },
+  setIsLoggedOut: () => { },
 });
 
 function App(): JSX.Element {
@@ -31,7 +27,6 @@ function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(null);
   // eslint-disable-next-line
   const [isLoggedOut, setIsLoggedOut] = useState(false);
-  const [isDetectorConfigChanged, setDetectorConfigChanged] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -41,8 +36,9 @@ function App(): JSX.Element {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const res = await login_cookie();
-        if (res) setUser(res);
+        const res: ApiResponse = await login_cookie();
+        const user: User = res.Unwrap(setUser);
+        if (user) setUser(user);
         setIsLoading(false);
       } catch (e) {
         console.log(e);
@@ -59,39 +55,37 @@ function App(): JSX.Element {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <SnackbarProvider>
-          <GlobalContext.Provider
-            value={{
-              user,
-              setUser,
-              setIsLoggedOut,
-              setDetectorConfigChanged,
-              isDetectorConfigChanged,
-            }}
+        <GlobalContext.Provider
+          value={{
+            user,
+            setUser,
+            setIsLoggedOut,
+          }}
+        >
+          <CssBaseline />
+          <div
+            className="app"
+            style={{ display: "flex", height: "100vh", position: "relative" }}
           >
-            <CssBaseline />
-            <div
-              className="app"
-              style={{ display: "flex", height: "100vh", position: "relative" }}
+            <Sidebar
+              isCollapsed={isCollapsed}
+              setIsCollapsed={setIsCollapsed}
+            />
+            <main
+              className="content"
+              style={{
+                flex: 1,
+                overflowY: "auto",
+                marginLeft: 80,
+              }}
             >
-              <Sidebar
-                isCollapsed={isCollapsed}
-                setIsCollapsed={setIsCollapsed}
-              />
-              <main
-                className="content"
-                style={{
-                  flex: 1,
-                  overflowY: "auto",
-                  marginLeft: 80,
-                }}
-              >
-                <Topbar />
+              <Topbar />
+              <div style={{ margin: "16px" }}>
                 <Outlet />
-              </main>
-            </div>
-          </GlobalContext.Provider>
-        </SnackbarProvider>
+              </div>
+            </main>
+          </div>
+        </GlobalContext.Provider>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

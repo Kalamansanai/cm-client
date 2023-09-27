@@ -10,9 +10,10 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
-RUN npm install -g live-server
+#RUN npm run build
+#RUN npm install -g live-server
 
-CMD ["live-server", "build", "--host=0.0.0.0", "--port=3215"]
+#CMD ["live-server", "build", "--host=0.0.0.0", "--port=3215"]
+CMD ["npm", "start"]
 
 
