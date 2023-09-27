@@ -290,7 +290,7 @@ const Register = () => {
                             aria-label="toggle password visibility"
                             onClick={() => setShowPassword(!showPassword)}
                           >
-                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
                           </IconButton>
                         </InputAdornment>
                       ),
@@ -345,9 +345,9 @@ const Register = () => {
                             onClick={() => setShowPasswordRe(!showPasswordRe)}
                           >
                             {showPasswordRe ? (
-                              <Visibility />
-                            ) : (
                               <VisibilityOff />
+                            ) : (
+                              <Visibility />
                             )}
                           </IconButton>
                         </InputAdornment>
