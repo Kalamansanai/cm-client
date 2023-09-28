@@ -36,8 +36,8 @@ export function AddDetectorCard() {
     name: "",
     type: "",
     id: "",
-    char_num: 0,
-    coma_position: 0,
+    char_num: 8,
+    coma_position: 3,
   });
   const [addingError, setAddingError] = useState<string | null>(null);
   const UUID_REGEX =
@@ -187,6 +187,7 @@ export function AddDetectorCard() {
           fullWidth
           required
           name="char_num"
+          defaultValue={8}
           variant="filled"
           type="number"
           label="Char Num"
@@ -210,6 +211,7 @@ export function AddDetectorCard() {
           fullWidth
           required
           name="coma_position"
+          defaultValue={3}
           variant="filled"
           type="number"
           label="Coma Position"
