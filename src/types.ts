@@ -19,7 +19,7 @@ export type User = {
   };
 };
 
-export interface IUserConfig {}
+export interface IUserConfig { }
 
 export interface IDetector {
   id: string;
@@ -115,7 +115,6 @@ export interface ILocation {
   id: string;
   userId: string;
   name: string;
-  monthly_logs: IMonthlyLog[];
 }
 
 export interface IMonthlyLog {
