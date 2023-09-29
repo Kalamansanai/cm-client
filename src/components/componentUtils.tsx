@@ -1,3 +1,4 @@
+import { CircularProgress } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { ApiResponse } from "../apis/api.util";
 import { GetLinePlotData, GetLinePlotDataByLocation } from "../apis/data_api";
@@ -33,29 +34,44 @@ export function allZero(data: PieData[]) {
   return allZero;
 }
 
-export function LineChartWrapper(type: string, id?: string, lineType?: string) {
+type Props = {
+  type: string;
+  id?: string;
+};
+
+export function LineChartWrapper({ type, id }: Props) {
   const [data, setData] = useState<ILineChartResponse | null>();
-  const { location } = useContext(LocationContext);
   const { setUser } = useContext(GlobalContext);
+  const { location } = useContext(LocationContext);
+  const [loading, setLoading] = useState(false);
 
   async function getData() {
+    setLoading(true);
     if (type === "detector") {
       const response: ApiResponse = await GetLinePlotData(id!);
       setData(response.Unwrap(setUser));
     } else if (type === "location") {
-      if (location && lineType) {
+      if (location) {
         const response: ApiResponse = await GetLinePlotDataByLocation(
           location.id,
-          lineType,
         );
-        setData(response.Unwrap(setUser));
+        const data = response.Unwrap(setUser);
+        //TODO: make all the three diagrams
+        if (data) {
+          setData(data[1]);
+        }
       }
     }
+    setLoading(false);
   }
 
   useEffect(() => {
     getData();
   }, []);
+
+  if (loading) {
+    return <CircularProgress sx={{ color: "white" }} />;
+  }
 
   if (!data) {
     return <>No data is available.</>;

@@ -3,7 +3,7 @@ import { LineChartWrapper } from "../../components/componentUtils";
 import PieChart from "../../components/PieChart";
 import StatBox from "../../components/StatBox";
 
-export default function getCardComponentByType(type: string) {
+export default function useCardComponentByType(type: string) {
   switch (type) {
     case "pie":
       return <PieChart />;
@@ -16,7 +16,7 @@ export default function getCardComponentByType(type: string) {
     case "bar":
       return <BarChart />;
     case "line":
-      return LineChartWrapper("location");
+      return <LineChartWrapper type="location" />;
     default:
       break;
   }

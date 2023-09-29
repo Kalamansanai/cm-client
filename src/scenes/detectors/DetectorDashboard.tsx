@@ -79,7 +79,7 @@ export default function DetectorDashboard() {
     detector_image: string;
     logs_resp: ApiResponse;
   };
-  console.log(logs_resp);
+
   const detector: IDetector = detector_resp.Unwrap(setUser);
   const logs: ILog[] = logs_resp.Unwrap(setUser);
   const [exportLoading, setExportLoading] = useState(false);
@@ -363,7 +363,7 @@ export default function DetectorDashboard() {
               </Box>
             </Box>
             <Box height={"500px"}>
-              {LineChartWrapper("detector", detector.detector_id)}
+              {<LineChartWrapper type="detector" id={detector.detector_id} />}
             </Box>
           </Box>
         </Grid>
@@ -388,8 +388,8 @@ export default function DetectorDashboard() {
               <Box display="flex" flexDirection="column-reverse">
                 {logs
                   ? logs?.map((log, i) => (
-                      <LogCard key={i} log={log} index={i} />
-                    ))
+                    <LogCard key={i} log={log} index={i} />
+                  ))
                   : null}
               </Box>
             </Box>
