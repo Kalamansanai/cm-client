@@ -6,6 +6,7 @@ import { GlobalContext } from "../App";
 import NewLineChart from "../components/NewLineChart";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { ILineChartResponse, IMonthlyLog, PieData } from "../types";
+import LineChartSlide from "./LineChartSlide";
 
 export function barChartDataWrapper(logs: IMonthlyLog[] | undefined) {
   if (logs) {
@@ -40,7 +41,7 @@ type Props = {
 };
 
 export function LineChartWrapper({ type, id }: Props) {
-  const [data, setData] = useState<ILineChartResponse | null>();
+  const [data, setData] = useState<ILineChartResponse[] | null>();
   const { setUser } = useContext(GlobalContext);
   const { location } = useContext(LocationContext);
   const [loading, setLoading] = useState(false);
@@ -49,7 +50,7 @@ export function LineChartWrapper({ type, id }: Props) {
     setLoading(true);
     if (type === "detector") {
       const response: ApiResponse = await GetLinePlotData(id!);
-      setData(response.Unwrap(setUser));
+      setData([response.Unwrap(setUser)]);
     } else if (type === "location") {
       if (location) {
         const response: ApiResponse = await GetLinePlotDataByLocation(
@@ -58,7 +59,7 @@ export function LineChartWrapper({ type, id }: Props) {
         const data = response.Unwrap(setUser);
         //TODO: make all the three diagrams
         if (data) {
-          setData(data[1]);
+          setData(data);
         }
       }
     }
@@ -77,5 +78,10 @@ export function LineChartWrapper({ type, id }: Props) {
     return <>No data is available.</>;
   }
 
-  return <NewLineChart response_data={data} />;
+  if (type === "detector") {
+    return <NewLineChart response_data={data[0]} />;
+  } else if (type === "location") {
+    return <LineChartSlide data={data} />;
+  }
+  return <>error</>;
 }
