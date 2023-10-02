@@ -57,7 +57,6 @@ export function LineChartWrapper({ type, id }: Props) {
           location.id,
         );
         const data = response.Unwrap(setUser);
-        //TODO: make all the three diagrams
         if (data) {
           setData(data);
         }
