@@ -16,7 +16,7 @@ export default function getCardComponentByType(type: string) {
     case "bar":
       return <BarChart />;
     case "line":
-      return LineChartWrapper("location");
+      return <LineChartWrapper type="location" />;
     default:
       break;
   }

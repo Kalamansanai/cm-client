@@ -11,7 +11,6 @@ export async function ApiWrapper(
   if (response.status !== 400) {
     return new ApiResponse(result.result, result.data);
   } else {
-    //console.log("server aborted", response);
     return new ApiResponse("error", "Server aborted");
   }
 }
@@ -26,10 +25,6 @@ export class ApiResponse {
   }
 
   Unwrap(setUser: (u: User | null) => void) {
-    // console.log("---wrapper---");
-    // console.log(`result:${this.result}`);
-    // console.log(`result:${this.data}`);
-    // console.log("-------------");
     if (this.result === "error") {
       console.error(this.data);
       if (this.data === "No user signed in!") {

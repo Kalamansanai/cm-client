@@ -1,3 +1,4 @@
+import { CircularProgress } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { ApiResponse } from "../apis/api.util";
 import { GetLinePlotData, GetLinePlotDataByLocation } from "../apis/data_api";
@@ -5,6 +6,7 @@ import { GlobalContext } from "../App";
 import NewLineChart from "../components/NewLineChart";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { ILineChartResponse, IMonthlyLog, PieData } from "../types";
+import LineChartSlide from "./LineChartSlide";
 
 export function barChartDataWrapper(logs: IMonthlyLog[] | undefined) {
   if (logs) {
@@ -33,33 +35,52 @@ export function allZero(data: PieData[]) {
   return allZero;
 }
 
-export function LineChartWrapper(type: string, id?: string, lineType?: string) {
-  const [data, setData] = useState<ILineChartResponse | null>();
-  const { location } = useContext(LocationContext);
+type Props = {
+  type: string;
+  id?: string;
+};
+
+export function LineChartWrapper({ type, id }: Props) {
+  const [data, setData] = useState<ILineChartResponse[] | null>();
   const { setUser } = useContext(GlobalContext);
+  const { location } = useContext(LocationContext);
+  const [loading, setLoading] = useState(false);
 
   async function getData() {
+    setLoading(true);
     if (type === "detector") {
       const response: ApiResponse = await GetLinePlotData(id!);
-      setData(response.Unwrap(setUser));
+      setData([response.Unwrap(setUser)]);
     } else if (type === "location") {
-      if (location && lineType) {
+      if (location) {
         const response: ApiResponse = await GetLinePlotDataByLocation(
           location.id,
-          lineType,
         );
-        setData(response.Unwrap(setUser));
+        const data = response.Unwrap(setUser);
+        if (data) {
+          setData(data);
+        }
       }
     }
+    setLoading(false);
   }
 
   useEffect(() => {
     getData();
   }, []);
 
+  if (loading) {
+    return <CircularProgress sx={{ color: "white" }} />;
+  }
+
   if (!data) {
     return <>No data is available.</>;
   }
 
-  return <NewLineChart response_data={data} />;
+  if (type === "detector") {
+    return <NewLineChart response_data={data[0]} />;
+  } else if (type === "location") {
+    return <LineChartSlide data={data} />;
+  }
+  return <>error</>;
 }

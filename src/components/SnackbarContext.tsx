@@ -9,6 +9,7 @@ interface SnackbarContextProps {
 interface SnackbarProviderProps {
   children: React.ReactNode;
 }
+
 const SnackbarContext = createContext<SnackbarContextProps | null>(null);
 
 export const useSnackbar = () => {
@@ -26,22 +27,30 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState<"success" | "error">("success");
 
-  const showSnackbar = (message: string, severity: "success" | "error") => {
-    setMessage(message);
-    setSeverity(severity);
+  const autoHideDuration = 3000;
+  const anchor = { vertical: "bottom", horizontal: "right" } as const;
+
+  const showSnackbar = (
+    newMessage: string,
+    newSeverity: "success" | "error",
+  ) => {
+    setMessage(newMessage);
+    setSeverity(newSeverity);
     setOpen(true);
   };
+
+  const handleClose = () => setOpen(false);
 
   return (
     <SnackbarContext.Provider value={{ showSnackbar }}>
       {children}
       <Snackbar
         open={open}
-        autoHideDuration={6000}
-        onClose={() => setOpen(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        autoHideDuration={autoHideDuration}
+        onClose={handleClose}
+        anchorOrigin={anchor}
       >
-        <Alert onClose={() => setOpen(false)} severity={severity}>
+        <Alert onClose={handleClose} severity={severity}>
           {message}
         </Alert>
       </Snackbar>

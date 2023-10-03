@@ -51,20 +51,17 @@ export async function GetPieCostChartData(location_id: string) {
   return await ApiWrapper(response, true);
 }
 
-export async function GetLinePlotDataByLocation(
-  location_id: string,
-  lineType: string,
-) {
-  const response = await fetch(`${backend}/lineplot_data/${location_id}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+export async function GetLinePlotDataByLocation(location_id: string) {
+  const response = await fetch(
+    `${backend}/linechart_with_prev_month/${location_id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
     },
-    credentials: "include",
-    body: JSON.stringify({
-      lineType: lineType,
-    }),
-  });
+  );
 
   return await ApiWrapper(response, true);
 }
