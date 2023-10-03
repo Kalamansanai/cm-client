@@ -53,7 +53,7 @@ export async function GetPieCostChartData(location_id: string) {
 
 export async function GetLinePlotDataByLocation(location_id: string) {
   const response = await fetch(
-    `${backend}/get_logs_for_plot_by_location/${location_id}`,
+    `${backend}/linechart_with_prev_month/${location_id}`,
     {
       method: "GET",
       headers: {
