@@ -3,87 +3,94 @@
     {
       "title": "Consumption Values By Type",
       "componentType": "",
-      "heightLevel": 1,
+      "heightLevel": 2,
+      "divideLevel": 2,
       "size": {
-        "xs": 4,
-        "sm": 4,
-        "md": 4,
-        "lg": 4,
-        "xl": 4
+        "xs": 2,
+        "sm": 2,
+        "md": 2,
+        "lg": 2,
+        "xl": 2
       },
       "children": [
         {
           "title": "Water Consumption",
           "componentType": "waterStatBox",
-          "heightLevel": 1,
+          "heightLevel": 2,
+          "divideLevel": 3,
           "size": {
-            "xs": 6,
-            "sm": 6,
-            "md": 6,
-            "lg": 6,
-            "xl": 6
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 12,
+            "xl": 12
           }
         },
         {
           "title": "Electricity Consumption",
           "componentType": "electricityStatBox",
-          "heightLevel": 1,
+          "heightLevel": 2,
+          "divideLevel": 3,
           "size": {
-            "xs": 6,
-            "sm": 6,
-            "md": 6,
-            "lg": 6,
-            "xl": 6
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 12,
+            "xl": 12
           }
         },
         {
           "title": "Gas Consumption",
           "componentType": "gasStatBox",
-          "heightLevel": 1,
+          "heightLevel": 2,
+          "divideLevel": 3,
           "size": {
-            "xs": 6,
-            "sm": 6,
-            "md": 6,
-            "lg": 6,
-            "xl": 6
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 12,
+            "xl": 12
           }
         }
       ]
     },
     {
-      "title": "PieChart",
-      "componentType": "pie",
-      "heightLevel": 1,
-      "size": {
-        "xs": 6,
-        "sm": 6,
-        "md": 6,
-        "lg": 6,
-        "xl": 6
-      }
-    },
-    {
       "title": "BarChart",
       "componentType": "bar",
       "heightLevel": 2,
+      "divideLevel": 2,
       "size": {
-        "xs": 6,
-        "sm": 6,
-        "md": 6,
-        "lg": 6,
-        "xl": 6
+        "xs": 12,
+        "sm": 12,
+        "md": 10,
+        "lg": 10,
+        "xl": 10
       }
     },
     {
       "title": "LineChart",
       "componentType": "line",
       "heightLevel": 2,
+      "divideLevel": 2,
       "size": {
-        "xs": 6,
-        "sm": 6,
-        "md": 6,
-        "lg": 6,
-        "xl": 6
+        "xs": 7,
+        "sm": 7,
+        "md": 7,
+        "lg": 7,
+        "xl": 7
+      }
+    },
+    {
+      "title": "PieChart",
+      "componentType": "pie",
+      "heightLevel": 2,
+      "divideLevel": 2,
+      "size": {
+        "xs": 5,
+        "sm": 5,
+        "md": 5,
+        "lg": 5,
+        "xl": 5
       }
     }
   ]

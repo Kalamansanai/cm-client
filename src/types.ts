@@ -19,7 +19,7 @@ export type User = {
   };
 };
 
-export interface IUserConfig { }
+export interface IUserConfig {}
 
 export interface IDetector {
   id: string;
@@ -61,6 +61,7 @@ export interface IDashboardCardConfig {
   size: IDashboardCardSize;
   children?: IDashboardCardConfig[];
   heightLevel: number;
+  divideLevel: number;
 }
 
 export interface IDashboardCardSize {
