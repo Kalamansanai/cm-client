@@ -67,15 +67,21 @@ const BarChart = () => {
       >
         <ResponsiveBar
           data={data}
-          label={(bar: any) => `${bar.value}${config.label}`}
+          label={(bar: any) => `${bar.value.toFixed(3)}${config.label}`}
           tooltip={(barData: any) => (
             <CustomTooltip
+              type="nivo"
               id={barData.id}
               value={barData.value}
               color={barData.color}
-              additionalInfo={`- ${barData.data.month} Ft`}
               symbol={config.label}
-            />
+            >
+              <span style={{ color: barData.color }}>
+                {`, `}
+                <strong>month</strong>
+                {`: ${barData.data.month}`}
+              </span>
+            </CustomTooltip>
           )}
           theme={{
             axis: {
@@ -157,7 +163,7 @@ const BarChart = () => {
             tickRotation: 0,
             legend: config.leftLegend,
             legendPosition: "middle",
-            legendOffset: -40,
+            legendOffset: -50,
           }}
           labelSkipWidth={12}
           labelSkipHeight={12}

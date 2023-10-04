@@ -12,7 +12,6 @@ export default function LineChartSlide({ data }: Props) {
   const [index, setIndex] = useState(0);
   const max = data.length - 1;
   const typeNames = ["Water", "Electricity", "Gas"];
-
   function handlePrevClick() {
     if (index == 0) {
       setIndex(max);
@@ -47,7 +46,7 @@ export default function LineChartSlide({ data }: Props) {
         <IconButton onClick={handlePrevClick}>
           <ArrowBackIosNew />
         </IconButton>
-        <NewLineChart response_data={data[index]} />
+        <NewLineChart response_data={data[index]} type={typeNames[index]} />
         <IconButton onClick={handleNextClick}>
           <ArrowForwardIos />
         </IconButton>

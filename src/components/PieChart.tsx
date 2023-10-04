@@ -28,7 +28,11 @@ const PieChart = () => {
       const response: ApiResponse = await GetPieCostChartData(location.id);
       const data = response.Unwrap(setUser);
       if (data) {
-        setData(data);
+        const order = ["gas", "water", "electricity"];
+        const sortedData = data.sort((a: PieData, b: PieData) => {
+          return order.indexOf(a.id) - order.indexOf(b.id);
+        });
+        setData(sortedData);
       }
     }
     setLoading(false);
@@ -143,7 +147,9 @@ const PieChart = () => {
               itemHeight: 20,
               itemDirection: "left-to-right",
               itemOpacity: 0.85,
+              symbolShape: "circle",
               symbolSize: 20,
+              toggleSerie: true,
               effects: [
                 {
                   on: "hover",

@@ -19,7 +19,7 @@ export type User = {
   };
 };
 
-export interface IUserConfig { }
+export interface IUserConfig {}
 
 export interface IDetector {
   id: string;
@@ -147,6 +147,7 @@ export interface IBarChartConfig {
 export interface IPieChartConfig {
   title: string;
   label: string;
+  keys: string[];
 }
 
 export type CustomColorsType = {

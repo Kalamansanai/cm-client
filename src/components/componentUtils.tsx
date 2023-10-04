@@ -78,7 +78,7 @@ export function LineChartWrapper({ type, id }: Props) {
   }
 
   if (type === "detector") {
-    return <NewLineChart response_data={data[0]} />;
+    return <NewLineChart response_data={data[0]} type="" />;
   } else if (type === "location") {
     return <LineChartSlide data={data} />;
   }
