@@ -107,6 +107,7 @@ function Card({ card, level }: Props) {
   );
 
   const cardHeight = 200 * card.heightLevel;
+  const divideLevel = card.divideLevel;
   return (
     <Grid
       item
@@ -118,7 +119,7 @@ function Card({ card, level }: Props) {
     >
       {!card.children ? (
         <Box
-          height={`${cardHeight / 2 ** level}px`}
+          height={`${cardHeight / divideLevel ** level}px`}
           sx={{ borderRadius: "5px", padding: "5px" }}
         >
           <Box
