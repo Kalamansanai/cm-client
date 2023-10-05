@@ -13,9 +13,7 @@ import {
   TextField,
   useTheme,
 } from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
 import { useContext, useState } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
@@ -189,21 +187,6 @@ const LoginComponent = () => {
                     </InputAdornment>
                   ),
                 }}
-              />
-              <Field
-                as={FormControlLabel}
-                name="remember"
-                control={
-                  <Checkbox
-                    sx={{
-                      color: `${colors.blueAccent[500]}`,
-                      "&.Mui-checked": {
-                        color: `${colors.blueAccent[500]}`,
-                      },
-                    }}
-                  />
-                }
-                label="Remember me"
               />
               <Box sx={{ m: 1, position: "relative" }}>
                 {loading ? (
