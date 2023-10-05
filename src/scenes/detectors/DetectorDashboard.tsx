@@ -308,8 +308,16 @@ export default function DetectorDashboard() {
                         margin: 0,
                       },
                     },
+                    color: colors.blueAccent[500],
+                    "& label.Mui-focused": {
+                      color: colors.blueAccent[500],
+                      zIndex: 0,
+                    },
                     "& label": {
                       zIndex: 0,
+                    },
+                    "& .MuiFilledInput-underline:after": {
+                      borderColor: colors.blueAccent[500],
                     },
                   }}
                 />
@@ -325,8 +333,16 @@ export default function DetectorDashboard() {
                     handleInputChange(e, "cost")
                   }
                   sx={{
+                    color: colors.blueAccent[500],
+                    "& label.Mui-focused": {
+                      color: colors.blueAccent[500],
+                      zIndex: 0,
+                    },
                     "& label": {
                       zIndex: 0,
+                    },
+                    "& .MuiFilledInput-underline:after": {
+                      borderColor: colors.blueAccent[500],
                     },
                   }}
                 />
@@ -343,11 +359,18 @@ export default function DetectorDashboard() {
                 <FormControlLabel
                   control={
                     <Switch
+                      sx={{
+                        "& .MuiSwitch-thumb": {
+                          backgroundColor: `${colors.blueAccent[500]}`,
+                        },
+                        "& .MuiSwitch-track": {
+                          backgroundColor: `${colors.blueAccent[300]}`,
+                        },
+                      }}
                       checked={data?.flash == 1 ? true : false}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleInputChange(e, "flash")
                       }
-                      color="info"
                       name="toggler"
                     />
                   }
