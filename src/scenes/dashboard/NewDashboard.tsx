@@ -63,11 +63,14 @@ export default function NewDashboard() {
           <Box>
             <Button
               sx={{
-                backgroundColor: colors.blueAccent[500],
+                backgroundColor: colors.blueAccent[600],
                 color: "white",
                 fontSize: "14px",
                 fontWeight: "bold",
                 padding: "10px 20px",
+                ":hover": {
+                  backgroundColor: colors.blueAccent[500],
+                },
               }}
             >
               <DownloadOutlinedIcon sx={{ mr: "10px" }} />
@@ -137,7 +140,7 @@ function Card({ card, level }: Props) {
             {location ? (
               component
             ) : (
-              <CircularProgress sx={{ color: "white" }} />
+              <CircularProgress sx={{ color: `${colors.grey[100]}` }} />
             )}
           </Box>
         </Box>

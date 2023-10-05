@@ -1,15 +1,15 @@
 import { CircularProgress, Typography, useTheme } from "@mui/material";
 import { ResponsivePie } from "@nivo/pie";
 import { useContext, useMemo, useState } from "react";
-import { PieData } from "types";
 import { ApiResponse } from "../apis/api.util";
 import { GetPieCostChartData } from "../apis/data_api";
 import { GlobalContext } from "../App";
 import configJson from "../data/piechartConfig.json";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { tokens } from "../theme";
-import { IPieChartConfig } from "../types";
+import { customColors, IPieChartConfig, PieData } from "../types";
 import { allZero } from "./componentUtils";
+import CustomTooltip from "./CustomTooltip";
 
 const PieChart = () => {
   const theme = useTheme();
@@ -28,19 +28,22 @@ const PieChart = () => {
       const response: ApiResponse = await GetPieCostChartData(location.id);
       const data = response.Unwrap(setUser);
       if (data) {
-        setData(data);
+        const order = ["gas", "water", "electricity"];
+        const sortedData = data.sort((a: PieData, b: PieData) => {
+          return order.indexOf(a.id) - order.indexOf(b.id);
+        });
+        setData(sortedData);
       }
     }
     setLoading(false);
   }, []);
 
   if (loading) {
-    return <CircularProgress sx={{ color: "white" }} />;
+    return <CircularProgress sx={{ color: `${colors.grey[100]}` }} />;
   }
 
   if (data.length == 0) {
     return <>No data is available</>;
-    // return <CircularProgress sx={{ color: "white" }} />;
   }
 
   if (allZero(data)) {
@@ -73,6 +76,15 @@ const PieChart = () => {
       >
         <ResponsivePie
           data={formattedData}
+          valueFormat={(value) => `${value} Ft`}
+          tooltip={({ datum }) => (
+            <CustomTooltip
+              id={datum.id}
+              value={datum.value}
+              color={datum.color}
+              symbol=" Ft"
+            />
+          )}
           theme={{
             axis: {
               domain: {
@@ -100,18 +112,13 @@ const PieChart = () => {
                 fill: colors.grey[100],
               },
             },
-            tooltip: {
-              container: {
-                color: colors.primary[500],
-              },
-            },
           }}
           margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
           innerRadius={0.5}
           padAngle={0.7}
           cornerRadius={3}
           activeOuterRadiusOffset={8}
-          colors={{ scheme: "dark2" }}
+          colors={(bar) => customColors[bar.id] || "#000000"}
           borderWidth={1}
           borderColor={{
             from: "color",
@@ -139,7 +146,9 @@ const PieChart = () => {
               itemHeight: 20,
               itemDirection: "left-to-right",
               itemOpacity: 0.85,
+              symbolShape: "circle",
               symbolSize: 20,
+              toggleSerie: true,
               effects: [
                 {
                   on: "hover",

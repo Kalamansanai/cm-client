@@ -1,3 +1,5 @@
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import GetAppOutlinedIcon from "@mui/icons-material/GetAppOutlined";
 import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
 import {
   Alert,
@@ -79,11 +81,9 @@ export default function DetectorDashboard() {
     detector_image: string;
     logs_resp: ApiResponse;
   };
-
   const detector: IDetector = detector_resp.Unwrap(setUser);
   const logs: ILog[] = logs_resp.Unwrap(setUser);
   const [exportLoading, setExportLoading] = useState(false);
-
   const [data, setData] = useState<IDetectorConfig>({
     char_num: detector?.detector_config.char_num,
     coma_position: detector?.detector_config.coma_position,
@@ -167,8 +167,10 @@ export default function DetectorDashboard() {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title="Detector"
-          subtitle={`Detector Name: ${detector.detector_name} | Mac Address: ${detector.detector_id} | Char Number: ${data.char_num} | Com,a Position: ${data.coma_position}`}
+          detectorName={detector.detector_name}
+          subtitle={`Detector Type: ${detector.type} | Mac Address: ${detector.detector_id} | Char Number: ${data.char_num} | Coma Position: ${data.coma_position}`}
         />
+
         <Box
           width="40%"
           display="flex"
@@ -177,35 +179,52 @@ export default function DetectorDashboard() {
         >
           <Button
             sx={{
-              backgroundColor: colors.blueAccent[700],
+              backgroundColor: colors.blueAccent[600],
               color: colors.grey[100],
               fontSize: "12px",
               fontWeight: "bold",
               padding: "10px 20px",
+              ":hover": {
+                backgroundColor: colors.blueAccent[500],
+              },
             }}
             onClick={handleExport}
           >
-            {exportLoading ? <CircularProgress /> : "Export Data"}
+            {exportLoading ? (
+              <CircularProgress sx={{ color: `${colors.grey[100]}` }} />
+            ) : (
+              <>
+                <GetAppOutlinedIcon sx={{ mr: "10px" }} />
+                Export Data
+              </>
+            )}
           </Button>
           <Button
             sx={{
-              backgroundColor: colors.redAccent[700],
+              backgroundColor: colors.redAccent[600],
               color: colors.grey[100],
               fontSize: "12px",
               fontWeight: "bold",
               padding: "10px 20px",
+              ":hover": {
+                backgroundColor: colors.redAccent[500],
+              },
             }}
             onClick={handleDelete}
           >
+            <DeleteOutlineOutlinedIcon sx={{ mr: "10px" }} />
             Delete Detector
           </Button>
           <Button
             sx={{
-              backgroundColor: colors.blueAccent[700],
+              backgroundColor: colors.blueAccent[600],
               color: colors.grey[100],
               fontSize: "12px",
               fontWeight: "bold",
               padding: "10px 20px",
+              ":hover": {
+                backgroundColor: colors.blueAccent[500],
+              },
             }}
             onClick={handleSubmit}
           >
@@ -289,8 +308,16 @@ export default function DetectorDashboard() {
                         margin: 0,
                       },
                     },
+                    color: colors.blueAccent[500],
+                    "& label.Mui-focused": {
+                      color: colors.blueAccent[500],
+                      zIndex: 0,
+                    },
                     "& label": {
                       zIndex: 0,
+                    },
+                    "& .MuiFilledInput-underline:after": {
+                      borderColor: colors.blueAccent[500],
                     },
                   }}
                 />
@@ -306,8 +333,16 @@ export default function DetectorDashboard() {
                     handleInputChange(e, "cost")
                   }
                   sx={{
+                    color: colors.blueAccent[500],
+                    "& label.Mui-focused": {
+                      color: colors.blueAccent[500],
+                      zIndex: 0,
+                    },
                     "& label": {
                       zIndex: 0,
+                    },
+                    "& .MuiFilledInput-underline:after": {
+                      borderColor: colors.blueAccent[500],
                     },
                   }}
                 />
@@ -324,11 +359,18 @@ export default function DetectorDashboard() {
                 <FormControlLabel
                   control={
                     <Switch
+                      sx={{
+                        "& .MuiSwitch-thumb": {
+                          backgroundColor: `${colors.blueAccent[500]}`,
+                        },
+                        "& .MuiSwitch-track": {
+                          backgroundColor: `${colors.blueAccent[300]}`,
+                        },
+                      }}
                       checked={data?.flash == 1 ? true : false}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleInputChange(e, "flash")
                       }
-                      color="info"
                       name="toggler"
                     />
                   }
@@ -388,8 +430,8 @@ export default function DetectorDashboard() {
               <Box display="flex" flexDirection="column-reverse">
                 {logs
                   ? logs?.map((log, i) => (
-                    <LogCard key={i} log={log} index={i} />
-                  ))
+                      <LogCard key={i} log={log} index={i} />
+                    ))
                   : null}
               </Box>
             </Box>

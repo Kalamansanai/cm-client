@@ -19,7 +19,7 @@ import { GetLocation } from "../../apis/location_api";
 import { GlobalContext } from "../../App";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
-import { IDetector, ILocation } from "../../types";
+import { customColors, IDetector, ILocation } from "../../types";
 import { AddDetectorCard } from "./AddDetectorCard";
 
 export const DetectorsContext = createContext<{
@@ -115,7 +115,7 @@ export default function DetectorList() {
               sx={{ justifyContent: "space-evenly" }}
             >
               {!location ? (
-                <CircularProgress sx={{ color: "white" }} />
+                <CircularProgress sx={{ color: `${colors.grey[100]}` }} />
               ) : (
                 <>
                   {hasNoDetectors ? (
@@ -155,17 +155,38 @@ export function DetectorCard({ detector }: Props) {
   let icon;
   switch (detector.type) {
     case "water":
-      icon = <WaterDropIcon fontSize="large" sx={{ mt: "5px", mb: "5px" }} />;
+      icon = (
+        <WaterDropIcon
+          fontSize="large"
+          sx={{ mt: "5px", mb: "5px", color: customColors.water }}
+        />
+      );
       break;
     case "electricity":
-      icon = <BoltIcon fontSize="large" sx={{ mt: "5px", mb: "5px" }} />;
+      icon = (
+        <BoltIcon
+          fontSize="large"
+          sx={{ mt: "5px", mb: "5px", color: customColors.electricity }}
+        />
+      );
       break;
     case "gas":
-      icon = <GasMeterIcon fontSize="large" sx={{ mt: "5px", mb: "5px" }} />;
+      icon = (
+        <GasMeterIcon
+          fontSize="large"
+          sx={{ mt: "5px", mb: "5px", color: customColors.gas }}
+        />
+      );
       break;
     default:
       icon = null;
   }
+
+  const colorMap = {
+    water: customColors.water,
+    electricity: customColors.electricity,
+    gas: customColors.gas,
+  };
 
   function handleClick() {
     setLoading(true);
@@ -173,7 +194,23 @@ export function DetectorCard({ detector }: Props) {
   }
 
   return (
-    <Card variant="outlined" sx={{ width: "30%", height: "40%", margin: 1 }}>
+    <Card
+      variant="outlined"
+      sx={{
+        width: "30%",
+        height: "40%",
+        margin: 1,
+        border: "none",
+        boxShadow:
+          "rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset",
+        transition: "transform 0.3s ease-in-out, boxShadow 0.3s ease-in-out",
+        ":hover": {
+          transform: "translateY(-5px)",
+          boxShadow:
+            "rgba(0, 0, 0, 0.3) 0px 14px 28px 0px, rgba(0, 0, 0, 0.2) 0px 3px 6px 0px, rgba(255, 255, 255, 0.08) 0px 0px 0px 1px inset",
+        },
+      }}
+    >
       <CardActionArea
         sx={{
           height: "100px",
@@ -183,23 +220,21 @@ export function DetectorCard({ detector }: Props) {
           justifyContent: "center",
           flexDirection: "column",
           alignItems: "center",
+          padding: 1,
+
+          ":hover": {
+            backgroundColor: colors.greenAccent[500],
+          },
         }}
         onClick={handleClick}
       >
         {!loading ? (
           <>
-            <Typography
-              variant="body1"
-              color={colors.grey[100]}
-              sx={{ margin: 0, flex: 1 }}
-            >
-              {detector.detector_id}
-            </Typography>
             <Typography variant="h4">{detector.detector_name}</Typography>
             {icon}
           </>
         ) : (
-          <CircularProgress sx={{ color: "white" }} />
+          <CircularProgress sx={{ color: `${colors.grey[100]}` }} />
         )}
       </CardActionArea>{" "}
     </Card>

@@ -4,10 +4,16 @@ import { tokens } from "../theme";
 interface HeaderProps {
   title: string;
   subtitle: string;
+  detectorName?: string;
   align?: "left" | "right" | "center";
 }
 
-const Header: React.FC<HeaderProps> = ({ title, subtitle, align = "left" }) => {
+const Header: React.FC<HeaderProps> = ({
+  title,
+  subtitle,
+  align = "left",
+  detectorName,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -20,6 +26,7 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, align = "left" }) => {
         sx={{ m: "0 0 0 0" }}
       >
         {title}
+        {detectorName ? `, ${detectorName}` : ""}
       </Typography>
       <Typography align={align} variant="h5" color={colors.greenAccent[400]}>
         {subtitle}

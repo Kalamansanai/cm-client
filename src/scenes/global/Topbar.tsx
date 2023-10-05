@@ -2,7 +2,6 @@ import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Alert, Box, IconButton, Snackbar, useTheme } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -81,11 +80,6 @@ const Topbar: React.FC = () => {
             <LightModeOutlinedIcon />
           )}
         </IconButton>
-        {user && (
-          <IconButton>
-            <SettingsOutlinedIcon />
-          </IconButton>
-        )}
         {user && (
           <IconButton onClick={handleLogout}>
             <LogoutIcon />

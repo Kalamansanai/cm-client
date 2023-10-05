@@ -370,6 +370,9 @@ const Register = () => {
                     color: `${colors.greenAccent[400]}`,
                     display: "flex",
                     alignItems: "center",
+                    ":hover": {
+                      color: colors.greenAccent[300],
+                    },
                   }}
                 >
                   Already have an account?
@@ -378,19 +381,19 @@ const Register = () => {
                   <CircularProgress
                     size={24}
                     sx={{
-                      color: `${colors.greenAccent[500]}`,
-                      // position: "absolute",
-                      // top: "50%",
-                      // left: "50%",
-                      // marginTop: "-12px",
-                      // marginLeft: "-12px",
+                      color: `${colors.greenAccent[600]}`,
                     }}
                   />
                 ) : (
                   <Button
                     type="submit"
                     variant="contained"
-                    sx={{ backgroundColor: `${colors.blueAccent[500]}` }}
+                    sx={{
+                      backgroundColor: `${colors.blueAccent[600]}`,
+                      ":hover": {
+                        backgroundColor: colors.blueAccent[500],
+                      },
+                    }}
                   >
                     Create New User
                   </Button>

@@ -8,6 +8,7 @@ import { GetLocationMonthlyStatByType } from "../apis/data_api";
 import { GlobalContext } from "../App";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { tokens } from "../theme";
+import { customColors } from "../types";
 
 interface StatBoxProps {
   type: string;
@@ -48,7 +49,11 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
 
   switch (type) {
     case "water":
-      icon = <WaterDropIcon sx={{ color: "white", fontSize: "26px" }} />;
+      icon = (
+        <WaterDropIcon
+          sx={{ color: `${customColors.water}`, fontSize: "26px" }}
+        />
+      );
       unit = (
         <div>
           m<sup>3</sup>
@@ -56,7 +61,9 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
       );
       break;
     case "gas":
-      icon = <GasMeterIcon sx={{ color: "white", fontSize: "26px" }} />;
+      icon = (
+        <GasMeterIcon sx={{ color: `${customColors.gas}`, fontSize: "26px" }} />
+      );
       unit = (
         <div>
           m<sup>3</sup>
@@ -64,7 +71,11 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
       );
       break;
     case "electricity":
-      icon = <BoltIcon sx={{ color: "white", fontSize: "26px" }} />;
+      icon = (
+        <BoltIcon
+          sx={{ color: `${customColors.electricity}`, fontSize: "26px" }}
+        />
+      );
       unit = <div>kWh</div>;
       break;
     default:
@@ -87,7 +98,11 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
             fontWeight="bold"
             sx={{ color: colors.grey[100], m: 1 }}
           >
-            {loading ? <CircularProgress sx={{ color: "white" }} /> : value}
+            {loading ? (
+              <CircularProgress sx={{ color: `${colors.grey[100]}` }} />
+            ) : (
+              value
+            )}
           </Typography>
           {unit}
         </Box>

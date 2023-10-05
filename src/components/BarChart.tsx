@@ -6,7 +6,8 @@ import { GlobalContext } from "../App";
 import configJson from "../data/barchartConfig.json";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
 import { tokens } from "../theme";
-import { IBarChartConfig } from "../types";
+import { customColors, IBarChartConfig } from "../types";
+import CustomTooltip from "./CustomTooltip";
 
 const BarChart = () => {
   const theme = useTheme();
@@ -38,7 +39,7 @@ const BarChart = () => {
   const config: IBarChartConfig = configJson;
 
   if (loading) {
-    return <CircularProgress sx={{ color: "white" }} />;
+    return <CircularProgress sx={{ color: `${colors.grey[100]}` }} />;
   }
 
   if (data == null || data?.length === 0) {
@@ -67,6 +68,21 @@ const BarChart = () => {
         <ResponsiveBar
           data={data}
           label={(bar: any) => `${bar.value.toFixed(3)}${config.label}`}
+          tooltip={(barData: any) => (
+            <CustomTooltip
+              type="nivo"
+              id={barData.id}
+              value={barData.value}
+              color={barData.color}
+              symbol={config.label}
+            >
+              <span style={{ color: barData.color }}>
+                {`, `}
+                <strong>month</strong>
+                {`: ${barData.data.month}`}
+              </span>
+            </CustomTooltip>
+          )}
           theme={{
             axis: {
               domain: {
@@ -106,7 +122,7 @@ const BarChart = () => {
           padding={0.45}
           valueScale={{ type: "linear" }}
           indexScale={{ type: "band", round: true }}
-          colors={{ scheme: "dark2" }}
+          colors={(bar) => customColors[bar.id] || "#000000"}
           fill={[
             {
               match: {
@@ -147,7 +163,7 @@ const BarChart = () => {
             tickRotation: 0,
             legend: config.leftLegend,
             legendPosition: "middle",
-            legendOffset: -40,
+            legendOffset: -50,
           }}
           labelSkipWidth={12}
           labelSkipHeight={12}

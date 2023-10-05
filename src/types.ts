@@ -125,8 +125,8 @@ export interface IMonthlyLog {
 
 export interface IConsumptionValues {
   water: number;
-  electricity: number;
   gas: number;
+  electricity: number;
 }
 
 export type PieData = {
@@ -149,3 +149,16 @@ export interface IPieChartConfig {
   title: string;
   label: string;
 }
+
+export type CustomColorsType = {
+  [key: string]: string;
+  electricity: string;
+  water: string;
+  gas: string;
+};
+
+export const customColors: CustomColorsType = {
+  electricity: "#e6ab02",
+  water: "#1f82b4",
+  gas: "#d95f02",
+};

@@ -1,11 +1,7 @@
 {
   "title": "Monthly Constumption Expenses",
-  "label": " Ft`",
-  "keys": [
-    "water",
-    "electricity",
-    "gas"
-  ],
+  "label": " Ft",
+  "keys": ["electricity", "water", "gas"],
   "indexBy": "month",
   "leftLegend": "Consumed value in Forints",
   "bottomLegend": "Months"
