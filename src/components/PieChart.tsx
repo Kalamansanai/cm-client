@@ -39,12 +39,11 @@ const PieChart = () => {
   }, []);
 
   if (loading) {
-    return <CircularProgress sx={{ color: "white" }} />;
+    return <CircularProgress sx={{ color: `${colors.grey[100]}` }} />;
   }
 
   if (data.length == 0) {
     return <>No data is available</>;
-    // return <CircularProgress sx={{ color: "white" }} />;
   }
 
   if (allZero(data)) {

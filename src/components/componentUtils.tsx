@@ -1,10 +1,11 @@
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, useTheme } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { ApiResponse } from "../apis/api.util";
 import { GetLinePlotData, GetLinePlotDataByLocation } from "../apis/data_api";
 import { GlobalContext } from "../App";
 import NewLineChart from "../components/NewLineChart";
 import { LocationContext } from "../scenes/dashboard/NewDashboard";
+import { tokens } from "../theme";
 import { ILineChartResponse, IMonthlyLog, PieData } from "../types";
 import LineChartSlide from "./LineChartSlide";
 
@@ -45,6 +46,8 @@ export function LineChartWrapper({ type, id }: Props) {
   const { setUser } = useContext(GlobalContext);
   const { location } = useContext(LocationContext);
   const [loading, setLoading] = useState(false);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   async function getData() {
     setLoading(true);
@@ -70,7 +73,7 @@ export function LineChartWrapper({ type, id }: Props) {
   }, []);
 
   if (loading) {
-    return <CircularProgress sx={{ color: "white" }} />;
+    return <CircularProgress sx={{ color: `${colors.grey[100]}` }} />;
   }
 
   if (!data) {

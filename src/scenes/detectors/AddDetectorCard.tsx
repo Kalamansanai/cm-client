@@ -282,7 +282,10 @@ export function AddDetectorCard() {
               sx={{
                 mt: 1,
                 mb: 1,
-                backgroundColor: `${colors.greenAccent[700]}`,
+                backgroundColor: `${colors.greenAccent[600]}`,
+                ":hover": {
+                  backgroundColor: colors.greenAccent[500],
+                },
               }}
             >
               Add Detector

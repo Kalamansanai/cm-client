@@ -98,7 +98,11 @@ const StatBox: React.FC<StatBoxProps> = ({ type }) => {
             fontWeight="bold"
             sx={{ color: colors.grey[100], m: 1 }}
           >
-            {loading ? <CircularProgress sx={{ color: "white" }} /> : value}
+            {loading ? (
+              <CircularProgress sx={{ color: `${colors.grey[100]}` }} />
+            ) : (
+              value
+            )}
           </Typography>
           {unit}
         </Box>

@@ -226,7 +226,10 @@ const LoginComponent = () => {
                     sx={{
                       mt: 3,
                       mb: 2,
-                      backgroundColor: `${colors.blueAccent[500]}`,
+                      backgroundColor: `${colors.blueAccent[600]}`,
+                      ":hover": {
+                        backgroundColor: colors.blueAccent[500],
+                      },
                     }}
                   >
                     Sign In
@@ -237,11 +240,20 @@ const LoginComponent = () => {
           )}
         </Formik>
       </Box>
-      <Stack direction={"row"}>
+      <Stack direction={"row"} justifyContent="left" spacing={2} display="flex">
         <Button
           component={ReactLink}
           to="/registration"
-          sx={{ color: `${colors.greenAccent[400]}`, pb: "16px" }}
+          sx={{
+            color: `${colors.greenAccent[400]}`,
+            mb: "16px",
+            display: "flex",
+            alignItems: "center !important",
+            alignContent: "center",
+            ":hover": {
+              color: colors.greenAccent[300],
+            },
+          }}
         >
           Don't have an account?
         </Button>

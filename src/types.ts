@@ -147,7 +147,6 @@ export interface IBarChartConfig {
 export interface IPieChartConfig {
   title: string;
   label: string;
-  keys: string[];
 }
 
 export type CustomColorsType = {

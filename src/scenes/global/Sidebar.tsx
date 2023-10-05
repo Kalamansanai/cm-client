@@ -113,7 +113,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
     let hash = 0;
     for (let i = 0; i < name.length; i++) {
       hash = name.charCodeAt(i) + ((hash << 5) - hash);
-      hash = hash & hash; // Convert to 32bit integer
+      hash = hash & hash;
     }
     const index = Math.abs(hash % colorsList.length);
     return colorsList[index];
@@ -154,6 +154,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
       >
         {/* LOGO AND MENU ICON */}
         <MenuItem
+          disabled={true}
           icon={
             isCollapsed ? (
               isHovered ? (
@@ -175,7 +176,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography variant="h4" fontWeight={600}>
+              <Typography
+                variant="h4"
+                fontWeight={600}
+                color={colors.grey[100]}
+              >
                 Consumption Meter
               </Typography>
               <IconButton
@@ -183,7 +188,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
                   setIsHovered(false);
                 }}
               >
-                {isHovered ? <MenuOpenIcon /> : <MenuOutlinedIcon />}
+                {!isCollapsed ? <MenuOpenIcon /> : <MenuOutlinedIcon />}
               </IconButton>
             </Box>
           )}

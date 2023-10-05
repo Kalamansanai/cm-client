@@ -39,7 +39,7 @@ const BarChart = () => {
   const config: IBarChartConfig = configJson;
 
   if (loading) {
-    return <CircularProgress sx={{ color: "white" }} />;
+    return <CircularProgress sx={{ color: `${colors.grey[100]}` }} />;
   }
 
   if (data == null || data?.length === 0) {
