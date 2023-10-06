@@ -67,7 +67,9 @@ const BarChart = () => {
       >
         <ResponsiveBar
           data={data}
-          label={(bar: any) => `${bar.value.toFixed(3)}${config.label}`}
+          label={(bar: any) =>
+            `${bar.value.toFixed(3).replace(".", ",")}${config.label}`
+          }
           tooltip={(barData: any) => (
             <CustomTooltip
               type="nivo"
@@ -158,12 +160,14 @@ const BarChart = () => {
             legendOffset: 32,
           }}
           axisLeft={{
+            format: (value: any) => value.toFixed(3).replace(".", ","),
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
             legend: config.leftLegend,
             legendPosition: "middle",
             legendOffset: -50,
+            tickValues: 5,
           }}
           labelSkipWidth={12}
           labelSkipHeight={12}

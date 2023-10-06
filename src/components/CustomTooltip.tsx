@@ -34,7 +34,8 @@ const CustomTooltip: React.FC<CustomTooltipProps> = (props) => {
   } = props;
   const theme = useTheme();
 
-  let formattedValue = typeof value === "number" ? value.toFixed(3) : value;
+  let formattedValue =
+    typeof value === "number" ? value.toFixed(3).replace(".", ",") : value;
 
   if (type === "recharts") {
     if (active && payload && payload.length) {
@@ -49,7 +50,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = (props) => {
           {payload.map((entry: PayloadEntry, index: number) => (
             <div key={`item-${index}`} style={{ color: entry.color }}>
               <strong>{entry.name}</strong>
-              {`: ${entry.value.toFixed(3)}`}
+              {`: ${entry.value.toFixed(3).replace(".", ",")}`}
             </div>
           ))}
           {children}
