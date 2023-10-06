@@ -1,16 +1,17 @@
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import GetAppOutlinedIcon from "@mui/icons-material/GetAppOutlined";
+import InfoSharpIcon from "@mui/icons-material/InfoSharp";
 import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
 import {
   Alert,
-  Button,
   Card,
-  CircularProgress,
   FormControlLabel,
   Grid,
+  IconButton,
   Snackbar,
   Switch,
   TextField,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -28,7 +29,9 @@ import {
 import { GetLogsByDetector } from "../../apis/log_api";
 import { GlobalContext } from "../../App";
 import { LineChartWrapper } from "../../components/componentUtils";
+import CustomButton from "../../components/CustomButton";
 import Header from "../../components/Header";
+import InfoDialog from "../../components/InfoDialog";
 import { tokens } from "../../theme";
 import { IDetector, IDetectorConfig, ILog } from "../../types";
 import DeletePopup from "./DeletePopup";
@@ -76,6 +79,8 @@ export default function DetectorDashboard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { setUser } = useContext(GlobalContext);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const [infoDialogOpen, setInfoDialogOpen] = useState(false);
   const { detector_resp, detector_image, logs_resp } = useLoaderData() as {
     detector_resp: ApiResponse;
     detector_image: string;
@@ -107,6 +112,14 @@ export default function DetectorDashboard() {
   };
 
   const [openPopup, setOpenPopup] = useState(false);
+
+  const handleInfoDialogOpen = () => {
+    setInfoDialogOpen(true);
+  };
+
+  const handleInfoDialogClose = () => {
+    setInfoDialogOpen(false);
+  };
 
   const handleSubmit = async () => {
     const result = await SetConfig(data, detector.detector_id);
@@ -168,7 +181,7 @@ export default function DetectorDashboard() {
         <Header
           title="Detector"
           detectorName={detector.detector_name}
-          subtitle={`Detector Type: ${detector.type} | Mac Address: ${detector.detector_id} | Char Number: ${data.char_num} | Coma Position: ${data.coma_position}`}
+          subtitle={`Weoclome to your Detector's Dashboard!`}
         />
 
         <Box
@@ -176,65 +189,44 @@ export default function DetectorDashboard() {
           display="flex"
           flexDirection="row"
           justifyContent="space-around"
+          sx={{
+            "& > :not(:last-child)": {
+              marginRight: "8px",
+            },
+          }}
         >
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[600],
-              color: colors.grey[100],
-              fontSize: "12px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-              ":hover": {
-                backgroundColor: colors.blueAccent[500],
-              },
-            }}
-            onClick={handleExport}
-          >
-            {exportLoading ? (
-              <CircularProgress sx={{ color: `${colors.grey[100]}` }} />
-            ) : (
-              <>
-                <GetAppOutlinedIcon sx={{ mr: "10px" }} />
-                Export Data
-              </>
-            )}
-          </Button>
-          <Button
-            sx={{
-              backgroundColor: colors.redAccent[600],
-              color: colors.grey[100],
-              fontSize: "12px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-              ":hover": {
-                backgroundColor: colors.redAccent[500],
-              },
-            }}
-            onClick={handleDelete}
-          >
-            <DeleteOutlineOutlinedIcon sx={{ mr: "10px" }} />
-            Delete Detector
-          </Button>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[600],
-              color: colors.grey[100],
-              fontSize: "12px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-              ":hover": {
-                backgroundColor: colors.blueAccent[500],
-              },
-            }}
-            onClick={handleSubmit}
-          >
-            <PublishOutlinedIcon sx={{ mr: "10px" }} />
-            Submit Changes
-          </Button>
+          <CustomButton
+            icon={<GetAppOutlinedIcon />}
+            text="Export Data"
+            onClickHandler={handleExport}
+            color={colors.blueAccent[600]}
+            secondColor={colors.blueAccent[500]}
+            loading={exportLoading}
+          />
+          <CustomButton
+            icon={<DeleteOutlineOutlinedIcon />}
+            text="Delete Detector"
+            onClickHandler={handleDelete}
+            color={colors.redAccent[600]}
+            secondColor={colors.redAccent[500]}
+          />
+          <CustomButton
+            icon={<PublishOutlinedIcon />}
+            text="Submit Changes"
+            onClickHandler={handleSubmit}
+            color={colors.blueAccent[600]}
+            secondColor={colors.blueAccent[500]}
+          />
+          <IconButton onClick={handleInfoDialogOpen}>
+            <InfoSharpIcon
+              fontSize="large"
+              sx={{ color: `${colors.greenAccent[400]}` }}
+            />
+          </IconButton>
         </Box>
       </Box>
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item lg={8} xs={12}>
           {detector_image ? (
             <Box
               sx={{
@@ -262,11 +254,14 @@ export default function DetectorDashboard() {
             "no image yet"
           )}
         </Grid>
-        <Grid item xs={8}>
+        <Grid item lg={4} xs={12}>
           <Box
             component="div"
             sx={{ backgroundColor: `${colors.primary[400]}`, height: "100%" }}
             borderRadius={"5px !important"}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
             p={"10px"}
           >
             <Grid
@@ -332,7 +327,28 @@ export default function DetectorDashboard() {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleInputChange(e, "cost")
                   }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Typography style={{ fontSize: "1.1rem" }}>
+                          Ft
+                        </Typography>
+                      </InputAdornment>
+                    ),
+                  }}
                   sx={{
+                    '& input[type="number"]': {
+                      "-webkit-appearance": "none",
+                      "-moz-appearance": "textfield",
+                      "&::-webkit-inner-spin-button": {
+                        "-webkit-appearance": "none",
+                        margin: 0,
+                      },
+                      "&::-webkit-outer-spin-button": {
+                        "-webkit-appearance": "none",
+                        margin: 0,
+                      },
+                    },
                     color: colors.blueAccent[500],
                     "& label.Mui-focused": {
                       color: colors.blueAccent[500],
@@ -374,7 +390,11 @@ export default function DetectorDashboard() {
                       name="toggler"
                     />
                   }
-                  label="Flash On/Off"
+                  label={
+                    <Typography sx={{ color: colors.grey[100] }}>
+                      Flash On/Off
+                    </Typography>
+                  }
                 />
               </Grid>
             </Grid>
@@ -416,24 +436,26 @@ export default function DetectorDashboard() {
               borderRadius: "8px ",
               height: "550px",
               padding: "5px",
+              overflow: "auto",
             }}
           >
-            <Typography variant="h4" margin="10px">
+            <Typography variant="h4" margin="10px" color={colors.grey[100]}>
               Logs
             </Typography>
-            <Box
-              sx={{
-                overflow: "auto",
-                height: "90%",
-              }}
-            >
-              <Box display="flex" flexDirection="column-reverse">
-                {logs
-                  ? logs?.map((log, i) => (
-                      <LogCard key={i} log={log} index={i} />
-                    ))
-                  : null}
-              </Box>
+            <Box display="flex" flexDirection="column-reverse">
+              {logs && logs.length > 0 ? (
+                logs?.map((log, i) => <LogCard key={i} log={log} index={i} />)
+              ) : (
+                <Box
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  height="495px"
+                  color={colors.grey[100]}
+                >
+                  <Typography>No logs available.</Typography>
+                </Box>
+              )}
             </Box>
           </Box>
         </Grid>
@@ -443,6 +465,12 @@ export default function DetectorDashboard() {
         setOpenPopup={setOpenPopup}
         detector_id={detector.id}
       ></DeletePopup>
+      <InfoDialog
+        open={infoDialogOpen}
+        onClose={handleInfoDialogClose}
+        detector={detector}
+        data={data}
+      />
     </Box>
   );
 }

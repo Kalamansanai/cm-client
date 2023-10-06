@@ -1,10 +1,11 @@
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import { Box, Button, CircularProgress, Grid, useTheme } from "@mui/material";
+import { Box, CircularProgress, Grid, useTheme } from "@mui/material";
 import { createContext, useContext, useEffect, useState } from "react";
 import { IDashboardCardConfig, IDashboardLayoutConfig, ILocation } from "types";
 import { ApiResponse } from "../../apis/api.util";
 import { GetLocation } from "../../apis/location_api";
 import { GlobalContext } from "../../App";
+import CustomButton from "../../components/CustomButton";
 import Header from "../../components/Header";
 import layoutConfigJson from "../../data/layout.json";
 import { tokens } from "../../theme";
@@ -61,21 +62,12 @@ export default function NewDashboard() {
         >
           <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
           <Box>
-            <Button
-              sx={{
-                backgroundColor: colors.blueAccent[600],
-                color: "white",
-                fontSize: "14px",
-                fontWeight: "bold",
-                padding: "10px 20px",
-                ":hover": {
-                  backgroundColor: colors.blueAccent[500],
-                },
-              }}
-            >
-              <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-              Download Reports
-            </Button>
+            <CustomButton
+              icon={<DownloadOutlinedIcon />}
+              text="Download Reports"
+              color={colors.blueAccent[600]}
+              secondColor={colors.blueAccent[500]}
+            />
           </Box>
         </Box>
         <Grid

@@ -3,7 +3,7 @@ import { tokens } from "../theme";
 
 interface HeaderProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   detectorName?: string;
   align?: "left" | "right" | "center";
 }
