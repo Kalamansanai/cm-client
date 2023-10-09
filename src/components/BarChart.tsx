@@ -67,9 +67,7 @@ const BarChart = () => {
       >
         <ResponsiveBar
           data={data}
-          label={(bar: any) =>
-            `${bar.value.toFixed(3).replace(".", ",")}${config.label}`
-          }
+          label={(bar: any) => `${bar.value}${config.label}`}
           tooltip={(barData: any) => (
             <CustomTooltip
               type="nivo"
