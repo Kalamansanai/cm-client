@@ -1,3 +1,4 @@
+import { Box, useTheme } from "@mui/material";
 import {
   CartesianGrid,
   Legend,
@@ -9,6 +10,7 @@ import {
   YAxis,
 } from "recharts";
 import CustomTooltip from "../components/CustomTooltip";
+import { tokens } from "../theme";
 import { customColors, ILineChartResponse } from "../types";
 
 type Props = {
@@ -17,12 +19,27 @@ type Props = {
 };
 
 export default function NewLineChart({ response_data, type }: Props) {
-  const data = response_data.data;
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  if (!response_data) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100%"
+        color={colors.grey[100]}
+      >
+        <div>No data available.</div>
+      </Box>
+    );
+  }
+  const data = response_data?.data ?? [];
   const config = response_data.config;
   console.log(config);
   const lineColor = customColors[type.toLowerCase()] || "#82ca9d";
   if (!config) {
-    return null;
+    return <div>No configuration available.</div>;
   }
 
   return (
