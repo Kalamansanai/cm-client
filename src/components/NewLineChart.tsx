@@ -55,7 +55,10 @@ export default function NewLineChart({ response_data, type }: Props) {
       >
         <CartesianGrid strokeDasharray={config.cartesianGrid.strokeDashArray} />
         <XAxis {...config.xAxis} />
-        <YAxis {...config.yAxis} />
+        <YAxis
+          {...config.yAxis}
+          tickFormatter={(value: any) => value.toString().replace(".", ",")}
+        />
         {config.tooltip.enable && (
           <Tooltip content={<CustomTooltip type="recharts" />} />
         )}
